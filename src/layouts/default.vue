@@ -43,8 +43,14 @@
       <v-list-item to="/warehouse" link prepend-icon="mdi-warehouse" title="Warehouse" />
       <v-list-item to="/cashregister" link prepend-icon="mdi-cash-register" title="Cash Register" />
       <v-list-item to="/addressbook" link prepend-icon="mdi-account-box-multiple" title="Address Book" />
-      <v-list-item to="/settings" link prepend-icon="mdi-cog" title="Settings" />
+      <v-list-item to="/export" link prepend-icon="mdi-file-export" title="Export" />
+
     </v-list>
+    <template v-slot:append>
+      <v-list>
+        <v-list-item to="/settings" link prepend-icon="mdi-cog" title="Settings" />
+      </v-list>
+    </template>>
   </v-navigation-drawer>
   <v-main>
     <router-view />

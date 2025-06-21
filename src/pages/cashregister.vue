@@ -1,6 +1,6 @@
 <template>
   <div class="text-center text-caption pa-4">
-    CashRegister </div>
+    CASH REGISTER </div>
 </template>
 
 <script setup>
