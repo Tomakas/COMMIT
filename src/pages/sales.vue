@@ -1,67 +1,41 @@
 ----
 pages/sales.vue
 <template>
-  <v-container class="fill-height" fluid>
-    <v-responsive class="align-center text-center fill-height">
+  <v-container fill-height fluid>
+    <v-card class="mx-auto" flat>
+      <v-toolbar flat>
+        <v-tabs v-model="tab" align-tabs="center" color="primary" grow>
+          <v-tab value="products">Prodej produktů</v-tab>
+          <v-tab value="receipts">Vystavené účtenky</v-tab>
+        </v-tabs>
 
-      <v-card class="mx-auto" flat>
-        <v-toolbar flat>
-          <v-tabs
-            v-model="tab"
-            align-tabs="center"
-            color="primary"
-            grow
-          >
-            <v-tab value="products">Prodej produktů</v-tab>
-            <v-tab value="receipts">Vystavené účtenky</v-tab>
-          </v-tabs>
+        <v-text-field density="compact" variant="solo" label="Hledat..." append-inner-icon="mdi-magnify" single-line
+          hide-details class="ml-4 mr-2 flex-grow-1"></v-text-field>
 
-          <v-text-field
-            density="compact"
-            variant="solo"
-            label="Hledat..."
-            append-inner-icon="mdi-magnify"
-            single-line
-            hide-details
-            class="ml-4 mr-2 flex-grow-1"
-          ></v-text-field>
+        <v-btn icon="mdi-filter" class="mx-1"></v-btn>
+        <v-btn icon="mdi-download" class="mx-1"></v-btn>
+        <v-btn icon="mdi-plus-circle" class="mx-1"></v-btn>
+      </v-toolbar>
 
-          <v-btn icon="mdi-filter" class="mx-1"></v-btn>
-          <v-btn icon="mdi-download" class="mx-1"></v-btn>
-          <v-btn icon="mdi-plus-circle" class="mx-1"></v-btn>
-        </v-toolbar>
+      <v-window v-model="tab">
+        <v-window-item value="products">
+          <v-card flat>
+            <v-data-table :headers="productHeaders" :items="productSales" item-value="product"
+              class="elevation-1"></v-data-table>
+          </v-card>
+        </v-window-item>
 
-        <v-window v-model="tab">
-          <v-window-item value="products">
-            <v-card flat>
-              <v-card-text>
-                <h2 class="text-h6 mb-2">Tabulka: Prodej produktů</h2>
-                <v-data-table
-                  :headers="productHeaders"
-                  :items="productSales"
-                  item-value="product"
-                  class="elevation-1"
-                ></v-data-table>
-              </v-card-text>
-            </v-card>
-          </v-window-item>
-
-          <v-window-item value="receipts">
-            <v-card flat>
-              <v-card-text>
-                <h2 class="text-h6 mb-2">Tabulka: Vystavené účtenky</h2>
-                <v-data-table
-                  :headers="receiptHeaders"
-                  :items="receipts"
-                  item-value="id"
-                  class="elevation-1"
-                ></v-data-table>
-              </v-card-text>
-            </v-card>
-          </v-window-item>
-        </v-window>
-      </v-card>
-    </v-responsive>
+        <v-window-item value="receipts">
+          <v-card flat>
+            <v-card-text>
+              <h2 class="text-h6 mb-2">Tabulka: Vystavené účtenky</h2>
+              <v-data-table :headers="receiptHeaders" :items="receipts" item-value="id"
+                class="elevation-1"></v-data-table>
+            </v-card-text>
+          </v-card>
+        </v-window-item>
+      </v-window>
+    </v-card>
   </v-container>
 </template>
 

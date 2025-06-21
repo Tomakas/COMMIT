@@ -5,5 +5,6 @@ export const useAppStore = defineStore("app", {
     // Zde je nyní centrální stav pro layout aplikace
     navInAppBar: false, // false = boční menu, true = horní menu
     navWithText: true, // true = plné menu (s textem), false = kondenzované (jen ikony)
+    theme: 'system', // Přidáno pro správu tématu: 'light', 'dark', nebo 'system'
   }),
 });

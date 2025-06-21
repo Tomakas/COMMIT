@@ -4,36 +4,33 @@
       @click.stop="mobileDrawerOpen = !mobileDrawerOpen"></v-app-bar-nav-icon>
 
     <v-app-bar-title>
-      Elementary POS Office lgAndUp: {{ display.lgAndUp.value }}
+      Elementary POS Office
     </v-app-bar-title>
 
     <template v-slot:append>
       <template v-if="display.lgAndUp.value && navInAppBar">
-        <v-btn to="/dashboard" prepend-icon="mdi-view-dashboard">
-          {{ navWithText ? 'Dashboard' : '' }}
-        </v-btn>
-        <v-btn to="/sales" prepend-icon="mdi-package-variant-closed">
-          {{ navWithText ? 'Sales' : '' }}
-        </v-btn>
-        <v-btn to="/items" prepend-icon="mdi-package-variant-closed">
-          {{ navWithText ? 'Items' : '' }}
-        </v-btn>
-        <v-btn to="/warehouse" prepend-icon="mdi-warehouse">
-          {{ navWithText ? 'Warehouse' : '' }}
-        </v-btn>
-        <v-btn to="/cashregister" prepend-icon="mdi-cash-register">
-          {{ navWithText ? 'Cash Register' : '' }}
-        </v-btn>
-        <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">
-          {{ navWithText ? 'Address Book' : '' }}
-        </v-btn>
-        <v-btn to="/settings" prepend-icon="mdi-cog">
-          {{ navWithText ? 'Settings' : '' }}
-        </v-btn>
+        <v-btn to="/dashboard" prepend-icon="mdi-view-dashboard">{{ navWithText ? 'Dashboard' : '' }}</v-btn>
+        <v-btn to="/sales" prepend-icon="mdi-package-variant-closed">{{ navWithText ? 'Sales' : '' }}</v-btn>
+        <v-btn to="/items" prepend-icon="mdi-package-variant-closed">{{ navWithText ? 'Items' : '' }}</v-btn>
+        <v-btn to="/warehouse" prepend-icon="mdi-warehouse">{{ navWithText ? 'Warehouse' : '' }}</v-btn>
+        <v-btn to="/cashregister" prepend-icon="mdi-cash-register">{{ navWithText ? 'Cash Register' : '' }}</v-btn>
+        <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">{{ navWithText ? 'Address Book' : '' }}</v-btn>
+        <v-btn to="/settings" prepend-icon="mdi-cog">{{ navWithText ? 'Settings' : '' }}</v-btn>
       </template>
-      <v-avatar color="info">
-        <v-icon icon="mdi-account-circle"></v-icon>
-      </v-avatar>
+      <v-menu location="bottom end" transition="scale-transition">
+        <template v-slot:activator="{ props }">
+          <v-avatar color="info" class="ma-2" style="cursor: pointer;" v-bind="props">
+            <v-icon icon="mdi-account-circle"></v-icon>
+          </v-avatar>
+        </template>
+
+        <v-list>
+          <v-list-item to="/" prepend-icon="mdi-account-cog" title="Profile setting"></v-list-item>
+          <v-list-item to="/" prepend-icon="mdi-store" title="Stores"></v-list-item>
+          <v-divider></v-divider>
+          <v-list-item to="/" prepend-icon="mdi-logout" title="Logout"></v-list-item>
+        </v-list>
+      </v-menu>
     </template>
   </v-app-bar>
 
@@ -49,11 +46,9 @@
       <v-list-item to="/settings" link prepend-icon="mdi-cog" title="Settings" />
     </v-list>
   </v-navigation-drawer>
-
   <v-main>
     <router-view />
   </v-main>
-
 </template>
 
 <script setup>
