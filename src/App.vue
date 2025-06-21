@@ -9,10 +9,12 @@ import { watch, onMounted, onUnmounted } from 'vue';
 import { useTheme } from 'vuetify';
 import { useAppStore } from '@/stores/app';
 import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
 
 const vuetifyTheme = useTheme();
 const appStore = useAppStore();
-const { theme: themeMode } = storeToRefs(appStore);
+const { theme: themeMode, locale } = storeToRefs(appStore);
+const { locale: i18nLocale } = useI18n();
 
 // Vytvoření media query pro detekci systémového tmavého módu
 const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -49,5 +51,15 @@ onMounted(() => {
 onUnmounted(() => {
   // Přestaneme naslouchat, abychom předešli memory leakům
   darkThemeMq.removeEventListener('change', handleSystemThemeChange);
+});
+// SLEDOVÁNÍ ZMĚN JAZYKA
+watch(locale, (newLocale) => {
+  i18nLocale.value = newLocale;
+});
+
+// NASTAVENÍ JAZYKA PŘI NAČTENÍ APLIKACE
+onMounted(() => {
+  i18nLocale.value = locale.value;
+  // ... zbytek onMounted kódu
 });
 </script>

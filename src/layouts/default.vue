@@ -9,13 +9,17 @@
 
     <template v-slot:append>
       <template v-if="display.lgAndUp.value && navInAppBar">
-        <v-btn to="/dashboard" prepend-icon="mdi-view-dashboard">{{ navWithText ? 'Dashboard' : '' }}</v-btn>
-        <v-btn to="/sales" prepend-icon="mdi-package-variant-closed">{{ navWithText ? 'Sales' : '' }}</v-btn>
-        <v-btn to="/items" prepend-icon="mdi-package-variant-closed">{{ navWithText ? 'Items' : '' }}</v-btn>
-        <v-btn to="/warehouse" prepend-icon="mdi-warehouse">{{ navWithText ? 'Warehouse' : '' }}</v-btn>
-        <v-btn to="/cashregister" prepend-icon="mdi-cash-register">{{ navWithText ? 'Cash Register' : '' }}</v-btn>
-        <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">{{ navWithText ? 'Address Book' : '' }}</v-btn>
-        <v-btn to="/settings" prepend-icon="mdi-cog">{{ navWithText ? 'Settings' : '' }}</v-btn>
+        <v-btn to="/dashboard" prepend-icon="mdi-view-dashboard">{{ navWithText ? $t('nav.dashboard') : '' }}</v-btn>
+        <v-btn to="/sales" prepend-icon="mdi-package-variant-closed">{{ navWithText ? $t('nav.sales') : ''
+        }}</v-btn>
+        <v-btn to="/items" prepend-icon="mdi-package-variant-closed">{{ navWithText ? $t('nav.items') : ''
+        }}</v-btn>
+        <v-btn to="/warehouse" prepend-icon="mdi-warehouse">{{ navWithText ? $t('nav.warehouse') : '' }}</v-btn>
+        <v-btn to="/cashregister" prepend-icon="mdi-cash-register">{{ navWithText ? $t('nav.cashregister') : ''
+        }}</v-btn>
+        <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">{{ navWithText ? $t('nav.addressbook') : ''
+          }}</v-btn>
+        <v-btn to="/settings" prepend-icon="mdi-cog">{{ $t('nav.settings') }}</v-btn>
       </template>
       <v-menu location="bottom end" transition="scale-transition">
         <template v-slot:activator="{ props }">
