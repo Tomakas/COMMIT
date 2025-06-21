@@ -67,8 +67,6 @@ const tab = ref('look-and-feel');
 const tabs = [
   { id: 'look-and-feel', name: 'Look & Feel' },
   { id: 'company', name: 'Company' },
-  { id: 'taxes', name: 'Taxes' },
-  { id: 'receipt-designer', name: 'Receipt Designer' },
   { id: 'permissions', name: 'Permissions' },
   { id: 'remote-orders', name: 'Remote Orders' },
   { id: 'suspicious-activity', name: 'Suspicious Activity' },
@@ -94,8 +92,8 @@ const navMenuLayout = computed({
 
 const menuStyle = computed({
   get: () => appStore.navWithText ? 'full' : 'condensed',
-    set: (value) => {
-      appStore.navWithText = value === 'full';
-    }
-  });
-  </script>
+  set: (value) => {
+    appStore.navWithText = value === 'full';
+  }
+});
+</script>
