@@ -1,6 +1,6 @@
 <template>
   <div class="text-center text-caption pa-4">
-    DASHBOARD </div>
+    AddressBook </div>
 </template>
 
 <script setup>
