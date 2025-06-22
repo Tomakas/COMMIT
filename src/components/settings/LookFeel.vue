@@ -38,7 +38,7 @@ import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 
 const appStore = useAppStore();
-const { navInAppBar, navWithText, theme, locale: appLocale } = storeToRefs(appStore);
+const { navInAppBar, navWithText, theme, appLocale } = storeToRefs(appStore);
 
 const { t, locale } = useI18n();
 
@@ -50,5 +50,4 @@ watch(appLocale, (newLocale) => {
 watch(locale, (newLocale) => {
   appLocale.value = newLocale;
 })
-
 </script>

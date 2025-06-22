@@ -13,53 +13,39 @@ import { useI18n } from 'vue-i18n';
 
 const vuetifyTheme = useTheme();
 const appStore = useAppStore();
-const { theme: themeMode, locale } = storeToRefs(appStore);
+const { theme: themeMode, appLocale } = storeToRefs(appStore);
 const { locale: i18nLocale } = useI18n();
 
-// Vytvoření media query pro detekci systémového tmavého módu
 const darkThemeMq = window.matchMedia('(prefers-color-scheme: dark)');
 
-// Funkce, která aplikuje správné téma
 const applyTheme = () => {
   if (themeMode.value === 'system') {
-    // Pokud je nastaven systémový mód, použijeme hodnotu z media query
     vuetifyTheme.global.name.value = darkThemeMq.matches ? 'dark' : 'light';
   } else {
-    // Jinak použijeme přímo hodnotu z nastavení (light/dark)
     vuetifyTheme.global.name.value = themeMode.value;
   }
 };
 
-// Handler pro případ, že se změní systémové nastavení
 const handleSystemThemeChange = (e) => {
   if (themeMode.value === 'system') {
     vuetifyTheme.global.name.value = e.matches ? 'dark' : 'light';
   }
 };
 
-// Sledování změn v nastavení tématu z Pinia store
 watch(themeMode, applyTheme);
 
-// Při prvním načtení komponenty
-onMounted(() => {
-  applyTheme();
-  // Začneme naslouchat změnám v systémovém nastavení
-  darkThemeMq.addEventListener('change', handleSystemThemeChange);
-});
-
-// Při odmontování komponenty
 onUnmounted(() => {
-  // Přestaneme naslouchat, abychom předešli memory leakům
   darkThemeMq.removeEventListener('change', handleSystemThemeChange);
 });
-// SLEDOVÁNÍ ZMĚN JAZYKA
-watch(locale, (newLocale) => {
+
+watch(appLocale, (newLocale) => {
   i18nLocale.value = newLocale;
 });
 
-// NASTAVENÍ JAZYKA PŘI NAČTENÍ APLIKACE
 onMounted(() => {
-  i18nLocale.value = locale.value;
-  // ... zbytek onMounted kódu
+  i18nLocale.value = appLocale.value;
+
+  applyTheme();
+  darkThemeMq.addEventListener('change', handleSystemThemeChange);
 });
 </script>
