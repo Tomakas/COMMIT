@@ -11,15 +11,16 @@
       <template v-if="display.lgAndUp.value && navInAppBar">
         <v-btn to="/dashboard" prepend-icon="mdi-view-dashboard">{{ navWithText ? $t('nav.dashboard') : '' }}</v-btn>
         <v-btn to="/sales" prepend-icon="mdi-package-variant-closed">{{ navWithText ? $t('nav.sales') : ''
-        }}</v-btn>
+          }}</v-btn>
         <v-btn to="/items" prepend-icon="mdi-package-variant-closed">{{ navWithText ? $t('nav.items') : ''
-        }}</v-btn>
+          }}</v-btn>
         <v-btn to="/warehouse" prepend-icon="mdi-warehouse">{{ navWithText ? $t('nav.warehouse') : '' }}</v-btn>
         <v-btn to="/cashregister" prepend-icon="mdi-cash-register">{{ navWithText ? $t('nav.cashregister') : ''
-        }}</v-btn>
+          }}</v-btn>
         <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">{{ navWithText ? $t('nav.addressbook') : ''
-        }}</v-btn>
-        <v-btn to="/settings" prepend-icon="mdi-cog">{{ $t('nav.settings') }}</v-btn>
+          }}</v-btn>
+        <v-btn to="/export" prepend-icon="mdi-file-export">{{ navWithText ? $t('nav.export') : ''
+          }}</v-btn>
       </template>
       <v-menu location="bottom end" transition="scale-transition">
         <template v-slot:activator="{ props }">
@@ -29,8 +30,11 @@
         </template>
 
         <v-list>
-          <v-list-item to="/" prepend-icon="mdi-account-cog" title="Profile setting"></v-list-item>
+          <v-list-item to="/" prepend-icon="mdi-account-cog" title="Profile"></v-list-item>
           <v-list-item to="/" prepend-icon="mdi-store" title="Stores"></v-list-item>
+          <v-divider></v-divider>
+          <v-list-item to="/settings" prepend-icon="mdi-cog" title="Settings" />
+          <v-list-item to="/support" link prepend-icon="mdi-lifebuoy" title="Support" />
           <v-divider></v-divider>
           <v-list-item to="/" prepend-icon="mdi-logout" title="Logout"></v-list-item>
         </v-list>
@@ -51,8 +55,8 @@
     </v-list>
     <template v-slot:append>
       <v-list>
-        <v-list-item to="/support" link prepend-icon="mdi-lifebuoy" title="Support" />
         <v-list-item to="/settings" link prepend-icon="mdi-cog" title="Settings" />
+        <v-list-item to="/support" link prepend-icon="mdi-lifebuoy" title="Support" />
       </v-list>
     </template>
   </v-navigation-drawer>
