@@ -46,6 +46,10 @@
         "date": "Datum",
         "amount": "Celkem",
         "customer": "Zákazník"
+      },
+      "table": {
+        "search": "Hledat...",
+        "itemsPerPage": "Položek na stránku"
       }
     }
   }

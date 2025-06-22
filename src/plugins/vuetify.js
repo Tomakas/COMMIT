@@ -26,6 +26,6 @@ export default createVuetify({
       lg: 1280,
       xl: 1920,
     },
-    mobileBreakpoint: 'lg', // Tohle určuje, co je ještě "mobilní"
+    mobileBreakpoint: 'lg',
   }
 });

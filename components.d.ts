@@ -13,7 +13,9 @@ declare module 'vue' {
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     LookFeel: typeof import('./src/components/settings/LookFeel.vue')['default']
     Placeholder: typeof import('./src/components/settings/Placeholder.vue')['default']
+    ReuseTable: typeof import('./src/components/table/reuseTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TablePanel: typeof import('./src/components/table/tablePanel.vue')['default']
   }
 }
