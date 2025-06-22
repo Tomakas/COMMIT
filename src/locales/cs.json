@@ -1,0 +1,51 @@
+{
+    "nav": {
+      "dashboard": "Přehled",
+      "sales": "Prodeje",
+      "items": "Položky",
+      "warehouse": "Sklad",
+      "cashregister": "Pokladna",
+      "addressbook": "Adresář",
+      "export": "Export",
+      "settings": "Nastavení",
+      "support": "Podpora",
+      "profile": "Nastavení profilu",
+      "stores": "Prodejny",
+
+      "logout": "Odhlásit se"
+    },
+    "settings": {
+      "lookAndFeel": "Vzhled a chování",
+      "company": "Firma",
+      "permissions": "Oprávnění",
+      "mode": "Režim zobrazení",
+      "navMenu": "Umístění menu",
+      "menuText": "Styl menu",
+      "language": "Jazyk"
+    },
+    "settings_tabs": {
+      "lookAndFeel": "Vzhled a chování",
+      "company": "Firma",
+      "permissions": "Oprávnění",
+      "remoteOrders": "Vzdálené objednávky",
+      "suspiciousActivity": "Podezřelá aktivita",
+      "integrations": "Integrace",
+      "licences": "Licence"
+    },
+    "sales": {
+      "productSales": "Prodej produktů",
+      "receipts": "Vystavené účtenky",
+      "productHeaders": {
+        "product": "Produkt",
+        "quantity": "Množství",
+        "pricePerUnit": "Cena/ks",
+        "totalPrice": "Celková cena"
+      },
+      "receiptHeaders": {
+        "id": "ID účtenky",
+        "date": "Datum",
+        "amount": "Celkem",
+        "customer": "Zákazník"
+      }
+    }
+  }

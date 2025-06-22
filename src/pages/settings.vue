@@ -21,25 +21,23 @@
 </template>
 
 <script setup>
-import { ref, shallowRef } from 'vue';
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 import SettingsLookFeel from '@/components/settings/LookFeel.vue';
 import SettingsCompany from '@/components/settings/Company.vue';
-// Placeholder pro ostatní komponenty
 import SettingsPlaceholder from '@/components/settings/Placeholder.vue';
 
-
+const { t } = useI18n();
 const activeTabId = ref('look-and-feel');
 
-const tabs = shallowRef([
-  { id: 'look-and-feel', name: 'Look & Feel', component: SettingsLookFeel },
-  { id: 'company', name: 'Company', component: SettingsCompany },
-  { id: 'permissions', name: 'Permissions', component: SettingsPlaceholder },
-  { id: 'remote-orders', name: 'Remote Orders', component: SettingsPlaceholder },
-  { id: 'suspicious-activity', name: 'Suspicious Activity', component: SettingsPlaceholder },
-  { id: 'integrations', name: 'Integrations', component: SettingsPlaceholder },
-  { id: 'licences', name: 'Licences', component: SettingsPlaceholder }
+const tabs = computed(() => [
+  { id: 'look-and-feel', name: t('settings_tabs.lookAndFeel'), component: SettingsLookFeel },
+  { id: 'company', name: t('settings_tabs.company'), component: SettingsCompany },
+  { id: 'permissions', name: t('settings_tabs.permissions'), component: SettingsPlaceholder },
+  { id: 'remote-orders', name: t('settings_tabs.remoteOrders'), component: SettingsPlaceholder },
+  { id: 'suspicious-activity', name: t('settings_tabs.suspiciousActivity'), component: SettingsPlaceholder },
+  { id: 'integrations', name: t('settings_tabs.integrations'), component: SettingsPlaceholder },
+  { id: 'licences', name: t('settings_tabs.licences'), component: SettingsPlaceholder }
 ]);
-
-
 </script>

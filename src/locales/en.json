@@ -1,0 +1,50 @@
+{
+    "nav": {
+      "dashboard": "Dashboard",
+      "sales": "Sales",
+      "items": "Items",
+      "warehouse": "Warehouse",
+      "cashregister": "Cash Register",
+      "addressbook": "Address Book",
+      "export": "Export",
+      "settings": "Settings",
+      "support": "Support",
+      "profile": "Profile",
+      "stores": "Stores",
+      "logout": "Logout"
+    },
+    "settings": {
+      "lookAndFeel": "Look & Feel",
+      "company": "Company",
+      "permissions": "Permissions",
+      "mode": "Display Mode",
+      "navMenu": "Navigation Menu",
+      "menuText": "Menu Style",
+      "language": "Language"
+    },
+    "settings_tabs": {
+      "lookAndFeel": "Look & Feel",
+      "company": "Company",
+      "permissions": "Permissions",
+      "remoteOrders": "Remote Orders",
+      "suspiciousActivity": "Suspicious Activity",
+      "integrations": "Integrations",
+      "licences": "Licences"
+    },
+    "sales": {
+      "productSales": "Product sales",
+      "receipts": "Issued receipts",
+      "productHeaders": {
+        "product": "Product",
+        "quantity": "Quantity",
+        "pricePerUnit": "Price/unit",
+        "totalPrice": "Total price"
+      },
+      "receiptHeaders": {
+        "id": "Receipt ID",
+        "date": "Date",
+        "amount": "Amount",
+        "customer": "Customer"
+      }
+    }
+  }
