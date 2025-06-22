@@ -18,7 +18,7 @@
         <v-btn to="/cashregister" prepend-icon="mdi-cash-register">{{ navWithText ? $t('nav.cashregister') : ''
         }}</v-btn>
         <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">{{ navWithText ? $t('nav.addressbook') : ''
-          }}</v-btn>
+        }}</v-btn>
         <v-btn to="/settings" prepend-icon="mdi-cog">{{ $t('nav.settings') }}</v-btn>
       </template>
       <v-menu location="bottom end" transition="scale-transition">
@@ -51,6 +51,7 @@
     </v-list>
     <template v-slot:append>
       <v-list>
+        <v-list-item to="/support" link prepend-icon="mdi-lifebuoy" title="Support" />
         <v-list-item to="/settings" link prepend-icon="mdi-cog" title="Settings" />
       </v-list>
     </template>
