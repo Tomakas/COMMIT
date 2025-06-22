@@ -8,11 +8,53 @@
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { setupLayouts } from 'virtual:generated-layouts'
 import { routes } from 'vue-router/auto-routes'
+import { useAppStore } from '@/stores/app';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: setupLayouts(routes),
 })
+
+const finalRoutes = setupLayouts(routes);
+
+finalRoutes.unshift({
+  path: '/',
+  redirect: '/login',
+});
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: finalRoutes,
+})
+
+// === NAVIGATION GUARD START ===
+router.beforeEach((to, from, next) => {
+  // We need access to the store inside the guard
+  const appStore = useAppStore();
+  const isLoggedIn = appStore.isAuthenticated;
+
+  // 1. User wants to go to the login page
+  if (to.path === '/login') {
+    if (isLoggedIn) {
+      // If already logged in, redirect to the dashboard
+      next('/dashboard');
+    } else {
+      // If not logged in, allow access to the login page
+      next();
+    }
+  }
+  // 2. User wants to go to any other page
+  else {
+    if (isLoggedIn) {
+      // If logged in, allow access
+      next();
+    } else {
+      // If not logged in, redirect to the login page
+      next('/login');
+    }
+  }
+});
+// === NAVIGATION GUARD END ===
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
 router.onError((err, to) => {
