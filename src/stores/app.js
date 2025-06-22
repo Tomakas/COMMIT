@@ -4,7 +4,8 @@ export const useAppStore = defineStore("app", {
   state: () => ({
     navInAppBar: false,
     navWithText: true,
-    theme: 'system', // 'light', 'dark', nebo 'system'
+    theme: 'system', // 'light', 'dark', 'system'
     appLocale: 'cs',
+   isAuthenticated: false,
   }),
 });
