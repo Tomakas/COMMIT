@@ -1,16 +1,12 @@
 <template>
   <v-app-bar app>
     <v-app-bar-nav-icon v-if="!display.lgAndUp.value" @click.stop="mobileDrawerOpen = !mobileDrawerOpen"></v-app-bar-nav-icon>
+    <Logo class="ml-2" />
 
-
-    <v-img :src="logo" max-height="30" max-width="170" class="ml-2"></v-img>
-    <v-spacer v-if="display.lgAndUp.value"></v-spacer>
-    <v-app-bar-title v-if="display.lgAndUp.value">Elementary POS Back Office</v-app-bar-title>
-    <v-spacer v-if="display.lgAndUp.value"></v-spacer>
-
-
-
-    <template v-slot:append>
+    <div class="app-bar-center max-width-100">
+      <v-app-bar-title v-if="display.lgAndUp.value && !navInAppBar">
+        Elementary POS Back Office
+      </v-app-bar-title>
       <template v-if="display.lgAndUp.value && navInAppBar">
         <v-btn to="/dashboard" prepend-icon="mdi-view-dashboard">{{ navWithText ? $t('nav.dashboard') : '' }}</v-btn>
         <v-btn to="/sales" prepend-icon="mdi-cash-multiple">{{ navWithText ? $t('nav.sales') : '' }}</v-btn>
@@ -20,24 +16,26 @@
         <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">{{ navWithText ? $t('nav.addressbook') : '' }}</v-btn>
         <v-btn to="/export" prepend-icon="mdi-file-export">{{ navWithText ? $t('nav.export') : '' }}</v-btn>
       </template>
-      <v-menu location="bottom end" transition="scale-transition">
-        <template v-slot:activator="{ props }">
-          <v-avatar color="info" class="ma-2" style="cursor: pointer;" v-bind="props">
-            <v-icon icon="mdi-account-circle"></v-icon>
-          </v-avatar>
-        </template>
+    </div>
 
-        <v-list>
-          <v-list-item :to="'/'" :prepend-icon="'mdi-account-cog'" :title="$t('nav.profile')"></v-list-item>
-          <v-list-item :to="'/'" :prepend-icon="'mdi-store'" :title="$t('nav.stores')"></v-list-item>
-          <v-divider></v-divider>
-          <v-list-item :to="'/settings'" :prepend-icon="'mdi-cog'" :title="$t('nav.settings')" />
-          <v-list-item :to="'/support'" link :prepend-icon="'mdi-lifebuoy'" :title="$t('nav.support')" />
-          <v-divider></v-divider>
-          <v-list-item :to="'/'" :prepend-icon="'mdi-logout'" :title="$t('nav.logout')"></v-list-item>
-        </v-list>
-      </v-menu>
-    </template>
+    <v-spacer></v-spacer>
+
+    <v-menu location="bottom end" transition="scale-transition">
+      <template v-slot:activator="{ props }">
+        <v-avatar color="info" class="ma-2" style="cursor: pointer;" v-bind="props">
+          <v-icon icon="mdi-account-circle"></v-icon>
+        </v-avatar>
+      </template>
+      <v-list>
+        <v-list-item :to="'/'" :prepend-icon="'mdi-account-cog'" :title="$t('nav.profile')"></v-list-item>
+        <v-list-item :to="'/'" :prepend-icon="'mdi-store'" :title="$t('nav.stores')"></v-list-item>
+        <v-divider></v-divider>
+        <v-list-item :to="'/settings'" :prepend-icon="'mdi-cog'" :title="$t('nav.settings')" />
+        <v-list-item :to="'/support'" link :prepend-icon="'mdi-lifebuoy'" :title="$t('nav.support')" />
+        <v-divider></v-divider>
+        <v-list-item :to="'/'" :prepend-icon="'mdi-logout'" :title="$t('nav.logout')"></v-list-item>
+      </v-list>
+    </v-menu>
   </v-app-bar>
 
   <v-navigation-drawer v-if="!display.lgAndUp.value || !navInAppBar" v-model="isDrawerOpen" :rail="display.lgAndUp.value && !navWithText"
@@ -58,29 +56,23 @@
       </v-list>
     </template>
   </v-navigation-drawer>
+
   <v-main>
     <router-view />
   </v-main>
 </template>
 
 <script setup>
-import logo from '@/assets/logo.svg';
 import { ref, computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { useAppStore } from '@/stores/app';
 import { storeToRefs } from 'pinia';
 
-// Získání reaktivních breakpointů
 const display = useDisplay();
-
-// Načtení stavu z Pinia
 const appStore = useAppStore();
 const { navInAppBar, navWithText } = storeToRefs(appStore);
-
-// Stav pro mobilní menu
 const mobileDrawerOpen = ref(false);
 
-// Reaktivní řízení draweru
 const isDrawerOpen = computed({
   get() {
     if (display.lgAndUp.value) {
@@ -96,3 +88,11 @@ const isDrawerOpen = computed({
   }
 });
 </script>
+
+<style>
+.app-bar-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+</style>

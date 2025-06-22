@@ -6,10 +6,10 @@
       </v-tab>
     </v-tabs>
 
-
-
     <v-text-field v-if="showSearch" :model-value="searchText" append-inner-icon="mdi-magnify" @update:model-value="$emit('update:searchText', $event)"
-      density="compact" variant="outlined" :label="t('table.search')" single-line hide-details class="mr-4"></v-text-field>
+      density="compact" variant="outlined" :label="t('table.search')" single-line hide-details class="mx-4"></v-text-field>
+
+    <v-spacer></v-spacer>
 
     <v-btn v-if="showSum" icon="mdi-sigma" class="mx-1" variant="text"></v-btn>
     <v-btn v-if="showFilter" icon="mdi-filter" class="mx-1" variant="text"></v-btn>
@@ -17,23 +17,22 @@
   </v-toolbar>
 
   <div v-else>
-    <v-tabs v-if="panels.length > 1" :model-value="activePanelId" @update:model-value="$emit('update:activePanelId', $event)" color="primary" grow
-      center-active>
-      <v-tab v-for="panel in panels" :key="panel.id" :value="panel.id">
-        {{ panel.name }}
-      </v-tab>
-    </v-tabs>
+    <v-toolbar v-if="panels.length > 1" density="compact">
+      <v-tabs :model-value="activePanelId" @update:model-value="$emit('update:activePanelId', $event)" color="primary" grow center-active>
+        <v-tab v-for="panel in panels" :key="panel.id" :value="panel.id">
+          {{ panel.name }}
+        </v-tab>
+      </v-tabs>
+    </v-toolbar>
 
-    <div class="d-flex align-center pa-3">
-      <v-text-field v-if="showSearch" :model-value="searchText" @update:model-value="$emit('update:searchText', $event)" density="compact"
-        variant="outlined" :label="t('table.search')" hide-details class="mr-2"></v-text-field>
+    <v-toolbar density="compact">
+      <v-text-field v-if="showSearch" class="ml-2" :model-value="searchText" @update:model-value="$emit('update:searchText', $event)"
+        density="compact" variant="outlined" :label="t('table.search')" hide-details></v-text-field>
 
-      <div class="d-flex">
-        <v-btn v-if="showSum" icon="mdi-sigma" variant="text" size="large"></v-btn>
-        <v-btn v-if="showFilter" icon="mdi-filter" variant="text" size="large"></v-btn>
-        <v-btn v-if="showSettings" icon="mdi-cog" variant="text" size="large"></v-btn>
-      </div>
-    </div>
+      <v-btn v-if="showSum" icon="mdi-sigma" variant="text"></v-btn>
+      <v-btn v-if="showFilter" icon="mdi-filter" variant="text"></v-btn>
+      <v-btn v-if="showSettings" icon="mdi-cog" variant="text"></v-btn>
+    </v-toolbar>
     <v-divider></v-divider>
   </div>
 </template>
