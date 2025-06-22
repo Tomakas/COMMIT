@@ -1,8 +1,7 @@
 <template>
   <v-app-bar app>
     <v-app-bar-nav-icon v-if="!display.lgAndUp.value" @click.stop="mobileDrawerOpen = !mobileDrawerOpen"></v-app-bar-nav-icon>
-    <Logo class="ml-2" />
-
+    <Logo height="18" class="ml-2" />
     <div class="app-bar-center max-width-100">
       <v-app-bar-title v-if="display.lgAndUp.value && !navInAppBar">
         Elementary POS Back Office
