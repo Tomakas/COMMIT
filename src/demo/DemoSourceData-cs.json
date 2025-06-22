@@ -1,0 +1,425 @@
+{
+  "categories": [
+    {
+      "categoryName": "Hot Drinks",
+      "parentCategory": null,
+      "color": 1,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Cold Drinks",
+      "parentCategory": null,
+      "color": 2,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Alcoholic Drinks",
+      "parentCategory": null,
+      "color": 3,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Food",
+      "parentCategory": null,
+      "color": 4,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Desserts",
+      "parentCategory": "Food",
+      "color": 5,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Ingredients",
+      "parentCategory": null,
+      "color": 6,
+      "remoteOrders": false
+    },
+    {
+      "categoryName": "Packaging",
+      "parentCategory": null,
+      "color": 7,
+      "remoteOrders": false
+    },
+    {
+      "categoryName": "Sides",
+      "parentCategory": "Food",
+      "color": 4,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Coffee",
+      "parentCategory": "Hot Drinks",
+      "color": 1,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Tea",
+      "parentCategory": "Hot Drinks",
+      "color": 1,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Beer",
+      "parentCategory": "Alcoholic Drinks",
+      "color": 3,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Wine",
+      "parentCategory": "Alcoholic Drinks",
+      "color": 3,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Soft Drinks",
+      "parentCategory": "Cold Drinks",
+      "color": 2,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Soups",
+      "parentCategory": "Food",
+      "color": 4,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Main Courses",
+      "parentCategory": "Food",
+      "color": 4,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Pasta",
+      "parentCategory": "Main Courses",
+      "color": 4,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Burgers",
+      "parentCategory": "Main Courses",
+      "color": 4,
+      "remoteOrders": true
+    },
+    {
+      "categoryName": "Miscellaneous",
+      "parentCategory": null,
+      "color": 8,
+      "remoteOrders": false
+    }
+  ],
+  "products": [
+    {
+      "mCode": 1, "itemName": "Arabica Coffee Beans", "itemType": "Ingredient", "price": null, "tax": 20, "sku": null, "color": 1, "category": "Ingredients", "purchasePrice": 15, "allergens": [], "note": "Whole beans, medium roast", "stockMix": [], "modifiers": [], "lowStockThreshold": 10, "supplier": "The Good Bean Roastery", "forSale": false, "unit": "kg", "stockLevel": 25, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 2, "itemName": "Whole Milk", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 8, "category": "Ingredients", "purchasePrice": 1.2, "allergens": ["Dairy"], "note": "", "stockMix": [], "modifiers": ["M12"], "lowStockThreshold": 20, "supplier": "Green Valley Dairy", "forSale": false, "unit": "l", "stockLevel": 30, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 3, "itemName": "White Sugar", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 8, "category": "Ingredients", "purchasePrice": 1, "allergens": [], "note": "Granulated", "stockMix": [], "modifiers": [], "lowStockThreshold": 50, "supplier": "Sweet Supply Co.", "forSale": false, "unit": "kg", "stockLevel": 100, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 4, "itemName": "Filtered Water", "itemType": "Ingredient", "price": 0, "tax": 0, "sku": null, "color": 2, "category": "Ingredients", "purchasePrice": 0.1, "allergens": [], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": null, "supplier": null, "forSale": false, "unit": "l", "stockLevel": 1000, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 5, "itemName": "Espresso Shot", "itemType": "Recipe", "price": 2.5, "tax": 20, "sku": null, "color": 1, "category": "Coffee", "purchasePrice": null, "allergens": [], "note": "Strong and aromatic", "stockMix": ["M1", "M4"], "modifiers": ["M2", "M3"], "lowStockThreshold": 50, "supplier": "The Good Bean Roastery", "forSale": true, "unit": "pcs", "stockLevel": 200, "pointsGained": 2, "pointsForDiscount": 50, "loyaltyDiscount": 5
+    },
+    {
+      "mCode": 6, "itemName": "Cappuccino", "itemType": "Recipe", "price": 3.5, "tax": 20, "sku": null, "color": 1, "category": "Coffee", "purchasePrice": null, "allergens": ["Dairy"], "note": "With rich milk foam", "stockMix": ["M1", "M2", "M4"], "modifiers": ["M3"], "lowStockThreshold": 40, "supplier": "Green Valley Dairy", "forSale": true, "unit": "pcs", "stockLevel": 150, "pointsGained": 3, "pointsForDiscount": 70, "loyaltyDiscount": 5
+    },
+    {
+      "mCode": 7, "itemName": "Fresh Lemonade", "itemType": "Goods", "price": 3, "tax": 10, "sku": "506000111222", "color": 2, "category": "Soft Drinks", "purchasePrice": 0.8, "allergens": [], "note": "Made with real lemons", "stockMix": [], "modifiers": [], "lowStockThreshold": 20, "supplier": "Beverage World", "forSale": true, "unit": "pcs", "stockLevel": 80, "pointsGained": 3, "pointsForDiscount": 60, "loyaltyDiscount": 0
+    },
+    {
+      "mCode": 8, "itemName": "New York Cheesecake", "itemType": "Goods", "price": 5.5, "tax": 10, "sku": "506000111333", "color": 5, "category": "Desserts", "purchasePrice": 2.5, "allergens": ["Gluten", "Dairy", "Eggs"], "note": "With a strawberry topping", "stockMix": [], "modifiers": [], "lowStockThreshold": 10, "supplier": "Sweet Creations Bakery", "forSale": true, "unit": "pcs", "stockLevel": 30, "pointsGained": 5, "pointsForDiscount": 90, "loyaltyDiscount": 10
+    },
+    {
+      "mCode": 9, "itemName": "Bottled Spring Water", "itemType": "Goods", "price": 1.5, "tax": 10, "sku": "506000111444", "color": 2, "category": "Cold Drinks", "purchasePrice": 0.4, "allergens": [], "note": "Still, 500ml", "stockMix": [], "modifiers": [], "lowStockThreshold": 30, "supplier": "Beverage World", "forSale": true, "unit": "pcs", "stockLevel": 120, "pointsGained": 1, "pointsForDiscount": 30, "loyaltyDiscount": 0
+    },
+    {
+      "mCode": 10, "itemName": "Paper Coffee Cup", "itemType": "Packaging", "price": 0.2, "tax": 20, "sku": null, "color": 7, "category": "Packaging", "purchasePrice": 0.05, "allergens": [], "note": "For hot drinks", "stockMix": [], "modifiers": [], "lowStockThreshold": 100, "supplier": "Global Packaging Inc.", "forSale": true, "unit": "pcs", "stockLevel": 500, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 11, "itemName": "Caramel Syrup", "itemType": "Miscellaneous", "price": 0.5, "tax": 20, "sku": "506000111555", "color": 8, "category": "Miscellaneous", "purchasePrice": 0.1, "allergens": [], "note": "Extra charge for flavor", "stockMix": [], "modifiers": ["M2", "M3"], "lowStockThreshold": 10, "supplier": "Sweet Supply Co.", "forSale": true, "unit": "pcs", "stockLevel": 40, "pointsGained": 0, "pointsForDiscount": 20, "loyaltyDiscount": 0
+    },
+    {
+      "mCode": 12, "itemName": "Oat Milk", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 8, "category": "Ingredients", "purchasePrice": 2, "allergens": ["Gluten"], "note": "Alternative to M2", "stockMix": [], "modifiers": [], "lowStockThreshold": 10, "supplier": "Green Valley Dairy", "forSale": false, "unit": "l", "stockLevel": 15, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 13, "itemName": "Latte Macchiato", "itemType": "Recipe", "price": 4, "tax": 20, "sku": null, "color": 1, "category": "Coffee", "purchasePrice": null, "allergens": ["Dairy"], "note": "", "stockMix": ["M1", "M2", "M4"], "modifiers": ["M11"], "lowStockThreshold": 30, "supplier": "Green Valley Dairy", "forSale": true, "unit": "pcs", "stockLevel": 120, "pointsGained": 4, "pointsForDiscount": 75, "loyaltyDiscount": 5
+    },
+    {
+      "mCode": 14, "itemName": "English Breakfast Tea", "itemType": "Goods", "price": 2.8, "tax": 20, "sku": "506000222111", "color": 1, "category": "Tea", "purchasePrice": 0.5, "allergens": [], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 20, "supplier": "The Tea Leaf Co.", "forSale": true, "unit": "pcs", "stockLevel": 90, "pointsGained": 2, "pointsForDiscount": 40, "loyaltyDiscount": 0
+    },
+    {
+      "mCode": 15, "itemName": "Green Tea", "itemType": "Goods", "price": 2.8, "tax": 20, "sku": "506000222222", "color": 1, "category": "Tea", "purchasePrice": 0.5, "allergens": [], "note": "Sencha", "stockMix": [], "modifiers": [], "lowStockThreshold": 20, "supplier": "The Tea Leaf Co.", "forSale": true, "unit": "pcs", "stockLevel": 85, "pointsGained": 2, "pointsForDiscount": 40, "loyaltyDiscount": 0
+    },
+    {
+      "mCode": 16, "itemName": "Mulled Wine", "itemType": "Recipe", "price": 5, "tax": 20, "sku": null, "color": 3, "category": "Wine", "purchasePrice": null, "allergens": [], "note": "Cinnamon, cloves", "stockMix": ["M17"], "modifiers": [], "lowStockThreshold": 20, "supplier": "Vintage Vines", "forSale": true, "unit": "pcs", "stockLevel": 60, "pointsGained": 5, "pointsForDiscount": 80, "loyaltyDiscount": 5
+    },
+    {
+      "mCode": 17, "itemName": "Red Table Wine", "itemType": "Ingredient", "price": null, "tax": 20, "sku": null, "color": 3, "category": "Ingredients", "purchasePrice": 8, "allergens": [], "note": "House wine", "stockMix": [], "modifiers": [], "lowStockThreshold": 10, "supplier": "Vintage Vines", "forSale": false, "unit": "l", "stockLevel": 30, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 18, "itemName": "Ground Beef", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 9, "allergens": [], "note": "80/20 lean", "stockMix": [], "modifiers": [], "lowStockThreshold": 5, "supplier": "Prime Cuts Butchery", "forSale": false, "unit": "kg", "stockLevel": 15, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 19, "itemName": "Brioche Burger Bun", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 0.4, "allergens": ["Gluten", "Dairy", "Eggs"], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 20, "supplier": "Artisan Bread Makers", "forSale": false, "unit": "pcs", "stockLevel": 50, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 20, "itemName": "Cheddar Cheese", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 12, "allergens": ["Dairy"], "note": "Sliced", "stockMix": [], "modifiers": [], "lowStockThreshold": 10, "supplier": "Green Valley Dairy", "forSale": false, "unit": "kg", "stockLevel": 8, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 21, "itemName": "Tomato", "itemType": "Ingredient", "price": null, "tax": 0, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 3, "allergens": [], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 30, "supplier": "Fresh Veggie Mart", "forSale": false, "unit": "kg", "stockLevel": 10, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 22, "itemName": "Iceberg Lettuce", "itemType": "Ingredient", "price": null, "tax": 0, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 1.5, "allergens": [], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 20, "supplier": "Fresh Veggie Mart", "forSale": false, "unit": "pcs", "stockLevel": 15, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 23, "itemName": "Red Onion", "itemType": "Ingredient", "price": null, "tax": 0, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 1.2, "allergens": [], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 20, "supplier": "Fresh Veggie Mart", "forSale": false, "unit": "kg", "stockLevel": 20, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 24, "itemName": "Classic Burger", "itemType": "Recipe", "price": 12.5, "tax": 10, "sku": null, "color": 4, "category": "Burgers", "purchasePrice": null, "allergens": ["Gluten", "Dairy"], "note": "Beef, cheddar, lettuce, tomato", "stockMix": ["M18", "M19", "M20", "M21", "M22", "M23"], "modifiers": ["M25", "M26"], "lowStockThreshold": 20, "supplier": "Prime Cuts Butchery", "forSale": true, "unit": "pcs", "stockLevel": 50, "pointsGained": 12, "pointsForDiscount": 150, "loyaltyDiscount": 10
+    },
+    {
+      "mCode": 25, "itemName": "French Fries", "itemType": "Sides", "price": 3.5, "tax": 10, "sku": null, "color": 4, "category": "Sides", "purchasePrice": 1, "allergens": [], "note": "Fried", "stockMix": ["M28"], "modifiers": [], "lowStockThreshold": 20, "supplier": "Artisan Bread Makers", "forSale": true, "unit": "pcs", "stockLevel": 100, "pointsGained": 3, "pointsForDiscount": 50, "loyaltyDiscount": 0
+    },
+    {
+      "mCode": 26, "itemName": "House Mayonnaise", "itemType": "Sides", "price": 1, "tax": 10, "sku": null, "color": 4, "category": "Sides", "purchasePrice": 0.3, "allergens": ["Eggs"], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 30, "supplier": "Our Kitchen", "forSale": true, "unit": "pcs", "stockLevel": 80, "pointsGained": 1, "pointsForDiscount": 20, "loyaltyDiscount": 0
+    },
+    {
+      "mCode": 27, "itemName": "Lager Beer", "itemType": "Goods", "price": 5, "tax": 20, "sku": "506000333111", "color": 3, "category": "Beer", "purchasePrice": 2, "allergens": ["Gluten"], "note": "Draft, 1 pint", "stockMix": [], "modifiers": [], "lowStockThreshold": 50, "supplier": "Golden Hop Brewery", "forSale": true, "unit": "pcs", "stockLevel": 200, "pointsGained": 5, "pointsForDiscount": 50, "loyaltyDiscount": 2
+    },
+    {
+      "mCode": 28, "itemName": "Potatoes", "itemType": "Ingredient", "price": null, "tax": 0, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 0.8, "allergens": [], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 30, "supplier": "Fresh Veggie Mart", "forSale": false, "unit": "kg", "stockLevel": 50, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 29, "itemName": "Spaghetti Pasta", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 2.5, "allergens": ["Gluten"], "note": "Dry", "stockMix": [], "modifiers": [], "lowStockThreshold": 20, "supplier": "Pasta Perfetta", "forSale": false, "unit": "kg", "stockLevel": 30, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 30, "itemName": "Bacon", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 15, "allergens": [], "note": "Smoked", "stockMix": [], "modifiers": [], "lowStockThreshold": 10, "supplier": "Prime Cuts Butchery", "forSale": false, "unit": "kg", "stockLevel": 12, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 31, "itemName": "Eggs", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 0.2, "allergens": ["Eggs"], "note": "Free-range", "stockMix": [], "modifiers": [], "lowStockThreshold": 50, "supplier": "Green Valley Dairy", "forSale": false, "unit": "pcs", "stockLevel": 100, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 32, "itemName": "Parmesan Cheese", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 25, "allergens": ["Dairy"], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 5, "supplier": "Pasta Perfetta", "forSale": false, "unit": "kg", "stockLevel": 7, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 33, "itemName": "Spaghetti Carbonara", "itemType": "Recipe", "price": 14, "tax": 10, "sku": null, "color": 4, "category": "Pasta", "purchasePrice": null, "allergens": ["Gluten", "Eggs", "Dairy"], "note": "Original recipe", "stockMix": ["M29", "M30", "M31", "M32"], "modifiers": [], "lowStockThreshold": 15, "supplier": "Pasta Perfetta", "forSale": true, "unit": "pcs", "stockLevel": 40, "pointsGained": 14, "pointsForDiscount": 140, "loyaltyDiscount": 10
+    },
+    {
+      "mCode": 34, "itemName": "Tiramisu", "itemType": "Goods", "price": 6, "tax": 10, "sku": "506000111666", "color": 5, "category": "Desserts", "purchasePrice": 2.8, "allergens": ["Gluten", "Dairy", "Eggs"], "note": "Homemade", "stockMix": [], "modifiers": [], "lowStockThreshold": 10, "supplier": "Sweet Creations Bakery", "forSale": true, "unit": "pcs", "stockLevel": 25, "pointsGained": 6, "pointsForDiscount": 100, "loyaltyDiscount": 8
+    },
+    {
+      "mCode": 35, "itemName": "Stout Beer", "itemType": "Goods", "price": 5.5, "tax": 20, "sku": "506000333222", "color": 3, "category": "Beer", "purchasePrice": 2.2, "allergens": ["Gluten"], "note": "Draft, 1 pint", "stockMix": [], "modifiers": [], "lowStockThreshold": 40, "supplier": "Golden Hop Brewery", "forSale": true, "unit": "pcs", "stockLevel": 150, "pointsGained": 5, "pointsForDiscount": 50, "loyaltyDiscount": 2
+    },
+    {
+      "mCode": 36, "itemName": "White Wine", "itemType": "Goods", "price": 6, "tax": 20, "sku": "506000444111", "color": 3, "category": "Wine", "purchasePrice": 2.5, "allergens": [], "note": "By the glass (175ml)", "stockMix": [], "modifiers": [], "lowStockThreshold": 20, "supplier": "Vintage Vines", "forSale": true, "unit": "pcs", "stockLevel": 100, "pointsGained": 6, "pointsForDiscount": 70, "loyaltyDiscount": 4
+    },
+    {
+      "mCode": 37, "itemName": "Chicken Breast", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 7, "allergens": [], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 10, "supplier": "Prime Cuts Butchery", "forSale": false, "unit": "kg", "stockLevel": 20, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 38, "itemName": "Heavy Cream", "itemType": "Ingredient", "price": null, "tax": 10, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 4, "allergens": ["Dairy"], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 15, "supplier": "Green Valley Dairy", "forSale": false, "unit": "l", "stockLevel": 10, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 39, "itemName": "Mushrooms", "itemType": "Ingredient", "price": null, "tax": 0, "sku": null, "color": 4, "category": "Ingredients", "purchasePrice": 5, "allergens": [], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 5, "supplier": "Fresh Veggie Mart", "forSale": false, "unit": "kg", "stockLevel": 5, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 40, "itemName": "Creamy Chicken Pasta", "itemType": "Recipe", "price": 13.5, "tax": 10, "sku": null, "color": 4, "category": "Main Courses", "purchasePrice": null, "allergens": ["Gluten", "Dairy"], "note": "with mushrooms", "stockMix": ["M37", "M38", "M39", "M29"], "modifiers": [], "lowStockThreshold": 20, "supplier": "Our Kitchen", "forSale": true, "unit": "pcs", "stockLevel": 35, "pointsGained": 13, "pointsForDiscount": 130, "loyaltyDiscount": 8
+    },
+    {
+      "mCode": 41, "itemName": "Tomato Soup", "itemType": "Recipe", "price": 6, "tax": 10, "sku": null, "color": 4, "category": "Soups", "purchasePrice": null, "allergens": [], "note": "With a swirl of cream", "stockMix": ["M21", "M38"], "modifiers": [], "lowStockThreshold": 15, "supplier": "Our Kitchen", "forSale": true, "unit": "pcs", "stockLevel": 30, "pointsGained": 6, "pointsForDiscount": 70, "loyaltyDiscount": 5
+    },
+    {
+      "mCode": 43, "itemName": "Butter Croissant", "itemType": "Goods", "price": 2.5, "tax": 10, "sku": "506000555111", "color": 5, "category": "Desserts", "purchasePrice": 1, "allergens": ["Gluten", "Dairy", "Eggs"], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 20, "supplier": "Artisan Bread Makers", "forSale": true, "unit": "pcs", "stockLevel": 40, "pointsGained": 2, "pointsForDiscount": 40, "loyaltyDiscount": 3
+    },
+    {
+      "mCode": 44, "itemName": "Take-away Food Box", "itemType": "Packaging", "price": 0.5, "tax": 20, "sku": null, "color": 7, "category": "Packaging", "purchasePrice": 0.2, "allergens": [], "note": "Cardboard", "stockMix": [], "modifiers": [], "lowStockThreshold": 50, "supplier": "Global Packaging Inc.", "forSale": true, "unit": "pcs", "stockLevel": 200, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 45, "itemName": "Plastic Cutlery Set", "itemType": "Packaging", "price": 0.1, "tax": 20, "sku": null, "color": 7, "category": "Packaging", "purchasePrice": 0.02, "allergens": [], "note": "", "stockMix": [], "modifiers": [], "lowStockThreshold": 100, "supplier": "Global Packaging Inc.", "forSale": true, "unit": "pcs", "stockLevel": 400, "pointsGained": null, "pointsForDiscount": null, "loyaltyDiscount": null
+    },
+    {
+      "mCode": 46, "itemName": "Espresso Tonic", "itemType": "Recipe", "price": 4.5, "tax": 20, "sku": null, "color": 2, "category": "Coffee", "purchasePrice": null, "allergens": [], "note": "Refreshing", "stockMix": ["M5", "M47"], "modifiers": [], "lowStockThreshold": 20, "supplier": "Beverage World", "forSale": true, "unit": "pcs", "stockLevel": 70, "pointsGained": 4, "pointsForDiscount": 90, "loyaltyDiscount": 7
+    },
+    {
+      "mCode": 47, "itemName": "Tonic Water", "itemType": "Goods", "price": 2, "tax": 20, "sku": "506000111777", "color": 2, "category": "Cold Drinks", "purchasePrice": 0.7, "allergens": [], "note": "Bottle 200ml", "stockMix": [], "modifiers": [], "lowStockThreshold": 30, "supplier": "Beverage World", "forSale": true, "unit": "pcs", "stockLevel": 100, "pointsGained": 2, "pointsForDiscount": 40, "loyaltyDiscount": 0
+    },
+    {
+      "mCode": 48, "itemName": "Honey", "itemType": "Miscellaneous", "price": 0.5, "tax": 10, "sku": null, "color": 8, "category": "Miscellaneous", "purchasePrice": 0.2, "allergens": [], "note": "For tea", "stockMix": [], "modifiers": [], "lowStockThreshold": 40, "supplier": "Golden Hive Honey", "forSale": true, "unit": "pcs", "stockLevel": 100, "pointsGained": 0, "pointsForDiscount": 10, "loyaltyDiscount": 0
+    },
+    {
+      "mCode": 49, "itemName": "Lemon Slice", "itemType": "Miscellaneous", "price": 0.2, "tax": 10, "sku": null, "color": 8, "category": "Miscellaneous", "purchasePrice": 0.05, "allergens": [], "note": "For tea or water", "stockMix": [], "modifiers": [], "lowStockThreshold": 50, "supplier": "Fresh Veggie Mart", "forSale": true, "unit": "pcs", "stockLevel": 80, "pointsGained": 0, "pointsForDiscount": 10, "loyaltyDiscount": 0
+    },
+    {
+      "mCode": 50, "itemName": "Coke Zero", "itemType": "Goods", "price": 2.5, "tax": 20, "sku": "5000112637922", "color": 2, "category": "Soft Drinks", "purchasePrice": 0.8, "allergens": [], "note": "Bottle 330ml", "stockMix": [], "modifiers": [], "lowStockThreshold": 40, "supplier": "Beverage World", "forSale": true, "unit": "pcs", "stockLevel": 150, "pointsGained": 2, "pointsForDiscount": 40, "loyaltyDiscount": 1
+    },
+    {
+      "mCode": 51, "itemName": "Chicken Caesar Salad", "itemType": "Recipe", "price": 11.5, "tax": 10, "sku": null, "color": 4, "category": "Main Courses", "purchasePrice": null, "allergens": ["Gluten", "Dairy", "Fish", "Eggs"], "note": "With croutons and dressing", "stockMix": ["M37", "M22", "M32"], "modifiers": [], "lowStockThreshold": 15, "supplier": "Our Kitchen", "forSale": true, "unit": "pcs", "stockLevel": 30, "pointsGained": 11, "pointsForDiscount": 160, "loyaltyDiscount": 12
+    },
+    {
+      "mCode": 52, "itemName": "Apple Juice", "itemType": "Goods", "price": 2.2, "tax": 10, "sku": "506000111888", "color": 2, "category": "Cold Drinks", "purchasePrice": 0.9, "allergens": [], "note": "250ml", "stockMix": [], "modifiers": [], "lowStockThreshold": 40, "supplier": "Beverage World", "forSale": true, "unit": "pcs", "stockLevel": 100, "pointsGained": 2, "pointsForDiscount": 40, "loyaltyDiscount": 1
+    },
+    {
+      "mCode": 53, "itemName": "Flat White", "itemType": "Recipe", "price": 3.8, "tax": 20, "sku": null, "color": 1, "category": "Coffee", "purchasePrice": null, "allergens": ["Dairy"], "note": "Double espresso, microfoam", "stockMix": ["M5", "M5", "M2"], "modifiers": [], "lowStockThreshold": 30, "supplier": "The Good Bean Roastery", "forSale": true, "unit": "pcs", "stockLevel": 80, "pointsGained": 4, "pointsForDiscount": 80, "loyaltyDiscount": 6
+    },
+    {
+      "mCode": 54, "itemName": "Bacon Cheeseburger", "itemType": "Recipe", "price": 13.5, "tax": 10, "sku": null, "color": 4, "category": "Burgers", "purchasePrice": null, "allergens": ["Gluten", "Dairy"], "note": "With extra bacon", "stockMix": ["M24", "M30"], "modifiers": ["M25", "M26"], "lowStockThreshold": 20, "supplier": "Prime Cuts Butchery", "forSale": true, "unit": "pcs", "stockLevel": 40, "pointsGained": 13, "pointsForDiscount": 170, "loyaltyDiscount": 12
+    },
+    {
+      "mCode": 55, "itemName": "Hot Chocolate", "itemType": "Goods", "price": 3.2, "tax": 20, "sku": "506000111999", "color": 1, "category": "Hot Drinks", "purchasePrice": 1.2, "allergens": ["Dairy"], "note": "With whipped cream", "stockMix": [], "modifiers": [], "lowStockThreshold": 20, "supplier": "Sweet Creations Bakery", "forSale": true, "unit": "pcs", "stockLevel": 60, "pointsGained": 3, "pointsForDiscount": 70, "loyaltyDiscount": 5
+    }
+  ],
+  "directory": [
+    {
+      "category": "Supplier", "firstName": "David", "lastName": "Miller", "gender": "Male", "phone": "+44 20 7946 0111", "email": "david.miller@goodbean.co.uk", "address": "The Good Bean Roastery, 123 Coffee Lane, London, E1 6AN"
+    },
+    {
+      "category": "Supplier", "firstName": "Sarah", "lastName": "Green", "gender": "Female", "phone": "+44 117 496 0222", "email": "sarah.g@greenvalleydairy.com", "address": "Green Valley Dairy, 45 Pasture Rd, Bristol, BS1 4DJ"
+    },
+    {
+      "category": "Supplier", "firstName": "Brian", "lastName": "Sweet", "gender": "Male", "phone": "+1 312 555 0333", "email": "brian@sweetsupply.com", "address": "Sweet Supply Co., 789 Sugar Blvd, Chicago, IL 60611"
+    },
+    {
+      "category": "Supplier", "firstName": "Jessica", "lastName": "Waters", "gender": "Female", "phone": "+1 212 555 0444", "email": "jessica.w@bevworld.com", "address": "Beverage World, 456 Drink St, New York, NY 10001"
+    },
+    {
+      "category": "Supplier", "firstName": "Emily", "lastName": "Baker", "gender": "Female", "phone": "+44 161 496 0555", "email": "emily.baker@sweetcreations.co.uk", "address": "Sweet Creations Bakery, 10 Cake Walk, Manchester, M4 1DE"
+    },
+    {
+      "category": "Supplier", "firstName": "Paul", "lastName": "Boxer", "gender": "Male", "phone": "+1 415 555 0666", "email": "paul.boxer@gpi.com", "address": "Global Packaging Inc., 321 Pack St, San Francisco, CA 94105"
+    },
+    {
+      "category": "Supplier", "firstName": "Laura", "lastName": "Lee", "gender": "Female", "phone": "+44 20 7946 0777", "email": "laura@thetealeaf.co.uk", "address": "The Tea Leaf Co., 77 Tea Garden, London, WC2N 4JJ"
+    },
+    {
+      "category": "Supplier", "firstName": "George", "lastName": "Grape", "gender": "Male", "phone": "+1 707 555 0888", "email": "george.g@vintagevines.com", "address": "Vintage Vines, 99 Vineyard Way, Napa, CA 94558"
+    },
+    {
+      "category": "Supplier", "firstName": "Frank", "lastName": "Butcher", "gender": "Male", "phone": "+44 121 496 0999", "email": "frank@primecuts.co.uk", "address": "Prime Cuts Butchery, 8 Meat Row, Birmingham, B2 4TF"
+    },
+    {
+      "category": "Supplier", "firstName": "Brenda", "lastName": "Crumb", "gender": "Female", "phone": "+1 617 555 1010", "email": "brenda.crumb@artisanbread.com", "address": "Artisan Bread Makers, 65 Loaf Ave, Boston, MA 02110"
+    },
+    {
+      "category": "Supplier", "firstName": "Mark", "lastName": "Sprout", "gender": "Male", "phone": "+1 206 555 1122", "email": "mark@freshveggiemart.com", "address": "Fresh Veggie Mart, 33 Garden Path, Seattle, WA 98101"
+    },
+    {
+      "category": "Supplier", "firstName": "Victoria", "lastName": "Chef", "gender": "Female", "phone": "+44 131 496 1233", "email": "victoria.c@ourkitchen.scot", "address": "Our Kitchen, 15 Meal Mews, Edinburgh, EH1 1RE"
+    },
+    {
+      "category": "Supplier", "firstName": "Henry", "lastName": "Hops", "gender": "Male", "phone": "+1 303 555 1344", "email": "henry.hops@goldenhop.com", "address": "Golden Hop Brewery, 88 Malt Lane, Denver, CO 80202"
+    },
+    {
+      "category": "Supplier", "firstName": "Marco", "lastName": "Polo", "gender": "Male", "phone": "+39 06 6992 1455", "email": "marco.p@pastaperfetta.it", "address": "Pasta Perfetta, Via del Corso 1, 00187 Rome, Italy"
+    },
+    {
+      "category": "Supplier", "firstName": "Barry", "lastName": "Bee", "gender": "Male", "phone": "+44 1865 241566", "email": "barry.b@goldenhive.co.uk", "address": "Golden Hive Honey, 24 Nectar Road, Oxford, OX1 2JD"
+    },
+    {
+      "category": "Customer", "firstName": "John", "lastName": "Smith", "gender": "Male", "phone": "+1 917 555 0101", "email": "john.smith@example.com", "address": "123 Main St, New York, NY 10001"
+    },
+    {
+      "category": "Customer", "firstName": "Emily", "lastName": "Jones", "gender": "Female", "phone": "+44 20 8759 0202", "email": "emily.jones@example.co.uk", "address": "456 Oak Ave, London, W1J 7NT"
+    },
+    {
+      "category": "Customer", "firstName": "Michael", "lastName": "Williams", "gender": "Male", "phone": "+1 310 555 0303", "email": "michael.w@example.com", "address": "789 Pine Ln, Los Angeles, CA 90012"
+    },
+    {
+      "category": "Customer", "firstName": "Jessica", "lastName": "Brown", "gender": "Female", "phone": "+1 773 555 0404", "email": "jess.brown@example.com", "address": "101 Maple Dr, Chicago, IL 60622"
+    },
+    {
+      "category": "Customer", "firstName": "Christopher", "lastName": "Davis", "gender": "Male", "phone": "+44 161 496 0505", "email": "chris.davis@example.co.uk", "address": "212 Birch Rd, Manchester, M1 1AD"
+    },
+    {
+      "category": "Customer", "firstName": "Ashley", "lastName": "Miller", "gender": "Female", "phone": "+1 415 555 0606", "email": "ashley.m@example.com", "address": "333 Cedar Blvd, San Francisco, CA 94102"
+    },
+    {
+      "category": "Customer", "firstName": "Matthew", "lastName": "Wilson", "gender": "Male", "phone": "+1 206 555 0707", "email": "matt.wilson@example.com", "address": "444 Elm St, Seattle, WA 98104"
+    },
+    {
+      "category": "Customer", "firstName": "Amanda", "lastName": "Moore", "gender": "Female", "phone": "+44 121 496 0808", "email": "amanda.moore@example.co.uk", "address": "555 Spruce Way, Birmingham, B5 4UA"
+    },
+    {
+      "category": "Customer", "firstName": "Daniel", "lastName": "Taylor", "gender": "Male", "phone": "+1 617 555 0909", "email": "dan.taylor@example.com", "address": "666 Willow Ct, Boston, MA 02114"
+    },
+    {
+      "category": "Customer", "firstName": "Sarah", "lastName": "Anderson", "gender": "Female", "phone": "+1 214 555 1010", "email": "sarah.a@example.com", "address": "777 Redwood Pl, Dallas, TX 75201"
+    },
+    {
+      "category": "Customer", "firstName": "James", "lastName": "Thomas", "gender": "Male", "phone": "+44 141 496 1111", "email": "james.t@example.co.uk", "address": "888 Holly Walk, Glasgow, G1 2TF"
+    },
+    {
+      "category": "Customer", "firstName": "Jennifer", "lastName": "Jackson", "gender": "Female", "phone": "+1 404 555 1212", "email": "jen.jackson@example.com", "address": "999 Sequoia Ave, Atlanta, GA 30303"
+    },
+    {
+      "category": "Customer", "firstName": "Robert", "lastName": "White", "gender": "Male", "phone": "+1 305 555 1313", "email": "rob.white@example.com", "address": "111 Palm Grove, Miami, FL 33130"
+    },
+    {
+      "category": "Customer", "firstName": "Linda", "lastName": "Harris", "gender": "Female", "phone": "+44 151 496 1414", "email": "linda.harris@example.co.uk", "address": "222 Juniper Rd, Liverpool, L1 8JQ"
+    },
+    {
+      "category": "Customer", "firstName": "David", "lastName": "Martin", "gender": "Male", "phone": "+1 713 555 1515", "email": "david.m@example.com", "address": "333 Magnolia St, Houston, TX 77002"
+    },
+    {
+      "category": "Customer", "firstName": "Patricia", "lastName": "Thompson", "gender": "Female", "phone": "+1 215 555 1616", "email": "pat.thompson@example.com", "address": "444 Sycamore Ave, Philadelphia, PA 19103"
+    },
+    {
+      "category": "Customer", "firstName": "Richard", "lastName": "Garcia", "gender": "Male", "phone": "+1 602 555 1717", "email": "rich.garcia@example.com", "address": "555 Aspen Way, Phoenix, AZ 85004"
+    },
+    {
+      "category": "Customer", "firstName": "Mary", "lastName": "Martinez", "gender": "Female", "phone": "+44 113 496 1818", "email": "mary.martinez@example.co.uk", "address": "666 Chestnut Dr, Leeds, LS1 5AT"
+    },
+    {
+      "category": "Customer", "firstName": "Charles", "lastName": "Robinson", "gender": "Male", "phone": "+1 858 555 1919", "email": "charles.r@example.com", "address": "777 Poplar Ln, San Diego, CA 92101"
+    },
+    {
+      "category": "Customer", "firstName": "Elizabeth", "lastName": "Clark", "gender": "Female", "phone": "+1 512 555 2020", "email": "liz.clark@example.com", "address": "888 Fir Rd, Austin, TX 78701"
+    },
+    {
+      "category": "Customer", "firstName": "Joseph", "lastName": "Rodriguez", "gender": "Male", "phone": "+1 210 555 2121", "email": "joe.rodriguez@example.com", "address": "999 Walnut St, San Antonio, TX 78205"
+    },
+    {
+      "category": "Customer", "firstName": "Susan", "lastName": "Lewis", "gender": "Female", "phone": "+44 114 496 2222", "email": "susan.lewis@example.co.uk", "address": "121 Cherry Ave, Sheffield, S1 2GE"
+    },
+    {
+      "category": "Customer", "firstName": "Thomas", "lastName": "Lee", "gender": "Male", "phone": "+1 408 555 2323", "email": "thomas.lee@example.com", "address": "232 Orchard Rd, San Jose, CA 95113"
+    },
+    {
+      "category": "Customer", "firstName": "Karen", "lastName": "Walker", "gender": "Female", "phone": "+1 313 555 2424", "email": "karen.w@example.com", "address": "343 Vineyard St, Detroit, MI 48226"
+    },
+    {
+      "category": "Customer", "firstName": "William", "lastName": "Hall", "gender": "Male", "phone": "+44 117 496 2525", "email": "william.h@example.co.uk", "address": "454 Berry Lane, Bristol, BS1 5TT"
+    },
+    {
+      "category": "Customer", "firstName": "Nancy", "lastName": "Allen", "gender": "Female", "phone": "+1 317 555 2626", "email": "nancy.a@example.com", "address": "565 Plum St, Indianapolis, IN 46225"
+    },
+    {
+      "category": "Customer", "firstName": "Paul", "lastName": "Young", "gender": "Male", "phone": "+1 904 555 2727", "email": "paul.young@example.com", "address": "676 Peach St, Jacksonville, FL 32202"
+    },
+    {
+      "category": "Customer", "firstName": "Sandra", "lastName": "Hernandez", "gender": "Female", "phone": "+44 29 2018 2828", "email": "sandra.h@example.co.uk", "address": "787 Lime St, Cardiff, CF10 1BS"
+    },
+    {
+      "category": "Customer", "firstName": "Mark", "lastName": "King", "gender": "Male", "phone": "+1 614 555 2929", "email": "mark.king@example.com", "address": "898 Orange St, Columbus, OH 43215"
+    },
+    {
+      "category": "User", "firstName": "Alice", "lastName": "Manager", "gender": "Female", "phone": "+1 555 867 5309", "email": "alice.manager@our-cafe.com", "address": "1 Workplace Rd, New York, NY 10001"
+    },
+    {
+      "category": "User", "firstName": "Bob", "lastName": "Server", "gender": "Male", "phone": "+1 555 867 5310", "email": "bob.server@our-cafe.com", "address": "1 Workplace Rd, New York, NY 10001"
+    },
+    {
+      "category": "User", "firstName": "Charlie", "lastName": "Cook", "gender": "Male", "phone": "+1 555 867 5311", "email": "charlie.cook@our-cafe.com", "address": "1 Workplace Rd, New York, NY 10001"
+    },
+    {
+      "category": "Other", "firstName": "Victor", "lastName": "Handyman", "gender": "Male", "phone": "+1 555 999 8888", "email": "victor.h@generalservices.com", "address": "PO Box 123, New York, NY 10001"
+    },
+    {
+      "category": "Other", "firstName": "Irene", "lastName": "Inspector", "gender": "Female", "phone": "+1 555 777 6666", "email": "i.inspector@healthdept.gov", "address": "City Health Dept, 1 Government Plaza, New York, NY 10001"
+    }
+  ]
+}
