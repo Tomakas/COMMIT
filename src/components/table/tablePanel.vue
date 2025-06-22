@@ -1,7 +1,6 @@
 <template>
   <v-toolbar v-if="!display.mobile.value" flat class="px-2">
-    <v-tabs v-if="panels.length > 1" :model-value="activePanelId"
-      @update:model-value="$emit('update:activePanelId', $event)" color="primary">
+    <v-tabs v-if="panels.length > 1" :model-value="activePanelId" @update:model-value="$emit('update:activePanelId', $event)" color="primary">
       <v-tab v-for="panel in panels" :key="panel.id" :value="panel.id">
         {{ panel.name }}
       </v-tab>
@@ -9,9 +8,8 @@
 
     <v-spacer></v-spacer>
 
-    <v-text-field v-if="showSearch" :model-value="searchText" @update:model-value="$emit('update:searchText', $event)"
-      density="compact" variant="outlined" :label="t('table.search')" single-line hide-details class="mr-4"
-      style="max-width: 350px;"></v-text-field>
+    <v-text-field v-if="showSearch" :model-value="searchText" append-inner-icon="mdi-magnify" @update:model-value="$emit('update:searchText', $event)"
+      density="compact" variant="outlined" :label="t('table.search')" single-line hide-details class="mr-4" style="max-width: 350px;"></v-text-field>
 
     <v-btn v-if="showSum" icon="mdi-sigma" class="mx-1" variant="text"></v-btn>
     <v-btn v-if="showFilter" icon="mdi-filter" class="mx-1" variant="text"></v-btn>
@@ -19,16 +17,16 @@
   </v-toolbar>
 
   <div v-else>
-    <v-tabs v-if="panels.length > 1" :model-value="activePanelId"
-      @update:model-value="$emit('update:activePanelId', $event)" color="primary" grow center-active>
+    <v-tabs v-if="panels.length > 1" :model-value="activePanelId" @update:model-value="$emit('update:activePanelId', $event)" color="primary" grow
+      center-active>
       <v-tab v-for="panel in panels" :key="panel.id" :value="panel.id">
         {{ panel.name }}
       </v-tab>
     </v-tabs>
 
     <div class="d-flex align-center pa-3">
-      <v-text-field v-if="showSearch" :model-value="searchText" @update:model-value="$emit('update:searchText', $event)"
-        density="compact" variant="outlined" :label="t('table.search')" hide-details class="mr-2"></v-text-field>
+      <v-text-field v-if="showSearch" :model-value="searchText" @update:model-value="$emit('update:searchText', $event)" density="compact"
+        variant="outlined" :label="t('table.search')" hide-details class="mr-2"></v-text-field>
 
       <div class="d-flex">
         <v-btn v-if="showSum" icon="mdi-sigma" variant="text" size="large"></v-btn>
