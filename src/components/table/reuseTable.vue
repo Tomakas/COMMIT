@@ -11,23 +11,20 @@
     </template>
   </v-data-table>
 
-  <v-list v-else lines="three">
+  <v-list v-else>
     <v-list-item v-for="(item, index) in filteredItems" :key="index" class="border-b">
       <v-row no-gutters>
-        <v-col cols="8" class="text-h6 font-weight-bold">{{ item[mainLeftHeader.key] }}</v-col>
-        <v-col cols="4" class="text-h6 text-right font-weight-bold">{{ item[mainRightHeader.key] }}</v-col>
+        <v-col cols="8" class="text-h7 font-weight-bold">{{ item[mainLeftHeader.key] }}</v-col>
+        <v-col cols="4" class="text-h7 text-right font-weight-bold">{{ item[mainRightHeader.key] }}</v-col>
 
         <v-col cols="8">
           <div v-for="h in listLeftHeaders" :key="h.key" class="text-caption text-medium-emphasis">
-            {{ h.title }}: {{ item[h.key] }}
-          </div>
+            {{ h.title }}: {{ item[h.key] }}</div>
         </v-col>
         <v-col cols="4" class="d-flex flex-column align-end">
           <div v-for="h in listRightHeaders" :key="h.key" class="text-caption text-medium-emphasis">
-            <v-chip v-if="h.key === 'paymentType'" :color="getPaymentChipColor(item[h.key])" size="x-small"
-              variant="flat" class="mt-1">
-              {{ item[h.key] }}
-            </v-chip>
+            <v-chip v-if="h.key === 'paymentType'" :color="getPaymentChipColor(item[h.key])" size="x-small" variant="flat" class="mt-1">
+              {{ item[h.key] }} </v-chip>
             <span v-else>{{ item[h.key] }}</span>
           </div>
         </v-col>

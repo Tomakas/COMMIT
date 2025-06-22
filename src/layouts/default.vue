@@ -2,9 +2,13 @@
   <v-app-bar app>
     <v-app-bar-nav-icon v-if="!display.lgAndUp.value" @click.stop="mobileDrawerOpen = !mobileDrawerOpen"></v-app-bar-nav-icon>
 
-    <v-app-bar-title>
-      Elementary POS Office
-    </v-app-bar-title>
+
+    <v-img :src="logo" max-height="30" max-width="170" class="ml-2"></v-img>
+    <v-spacer v-if="display.lgAndUp.value"></v-spacer>
+    <v-app-bar-title v-if="display.lgAndUp.value">Elementary POS Back Office</v-app-bar-title>
+    <v-spacer v-if="display.lgAndUp.value"></v-spacer>
+
+
 
     <template v-slot:append>
       <template v-if="display.lgAndUp.value && navInAppBar">
@@ -60,6 +64,7 @@
 </template>
 
 <script setup>
+import logo from '@/assets/logo.svg';
 import { ref, computed } from 'vue';
 import { useDisplay } from 'vuetify';
 import { useAppStore } from '@/stores/app';

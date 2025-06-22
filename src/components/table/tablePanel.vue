@@ -6,10 +6,10 @@
       </v-tab>
     </v-tabs>
 
-    <v-spacer></v-spacer>
+
 
     <v-text-field v-if="showSearch" :model-value="searchText" append-inner-icon="mdi-magnify" @update:model-value="$emit('update:searchText', $event)"
-      density="compact" variant="outlined" :label="t('table.search')" single-line hide-details class="mr-4" style="max-width: 350px;"></v-text-field>
+      density="compact" variant="outlined" :label="t('table.search')" single-line hide-details class="mr-4"></v-text-field>
 
     <v-btn v-if="showSum" icon="mdi-sigma" class="mx-1" variant="text"></v-btn>
     <v-btn v-if="showFilter" icon="mdi-filter" class="mx-1" variant="text"></v-btn>
