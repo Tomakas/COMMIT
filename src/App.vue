@@ -10,6 +10,8 @@ import { useTheme } from 'vuetify';
 import { useAppStore } from '@/stores/app';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
+import { ensureDemoDataExists } from '@/demo/demoGenerator.js';
+
 
 const vuetifyTheme = useTheme();
 const appStore = useAppStore();
