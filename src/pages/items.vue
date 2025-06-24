@@ -10,16 +10,13 @@
       <v-card-text v-if="!loading && activePanel && activePanel.items.length === 0" class="text-center text-medium-emphasis py-8">
         <p>Nejsou žádná data k dispozici.</p>
       </v-card-text>
-
     </v-card>
   </v-container>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
-import TablePanel from '@/components/table/tablePanel.vue';
-import ReuseTable from '@/components/table/reuseTable.vue';
-import { getProducts } from '@/demo/demoApi.js';
+import { getProducts } from '@/demo/demoApi.js'; // Importujeme funkci z opraveného demoApi
 import { useAppStore } from '@/stores/app';
 import { storeToRefs } from 'pinia';
 
@@ -54,7 +51,7 @@ const tablePanels = ref([
       { title: 'Věr. sleva', key: 'loyaltyDiscount', align: 'end', required: false },
       { title: 'Poznámka', key: 'note', required: false },
     ],
-    items: [], // Inicializujeme jako prázdné pole, naplní se po načtení
+    items: [],
   },
 ]);
 
@@ -67,26 +64,42 @@ const activePanel = computed(() => {
 // --- Data Loading ---
 const loadItems = async () => {
   loading.value = true;
-  const data = await getProducts(appLocale.value);
+  try {
+    // Jednoduché a čisté volání naší API vrstvy
+    const data = await getProducts(appLocale.value);
 
-  // Přeformátování dat pro zobrazení v tabulce
-  const formattedData = data.map(item => ({
-    ...item,
-    forSale: item.forSale ? 'Ano' : 'Ne',
-    allergens: Array.isArray(item.allergens) ? item.allergens.join(', ') : (item.allergens || ''),
-    price: item.price !== null ? item.price.toLocaleString('cs-CZ', { style: 'currency', currency: 'CZK' }) : 'N/A',
-    purchasePrice: item.purchasePrice !== null ? item.purchasePrice.toLocaleString('cs-CZ', { style: 'currency', currency: 'CZK' }) : 'N/A',
-  }));
+    // Formátování pro zobrazení zůstává v komponentě
+    const priceLocale = appLocale.value === 'cs' ? 'cs-CZ' : 'en-GB';
+    const currency = appLocale.value === 'cs' ? 'CZK' : 'GBP';
+    const forSaleText = {
+      yes: appLocale.value === 'cs' ? 'Ano' : 'Yes',
+      no: appLocale.value === 'cs' ? 'Ne' : 'No',
+    };
 
-  const panel = tablePanels.value.find(p => p.id === 'items');
-  if (panel) {
-    panel.items = formattedData;
+    const formattedData = data.map(item => ({
+      ...item,
+      forSale: item.forSale ? forSaleText.yes : forSaleText.no,
+      allergens: Array.isArray(item.allergens) ? item.allergens.join(', ') : (item.allergens || ''),
+      price: item.price !== null ? item.price.toLocaleString(priceLocale, { style: 'currency', currency: currency }) : 'N/A',
+      purchasePrice: item.purchasePrice !== null ? item.purchasePrice.toLocaleString(priceLocale, { style: 'currency', currency: currency }) : 'N/A',
+    }));
+
+    const panel = tablePanels.value.find(p => p.id === 'items');
+    if (panel) {
+      panel.items = formattedData;
+    }
+  } catch (error) {
+    console.error("Chyba v komponentě Items při volání API:", error);
+    const panel = tablePanels.value.find(p => p.id === 'items');
+    if (panel) {
+      panel.items = [];
+    }
+  } finally {
+    loading.value = false;
   }
-  loading.value = false;
 };
 
 // --- Lifecycle Hooks ---
 onMounted(loadItems);
 watch(appLocale, loadItems);
-
 </script>

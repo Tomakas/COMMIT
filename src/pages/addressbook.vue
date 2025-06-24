@@ -1,7 +1,6 @@
 <template>
   <v-container fluid>
     <v-card class="mx-auto" flat>
-
       <TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
         :show-settings="true" />
 
@@ -11,14 +10,13 @@
       <v-card-text v-if="!loading && activePanel && activePanel.items.length === 0" class="text-center text-medium-emphasis py-8">
         <p>No contacts available in the address book.</p>
       </v-card-text>
-
     </v-card>
   </v-container>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
-import { getDirectory } from '@/demo/demoApi.js';
+import { getDirectory } from '@/demo/demoApi.js'; // Používáme opravené demoApi
 import { useAppStore } from '@/stores/app';
 import { storeToRefs } from 'pinia';
 
@@ -54,7 +52,7 @@ const activePanel = computed(() => {
 const loadDirectory = async () => {
   loading.value = true;
   try {
-    const data = await getDirectory(appLocale.value);
+    const data = await getDirectory(appLocale.value); // Jednoduché volání API
 
     const formattedData = data.map(contact => ({
       ...contact,
