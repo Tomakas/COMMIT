@@ -28,7 +28,7 @@ const pageConfig = {
         { title: 'Category', key: 'category', required: true, mobileListLeft: true, mobileMain: 'right', visible: true },
         { title: 'E-mail', key: 'email', minWidth: '220px', required: false, mobileListLeft: true, visible: true },
         { title: 'Phone', key: 'phone', minWidth: '160px', required: false, mobileListLeft: true, visible: true },
-        { title: 'Address', key: 'address', minWidth: '350px', required: false, mobileListLeft: false, visible: true },
+        { title: 'Address', key: 'address', minWidth: '350px', required: false, mobileListLeft: true, visible: true },
       ],
       items: [],
     },
