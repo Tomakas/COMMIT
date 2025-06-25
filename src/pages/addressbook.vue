@@ -1,64 +1,75 @@
 <template>
   <v-container fluid>
     <v-card class="mx-auto" flat>
-      <TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels"
-        :show-search="true" :show-filter="true" :show-settings="true" />
+      <TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
+        :show-settings="true" @open-settings="columnDialog = true" />
+      <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading" />
 
-      <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" />
+      <v-card-text v-if="!loading && activePanel && activePanel.items.length === 0" class="text-center text-medium-emphasis py-8">
+        <p>No contacts available in the address book.</p>
+      </v-card-text>
     </v-card>
+
+    <ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" />
   </v-container>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import TablePanel from '@/components/table/tablePanel.vue';
-import ReuseTable from '@/components/table/reuseTable.vue';
+import { ref, computed, onMounted, watch } from 'vue';
+import { getDirectory } from '../demo/demoAPI.js';
+import { useAppStore } from '@/stores/app';
+import { storeToRefs } from 'pinia';
+import ColumnSettingsDialog from '../components/table/ColumnSettingsDialog.vue';
 
+const columnDialog = ref(false);
 const searchText = ref('');
+const loading = ref(true);
+const appStore = useAppStore();
+const { appLocale } = storeToRefs(appStore);
 
-// Definujeme konfiguraci pro tabulku adresáře.
-// Opět je v poli jen jeden objekt, takže se nezobrazí taby.
 const tablePanels = ref([
   {
     id: 'addressbook',
-    name: 'Adresář',
+    name: 'Address Book',
     headers: [
-      { title: 'Jméno / Firma', key: 'name', minWidth: '220px', required: true, mobileMain: 'left' },
-      { title: 'Typ', key: 'type', required: false, mobileListLeft: true, mobileMain: 'right' },
-      { title: 'E-mail', key: 'email', minWidth: '220px', required: true, mobileListLeft: true },
-      { title: 'Telefon', key: 'phone', minWidth: '160px', required: true, mobileListLeft: true },
-      { title: 'Město', key: 'city', required: false, mobileListLeft: true }, // Jde doprava
-      { title: 'IČO', key: 'ico', required: false, mobileListLeft: false }, // Jde doprava
+      { title: 'Name', key: 'fullName', required: true, mobileMain: 'left', visible: true },
+      { title: 'Category', key: 'category', required: true, mobileListLeft: true, mobileMain: 'right', visible: true },
+      { title: 'E-mail', key: 'email', minWidth: '220px', required: false, mobileListLeft: true, visible: true },
+      { title: 'Phone', key: 'phone', minWidth: '160px', required: false, mobileListLeft: true, visible: true },
+      { title: 'Address', key: 'address', minWidth: '350px', required: false, mobileListLeft: false, visible: true },
     ],
-    // Vygenerujeme fiktivní data pro adresář
-    items: Array.from({ length: 65 }, (_, i) => {
-      const isCompany = i % 3 === 0;
-      const firstNames = ['Jan', 'Petra', 'Martin', 'Eva', 'Tomáš', 'Lucie'];
-      const lastNames = ['Novák', 'Svobodová', 'Černý', 'Dvořáková', 'Procházka', 'Kučerová'];
-      const companies = ['Stavby s.r.o.', 'Gastro Servis a.s.', 'IT Řešení', 'Velkoobchod Zelenina', 'Právní kancelář JUDr. Hájek'];
-      const types = ['Zákazník', 'Dodavatel', 'Partner'];
-      const cities = ['Praha', 'Brno', 'Ostrava', 'Plzeň', 'Liberec', 'Olomouc'];
-
-      const name = isCompany ? companies[i % companies.length] : `${firstNames[i % firstNames.length]} ${lastNames[i % lastNames.length]}`;
-      const email = `${name.toLowerCase().replace(/[.\s]/g, '').substring(0, 15)}@example.cz`;
-
-      return {
-        name: name,
-        type: types[i % types.length],
-        email: email,
-        phone: `+420 ${Math.floor(Math.random() * 900) + 100} ${Math.floor(Math.random() * 900) + 100} ${Math.floor(Math.random() * 900) + 100}`,
-        city: cities[i % cities.length],
-        ico: isCompany ? Math.floor(Math.random() * 90000000 + 10000000).toString() : 'N/A'
-      }
-    }),
+    items: [],
   },
 ]);
 
-// ID aktivního panelu
 const activePanelId = ref(tablePanels.value[0]?.id);
 
-// Vypočítaná vlastnost, která vrací konfiguraci aktivního panelu
 const activePanel = computed(() => {
   return tablePanels.value.find(p => p.id === activePanelId.value);
 });
+
+const handleHeadersUpdate = (newHeaders) => {
+  if (activePanel.value) {
+    activePanel.value.headers = newHeaders;
+  }
+};
+
+const loadDirectory = async () => {
+  loading.value = true;
+  try {
+    const data = await getDirectory(appLocale.value);
+    const formattedData = data.map(contact => ({ ...contact, fullName: `${contact.firstName} ${contact.lastName}`, }));
+    const panel = tablePanels.value.find(p => p.id === 'addressbook');
+    if (panel) { panel.items = formattedData; }
+  } catch (error) {
+    console.error("Error in Addressbook component when calling API:", error);
+    const panel = tablePanels.value.find(p => p.id === 'addressbook');
+    if (panel) { panel.items = []; }
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(loadDirectory);
+watch(appLocale, loadDirectory);
 </script>

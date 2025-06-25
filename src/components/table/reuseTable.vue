@@ -1,14 +1,10 @@
 <template>
-  <v-data-table v-if="!display.mobile.value" :headers="headers" :items="items" :search="search" :loading="loading"
+  <v-data-table v-if="!display.mobile.value" :headers="visibleHeaders" :items="items" :search="search" :loading="loading"
     :items-per-page-text="t('table.itemsPerPage')" class="elevation-0">
     <template v-slot:item.paymentType="{ value }">
-      <v-chip :color="getPaymentChipColor(value)" size="small" variant="flat">
-        {{ value }}
-      </v-chip>
+      <v-chip :color="getPaymentChipColor(value)" size="small" variant="flat">{{ value }}</v-chip>
     </template>
-    <template v-slot:item.printed="{ value }">
-      {{ value ? 'Ano' : 'Ne' }}
-    </template>
+    <template v-slot:item.printed="{ value }">{{ value ? 'Ano' : 'Ne' }}</template>
   </v-data-table>
 
   <v-list v-else>
@@ -18,13 +14,12 @@
         <v-col cols="4" class="text-h7 text-right font-weight-bold">{{ item[mainRightHeader.key] }}</v-col>
 
         <v-col cols="8">
-          <div v-for="h in listLeftHeaders" :key="h.key" class="text-caption text-medium-emphasis">
-            {{ h.title }}: {{ item[h.key] }}</div>
+          <div v-for="h in visibleListLeftHeaders" :key="h.key" class="text-caption text-medium-emphasis">{{ h.title }}: {{ item[h.key] }}</div>
         </v-col>
         <v-col cols="4" class="d-flex flex-column align-end">
-          <div v-for="h in listRightHeaders" :key="h.key" class="text-caption text-medium-emphasis">
-            <v-chip v-if="h.key === 'paymentType'" :color="getPaymentChipColor(item[h.key])" size="x-small" variant="flat" class="mt-1">
-              {{ item[h.key] }} </v-chip>
+          <div v-for="h in visibleListRightHeaders" :key="h.key" class="text-caption text-medium-emphasis">
+            <v-chip v-if="h.key === 'paymentType'" :color="getPaymentChipColor(item[h.key])" size="x-small" variant="flat" class="mt-1">{{ item[h.key]
+              }}</v-chip>
             <span v-else>{{ item[h.key] }}</span>
           </div>
         </v-col>
@@ -32,7 +27,6 @@
     </v-list-item>
   </v-list>
 </template>
-
 <script setup>
 import { defineProps, computed } from 'vue';
 import { useDisplay } from 'vuetify';
@@ -47,14 +41,11 @@ const props = defineProps({
 
 const display = useDisplay();
 const { t } = useI18n();
-
-// --- Logika pro mobilní zobrazení ---
+const visibleHeaders = computed(() => props.headers.filter(h => h.visible !== false));
 const mainLeftHeader = computed(() => props.headers.find(h => h.mobileMain === 'left'));
 const mainRightHeader = computed(() => props.headers.find(h => h.mobileMain === 'right'));
-const listLeftHeaders = computed(() => props.headers.filter(h => h.mobileListLeft === true && !h.mobileMain));
-const listRightHeaders = computed(() => props.headers.filter(h => h.mobileListLeft === false && !h.mobileMain));
-
-// Filtrace položek na základě vyhledávacího textu (pro mobilní zobrazení)
+const visibleListLeftHeaders = computed(() => visibleHeaders.value.filter(h => h.mobileListLeft === true && !h.mobileMain));
+const visibleListRightHeaders = computed(() => visibleHeaders.value.filter(h => h.mobileListLeft === false && !h.mobileMain));
 const filteredItems = computed(() => {
   if (!props.search) {
     return props.items;

@@ -1,71 +1,58 @@
 <template>
   <v-container fluid>
     <v-card class="mx-auto" flat>
-      <TablePanel v-model:activePanelId="activeTabId" v-model:searchText="searchText" :panels="tablePanels"
-        :show-search="true" :show-filter="true" :show-settings="true" :show-sum="true" />
+      <TablePanel v-model:activePanelId="activeTabId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
+        :show-settings="true" :show-sum="true" @open-settings="columnDialog = true" />
 
-      <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" />
+      <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading" />
     </v-card>
+
+    <ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" />
   </v-container>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import TablePanel from '@/components/table/tablePanel.vue';
-import ReuseTable from '@/components/table/reuseTable.vue';
+import { ref, computed, onMounted, watch } from 'vue';
+import { getDemoData } from '../demo/demoGenerator.js';
+import { useAppStore } from '@/stores/app';
+import { storeToRefs } from 'pinia';
+import ColumnSettingsDialog from '../components/table/ColumnSettingsDialog.vue'; // Import dialogu
 
+const columnDialog = ref(false);
 const searchText = ref('');
+const loading = ref(false);
+const appStore = useAppStore();
+const { appLocale } = storeToRefs(appStore);
 
 const tablePanels = ref([
   {
     id: 'receipts',
-    name: 'ÚČTENKY',
+    name: 'Receipts',
     headers: [
-      { title: 'Datum a čas', key: 'dateTime', required: true, mobileMain: 'left', mobileListLeft: true },
-      { title: 'Číslo účtenky', key: 'receiptNumber', required: true, mobileListLeft: true },
-      { title: 'Částka', key: 'amount', align: 'end', required: true, mobileMain: 'right' },
-      { title: 'Typ platby', key: 'paymentType', align: 'start', required: false, mobileListLeft: false },
-      { title: 'Zákazník', key: 'customer', required: false, mobileListLeft: true },
-      { title: 'Poznámka', key: 'note', required: false },
-      { title: 'Vytištěno', key: 'printed', align: 'start', required: false },
-      { title: 'Uživatel', key: 'user', required: false },
+      { title: 'Date & Time', key: 'dateTime', required: true, mobileMain: 'left', mobileListLeft: true, visible: true },
+      { title: 'Receipt Number', key: 'receiptId', required: true, mobileListLeft: true, visible: true },
+      { title: 'Amount', key: 'amount', align: 'end', required: true, mobileMain: 'right', visible: true },
+      { title: 'Payment Type', key: 'paymentType', align: 'start', required: false, mobileListLeft: false, visible: true },
+      { title: 'Customer', key: 'customerName', required: false, mobileListLeft: true, visible: true },
+      { title: 'Note', key: 'note', required: false, visible: false },
+      { title: 'User', key: 'userName', required: false, visible: true },
     ],
-    items: [
-      { dateTime: '10. 06. 25 14:20', receiptNumber: 'DXCT001', amount: '100,00 Kč', paymentType: 'Platba hotově', customer: 'N/A', note: 'N/A', printed: false, user: 'Petra33' },
-      { dateTime: '10. 06. 25 14:14', receiptNumber: 'DXCT002', amount: '160,00 Kč', paymentType: 'Platba kartou', customer: 'N/A', note: 'N/A', printed: false, user: 'Petra33' },
-      { dateTime: '10. 06. 25 12:00', receiptNumber: 'DXCT008', amount: '50,00 Kč', paymentType: 'Platba hotově', customer: 'Jan Novák', note: 'N/A', printed: true, user: 'Jan Kovac' },
-      { dateTime: '10. 06. 25 11:55', receiptNumber: 'DXCT009', amount: '250,00 Kč', paymentType: 'Platba kartou', customer: 'Alice Smith', note: 'Vrácené zboží', printed: false, user: 'Petra33' },
-      ...Array.from({ length: 17 }, (_, i) => ({ dateTime: `10. 06. 25 11:${44 - i}`, receiptNumber: `DXCT0${11 + i}`, amount: `${Math.floor(Math.random() * 500)},00 Kč`, paymentType: i % 2 === 0 ? 'Platba hotově' : 'Platba kartou', customer: 'N/A', note: 'N/A', printed: i % 3 === 0, user: 'Petra33' })),
-    ],
+    items: [],
   },
   {
     id: 'products',
-    name: 'PRODUKTY',
+    name: 'Sold Items',
     headers: [
-      { title: 'Produkt', key: 'product', align: 'start', required: true, mobileMain: 'left' },
-      { title: 'Kategorie', key: 'category', required: false, mobileListLeft: true },
-      { title: 'Množství', key: 'quantity', align: 'end', required: false, mobileListLeft: true },
-      { title: 'Cena/ks', key: 'pricePerUnit', align: 'end', required: false, mobileListLeft: true },
-      { title: 'Daň', key: 'tax', align: 'end', required: false, mobileListLeft: false },
-      { title: 'Celková cena', key: 'totalPrice', align: 'end', required: true, mobileMain: 'right' },
+      { title: 'Date & Time', key: 'dateTime', required: false, mobileListLeft: true, visible: true },
+      { title: 'Receipt Number', key: 'receiptId', required: false, mobileListLeft: true, visible: true },
+      { title: 'Product', key: 'item', align: 'start', required: true, mobileMain: 'left', visible: true },
+      { title: 'Quantity', key: 'quantity', align: 'end', required: true, mobileListLeft: false, visible: true },
+      { title: 'Price/Unit', key: 'pricePerItem', align: 'end', required: false, mobileListLeft: false, visible: true },
+      { title: 'Total', key: 'totalPrice', align: 'end', required: true, mobileMain: 'right', visible: true },
+      { title: 'Payment Type', key: 'paymentType', align: 'start', required: false, mobileListLeft: false, visible: false },
+      { title: 'User', key: 'userName', required: false, visible: false },
     ],
-    items: Array.from({ length: 55 }, (_, i) => {
-      const products = ['Chytré hodinky', 'Laptop Ultra', 'Tablet Air', 'Herní konzole'];
-      const categories = ['Elektronika', 'Příslušenství', 'Audio/Video', 'Komponenty'];
-      const taxRates = ['21 %', '15 %', '10 %'];
-
-      const product = products[i % products.length];
-      const quantity = Math.floor(Math.random() * 10) + 1;
-      const pricePerUnit = Math.floor(Math.random() * 900) + 50;
-      return {
-        product: `${product} #${i + 1}`,
-        category: categories[i % categories.length],
-        quantity,
-        pricePerUnit: `${pricePerUnit},00 Kč`,
-        tax: taxRates[i % taxRates.length],
-        totalPrice: `${quantity * pricePerUnit},00 Kč`
-      };
-    }),
+    items: [],
   }
 ]);
 
@@ -74,4 +61,51 @@ const activeTabId = ref(tablePanels.value[0]?.id);
 const activePanel = computed(() => {
   return tablePanels.value.find(p => p.id === activeTabId.value);
 });
+
+// PŘIDÁNO: Funkce pro zpracování změn z dialogu
+const handleHeadersUpdate = (newHeaders) => {
+  if (activePanel.value) {
+    activePanel.value.headers = newHeaders;
+  }
+};
+
+const formatCustomDate = (dateString, includeSeconds = false) => {
+  if (!dateString) return '';
+  const d = new Date(dateString);
+  const pad = (num) => String(num).padStart(2, '0');
+  const date = `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${String(d.getFullYear()).slice(-2)}`;
+  const time = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const seconds = includeSeconds ? `:${pad(d.getSeconds())}` : '';
+  return `${date} ${time}${seconds}`;
+}
+
+const loadSalesData = () => {
+  loading.value = true;
+  const salesData = getDemoData() || [];
+  if (salesData.length === 0) {
+    tablePanels.value.forEach(p => p.items = []);
+    loading.value = false;
+    return;
+  }
+  const priceLocale = appLocale.value === 'cs' ? 'cs-CZ' : 'en-GB';
+  const currency = appLocale.value === 'cs' ? 'CZK' : 'GBP';
+
+  const receiptsMap = new Map();
+  salesData.forEach(sale => {
+    if (!receiptsMap.has(sale.receiptId)) { receiptsMap.set(sale.receiptId, { ...sale, amount: 0 }); }
+    receiptsMap.get(sale.receiptId).amount += sale.totalPrice;
+  });
+  const receiptsItems = Array.from(receiptsMap.values()).map(r => ({ ...r, dateTime: formatCustomDate(r.dateTime), amount: r.amount.toLocaleString(priceLocale, { style: 'currency', currency: currency }), })).sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+
+  const productsItems = salesData.map(sale => ({ ...sale, dateTime: formatCustomDate(sale.dateTime, true), pricePerItem: sale.pricePerItem.toLocaleString(priceLocale, { style: 'currency', currency: currency }), totalPrice: sale.totalPrice.toLocaleString(priceLocale, { style: 'currency', currency: currency }), })).sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+
+  const receiptsPanel = tablePanels.value.find(p => p.id === 'receipts');
+  if (receiptsPanel) receiptsPanel.items = receiptsItems;
+  const productsPanel = tablePanels.value.find(p => p.id === 'products');
+  if (productsPanel) productsPanel.items = productsItems;
+  loading.value = false;
+};
+
+onMounted(loadSalesData);
+watch(appLocale, loadSalesData);
 </script>

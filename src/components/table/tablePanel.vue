@@ -13,7 +13,7 @@
 
     <v-btn v-if="showSum" icon="mdi-sigma" class="mx-1" variant="text"></v-btn>
     <v-btn v-if="showFilter" icon="mdi-filter" class="mx-1" variant="text"></v-btn>
-    <v-btn v-if="showSettings" icon="mdi-cog" class="mx-1" variant="text"></v-btn>
+    <v-btn v-if="showSettings" icon="mdi-cog" class="mx-1" variant="text" @click="$emit('open-settings')"></v-btn>
   </v-toolbar>
 
   <div v-else>
@@ -31,7 +31,7 @@
 
       <v-btn v-if="showSum" icon="mdi-sigma" variant="text"></v-btn>
       <v-btn v-if="showFilter" icon="mdi-filter" variant="text"></v-btn>
-      <v-btn v-if="showSettings" icon="mdi-cog" variant="text"></v-btn>
+      <v-btn v-if="showSettings" icon="mdi-cog" variant="text" @click="$emit('open-settings')"></v-btn>
     </v-toolbar>
     <v-divider></v-divider>
   </div>
@@ -39,34 +39,20 @@
 
 <script setup>
 import { useDisplay } from 'vuetify';
-import { defineProps, defineEmits } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const display = useDisplay();
 const { t } = useI18n();
 
 defineProps({
-  // Pole s konfigurací pro každý panel/tabulku
-  panels: {
-    type: Array,
-    required: true,
-  },
-  // ID aktivního panelu (pro v-model)
-  activePanelId: {
-    type: String,
-    required: true,
-  },
-  // Text pro vyhledávání (pro v-model)
-  searchText: {
-    type: String,
-    required: true,
-  },
-  // Props pro zobrazení/skrytí ovládacích prvků
+  panels: { type: Array, required: true },
+  activePanelId: { type: String, required: true },
+  searchText: { type: String, default: '' },
   showSearch: { type: Boolean, default: false },
   showFilter: { type: Boolean, default: false },
   showSum: { type: Boolean, default: false },
   showSettings: { type: Boolean, default: false },
 });
 
-defineEmits(['update:activePanelId', 'update:searchText']);
+defineEmits(['update:activePanelId', 'update:searchText', 'open-settings']);
 </script>
