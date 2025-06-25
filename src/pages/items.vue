@@ -18,6 +18,7 @@
 <script setup>
 import { useCompTableData } from '@/composables/compTableData.js';
 import { getProducts } from '../demo/demoAPI.js';
+import { formatCurrency } from '@/utils/formatters.js';
 
 const pageConfig = {
   panels: [
@@ -56,8 +57,8 @@ const pageConfig = {
       ...item,
       forSale: item.forSale ? (locale === 'cs' ? 'Ano' : 'Yes') : (locale === 'cs' ? 'Ne' : 'No'),
       allergens: Array.isArray(item.allergens) ? item.allergens.join(', ') : (item.allergens || ''),
-      price: item.price !== null ? item.price.toLocaleString(priceLocale, { style: 'currency', currency: currency }) : 'N/A',
-      purchasePrice: item.purchasePrice !== null ? item.purchasePrice.toLocaleString(priceLocale, { style: 'currency', currency: currency }) : 'N/A',
+      price: formatCurrency(item.price, { locale: priceLocale, currency }),
+      purchasePrice: formatCurrency(item.purchasePrice, { locale: priceLocale, currency }),
     }));
     return { items: formattedData };
   }

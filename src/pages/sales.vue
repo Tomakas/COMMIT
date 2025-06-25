@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-card class="mx-auto" flat>
-      <TablePanel v-model:activePanelId="activeTabId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
+      <TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
         :show-settings="true" :show-sum="true" @open-settings="columnDialog = true" />
 
       <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading" />
@@ -14,16 +14,7 @@
 <script setup>
 import { useCompTableData } from '@/composables/compTableData.js';
 import { getDemoData } from '../demo/demoGenerator.js';
-
-const formatCustomDate = (dateString, includeSeconds = false) => {
-  if (!dateString) return '';
-  const d = new Date(dateString);
-  const pad = (num) => String(num).padStart(2, '0');
-  const date = `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${String(d.getFullYear()).slice(-2)}`;
-  const time = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  const seconds = includeSeconds ? `:${pad(d.getSeconds())}` : '';
-  return `${date} ${time}${seconds}`;
-};
+import { formatDate, formatCurrency } from '@/utils/formatters.js';
 
 const pageConfig = {
   panels: [
@@ -76,17 +67,17 @@ const pageConfig = {
     const receiptsItems = Array.from(receiptsMap.values())
       .map(r => ({
         ...r,
-        dateTime: formatCustomDate(r.dateTime),
-        amount: r.amount.toLocaleString(priceLocale, { style: 'currency', currency: currency }),
+        dateTime: formatDate(r.dateTime, { includeSeconds: false }),
+        amount: formatCurrency(r.amount, { locale: priceLocale, currency }),
       }))
       .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
 
     const productsItems = salesData
       .map(sale => ({
         ...sale,
-        dateTime: formatCustomDate(sale.dateTime, true),
-        pricePerItem: sale.pricePerItem.toLocaleString(priceLocale, { style: 'currency', currency: currency }),
-        totalPrice: sale.totalPrice.toLocaleString(priceLocale, { style: 'currency', currency: currency }),
+        dateTime: formatDate(sale.dateTime, { includeSeconds: true }),
+        pricePerItem: formatCurrency(sale.pricePerItem, { locale: priceLocale, currency }),
+        totalPrice: formatCurrency(sale.totalPrice, { locale: priceLocale, currency }),
       }))
       .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
 
