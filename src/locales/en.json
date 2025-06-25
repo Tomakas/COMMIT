@@ -50,5 +50,14 @@
     "table": {
       "search": "Search...",
       "itemsPerPage": "Items per page"
-    }
+    },
+    "login": {
+    "welcome": "Welcome to Elementary POS",
+    "username_or_email": "Username",
+    "password": "Password",
+    "create_account": "Create account",
+    "forgot_password": "Forgot password?",
+    "log_in": "Log in",
+    "enter_demo": "Enter with demo data"
+  }
   }

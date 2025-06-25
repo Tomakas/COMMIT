@@ -51,5 +51,14 @@
         "search": "Hledat...",
         "itemsPerPage": "Položek na stránku"
       }
-    }
+    },
+      "login": {
+    "welcome": "Vítejte Elementary POS",
+    "username_or_email": "Uživatelské jméno",
+    "password": "Heslo",
+    "create_account": "Vytvořit účet",
+    "forgot_password": "Zapomenuté heslo?",
+    "log_in": "Přihlásit se",
+    "enter_demo": "Demo účet"
+  }
   }

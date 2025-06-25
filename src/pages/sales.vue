@@ -1,19 +1,19 @@
+// src/pages/sales.vue
 <template>
-  <v-container fluid>
-    <v-card class="mx-auto" flat>
-      <TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
-        :show-settings="true" :show-sum="true" @open-settings="columnDialog = true" />
-
-      <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading" />
-    </v-card>
-
-    <ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" />
-  </v-container>
+<v-container fluid>
+<v-card class="mx-auto" flat>
+<TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
+:show-settings="true" :show-sum="true" @open-settings="columnDialog = true" />
+<ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading" />
+</v-card>
+<ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" />
+</v-container>
 </template>
 
 <script setup>
 import { useCompTableData } from '@/composables/compTableData.js';
-import { getDemoData } from '../demo/demoGenerator.js';
+// ZMĚNA: Importujeme z naší nové API vrstvy
+import { getSales } from '@/api/index.js';
 import { formatDate, formatCurrency } from '@/utils/formatters.js';
 
 const pageConfig = {
@@ -48,11 +48,14 @@ const pageConfig = {
       items: [],
     }
   ],
+
   fetchData: async (locale) => {
-    const salesData = getDemoData() || [];
+    const salesData = await getSales();
+
     if (salesData.length === 0) {
       return { receipts: [], products: [] };
     }
+
     const priceLocale = locale === 'cs' ? 'cs-CZ' : 'en-GB';
     const currency = locale === 'cs' ? 'CZK' : 'GBP';
 

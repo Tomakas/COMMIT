@@ -1,23 +1,21 @@
+// src/pages/items.vue
 <template>
   <v-container fluid>
     <v-card class="mx-auto" flat>
       <TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
         :show-settings="true" @open-settings="columnDialog = true" />
-
       <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading" />
-
       <v-card-text v-if="!loading && activePanel && activePanel.items.length === 0" class="text-center text-medium-emphasis py-8">
         <p>No data available.</p>
       </v-card-text>
     </v-card>
-
     <ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" />
   </v-container>
 </template>
 
 <script setup>
 import { useCompTableData } from '@/composables/compTableData.js';
-import { getProducts } from '../demo/demoAPI.js';
+import { getItems } from '@/api/index.js';
 import { formatCurrency } from '@/utils/formatters.js';
 
 const pageConfig = {
@@ -48,8 +46,10 @@ const pageConfig = {
       items: [],
     },
   ],
+
   fetchData: async (locale) => {
-    const data = await getProducts(locale);
+    const data = await getItems(locale);
+
     const priceLocale = locale === 'cs' ? 'cs-CZ' : 'en-GB';
     const currency = locale === 'cs' ? 'CZK' : 'GBP';
 
