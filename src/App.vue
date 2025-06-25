@@ -49,5 +49,8 @@ onMounted(() => {
 
   applyTheme();
   darkThemeMq.addEventListener('change', handleSystemThemeChange);
+
+  ensureDemoDataExists();
+
 });
 </script>

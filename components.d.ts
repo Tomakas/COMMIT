@@ -13,6 +13,7 @@ declare module 'vue' {
     ColumnSettingsDialog: typeof import('./src/components/table/ColumnSettingsDialog.vue')['default']
     Company: typeof import('./src/components/settings/Company.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Integrations: typeof import('./src/components/settings/Integrations.vue')['default']
     Logo: typeof import('./src/components/logo.vue')['default']
     LookFeel: typeof import('./src/components/settings/LookFeel.vue')['default']
     Placeholder: typeof import('./src/components/settings/Placeholder.vue')['default']

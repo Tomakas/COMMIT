@@ -26,6 +26,7 @@ import { useI18n } from 'vue-i18n';
 
 import SettingsLookFeel from '@/components/settings/LookFeel.vue';
 import SettingsCompany from '@/components/settings/Company.vue';
+import SettingsIntegrations from '@/components/settings/Integrations.vue';
 import SettingsPlaceholder from '@/components/settings/Placeholder.vue';
 
 const { t } = useI18n();
@@ -37,7 +38,7 @@ const tabs = computed(() => [
   { id: 'permissions', name: t('settings_tabs.permissions'), component: SettingsPlaceholder },
   { id: 'remote-orders', name: t('settings_tabs.remoteOrders'), component: SettingsPlaceholder },
   { id: 'suspicious-activity', name: t('settings_tabs.suspiciousActivity'), component: SettingsPlaceholder },
-  { id: 'integrations', name: t('settings_tabs.integrations'), component: SettingsPlaceholder },
+  { id: 'integrations', name: t('settings_tabs.integrations'), component: SettingsIntegrations },
   { id: 'licences', name: t('settings_tabs.licences'), component: SettingsPlaceholder }
 ]);
 </script>

@@ -36,8 +36,8 @@ async function generateSalesData(config = {}) {
         startDate = new Date(new Date().getFullYear() - 1, 0, 1),
         endDate = new Date(),
         includeWeekends = false,
-        avgReceiptsPerDay = 20,
-        maxItemsPerReceipt = 5
+        avgReceiptsPerDay = 10,
+        maxItemsPerReceipt = 2
     } = config;
 
     console.log(`Generuji data od ${startDate.toLocaleDateString()} do ${endDate.toLocaleString()}`);
@@ -45,7 +45,7 @@ async function generateSalesData(config = {}) {
     // ZMĚNA ZDE: Upravená cesta pro dynamický import, aby odpovídala např. 'demoDataCs.json'
     const capitalizedLocale = locale.charAt(0).toUpperCase() + locale.slice(1);
     const sourceData = await import(`./demoData${capitalizedLocale}.json`);
-    
+
     const users = sourceData.directory.filter(c => c.category === 'User');
     const customers = sourceData.directory.filter(c => c.category === 'Customer');
     const saleableProducts = sourceData.products.filter(p => p.forSale === true);
@@ -53,7 +53,7 @@ async function generateSalesData(config = {}) {
 
     const sales = [];
     let receiptCounter = 1;
-    
+
     for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
         const dayOfWeek = d.getDay();
         if (!includeWeekends && (dayOfWeek === 0 || dayOfWeek === 6)) {
