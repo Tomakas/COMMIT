@@ -15,61 +15,41 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { useCompTableData } from '@/composables/compTableData.js';
 import { getDirectory } from '../demo/demoAPI.js';
-import { useAppStore } from '@/stores/app';
-import { storeToRefs } from 'pinia';
-import ColumnSettingsDialog from '../components/table/ColumnSettingsDialog.vue';
 
-const columnDialog = ref(false);
-const searchText = ref('');
-const loading = ref(true);
-const appStore = useAppStore();
-const { appLocale } = storeToRefs(appStore);
-
-const tablePanels = ref([
-  {
-    id: 'addressbook',
-    name: 'Address Book',
-    headers: [
-      { title: 'Name', key: 'fullName', required: true, mobileMain: 'left', visible: true },
-      { title: 'Category', key: 'category', required: true, mobileListLeft: true, mobileMain: 'right', visible: true },
-      { title: 'E-mail', key: 'email', minWidth: '220px', required: false, mobileListLeft: true, visible: true },
-      { title: 'Phone', key: 'phone', minWidth: '160px', required: false, mobileListLeft: true, visible: true },
-      { title: 'Address', key: 'address', minWidth: '350px', required: false, mobileListLeft: false, visible: true },
-    ],
-    items: [],
-  },
-]);
-
-const activePanelId = ref(tablePanels.value[0]?.id);
-
-const activePanel = computed(() => {
-  return tablePanels.value.find(p => p.id === activePanelId.value);
-});
-
-const handleHeadersUpdate = (newHeaders) => {
-  if (activePanel.value) {
-    activePanel.value.headers = newHeaders;
+const pageConfig = {
+  panels: [
+    {
+      id: 'addressbook',
+      name: 'Address Book',
+      headers: [
+        { title: 'Name', key: 'fullName', required: true, mobileMain: 'left', visible: true },
+        { title: 'Category', key: 'category', required: true, mobileListLeft: true, mobileMain: 'right', visible: true },
+        { title: 'E-mail', key: 'email', minWidth: '220px', required: false, mobileListLeft: true, visible: true },
+        { title: 'Phone', key: 'phone', minWidth: '160px', required: false, mobileListLeft: true, visible: true },
+        { title: 'Address', key: 'address', minWidth: '350px', required: false, mobileListLeft: false, visible: true },
+      ],
+      items: [],
+    },
+  ],
+  fetchData: async (locale) => {
+    const data = await getDirectory(locale);
+    const formattedData = data.map(contact => ({
+      ...contact,
+      fullName: `${contact.firstName} ${contact.lastName}`,
+    }));
+    return { addressbook: formattedData };
   }
 };
 
-const loadDirectory = async () => {
-  loading.value = true;
-  try {
-    const data = await getDirectory(appLocale.value);
-    const formattedData = data.map(contact => ({ ...contact, fullName: `${contact.firstName} ${contact.lastName}`, }));
-    const panel = tablePanels.value.find(p => p.id === 'addressbook');
-    if (panel) { panel.items = formattedData; }
-  } catch (error) {
-    console.error("Error in Addressbook component when calling API:", error);
-    const panel = tablePanels.value.find(p => p.id === 'addressbook');
-    if (panel) { panel.items = []; }
-  } finally {
-    loading.value = false;
-  }
-};
-
-onMounted(loadDirectory);
-watch(appLocale, loadDirectory);
+const {
+  loading,
+  searchText,
+  columnDialog,
+  tablePanels,
+  activePanelId,
+  activePanel,
+  handleHeadersUpdate
+} = useCompTableData(pageConfig);
 </script>
