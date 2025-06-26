@@ -3,17 +3,15 @@
     <v-app-bar-nav-icon v-if="!display.lgAndUp.value" @click.stop="mobileDrawerOpen = !mobileDrawerOpen"></v-app-bar-nav-icon>
     <Logo height="18" class="ml-2" />
     <div class="app-bar-center max-width-100">
-      <v-app-bar-title v-if="display.lgAndUp.value && !navInAppBar">
-        Elementary POS Back Office
-      </v-app-bar-title>
+      <v-app-bar-title v-if="display.lgAndUp.value && !navInAppBar"> Elementary POS Back Office </v-app-bar-title>
       <template v-if="display.lgAndUp.value && navInAppBar">
-        <v-btn to="/dashboard" prepend-icon="mdi-view-dashboard">{{ navWithText ? $t('nav.dashboard') : '' }}</v-btn>
-        <v-btn to="/sales" prepend-icon="mdi-cash-multiple">{{ navWithText ? $t('nav.sales') : '' }}</v-btn>
-        <v-btn to="/items" prepend-icon="mdi-package-variant-closed">{{ navWithText ? $t('nav.items') : '' }}</v-btn>
-        <v-btn to="/warehouse" prepend-icon="mdi-warehouse">{{ navWithText ? $t('nav.warehouse') : '' }}</v-btn>
-        <v-btn to="/cashregister" prepend-icon="mdi-cash-register">{{ navWithText ? $t('nav.cashregister') : '' }}</v-btn>
-        <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">{{ navWithText ? $t('nav.addressbook') : '' }}</v-btn>
-        <v-btn to="/export" prepend-icon="mdi-file-export">{{ navWithText ? $t('nav.export') : '' }}</v-btn>
+        <v-btn to="/dashboard" prepend-icon="mdi-view-dashboard">{{ navWithText ? $t("nav.dashboard") : "" }}</v-btn>
+        <v-btn to="/sales" prepend-icon="mdi-cash-multiple">{{ navWithText ? $t("nav.sales") : "" }}</v-btn>
+        <v-btn to="/items" prepend-icon="mdi-package-variant-closed">{{ navWithText ? $t("nav.items") : "" }}</v-btn>
+        <v-btn to="/warehouse" prepend-icon="mdi-warehouse">{{ navWithText ? $t("nav.warehouse") : "" }}</v-btn>
+        <v-btn to="/cashregister" prepend-icon="mdi-cash-register">{{ navWithText ? $t("nav.cashregister") : "" }}</v-btn>
+        <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">{{ navWithText ? $t("nav.addressbook") : "" }}</v-btn>
+        <v-btn to="/export" prepend-icon="mdi-file-export">{{ navWithText ? $t("nav.export") : "" }}</v-btn>
       </template>
     </div>
 
@@ -21,24 +19,22 @@
 
     <v-menu location="bottom end" transition="scale-transition">
       <template v-slot:activator="{ props }">
-        <v-avatar color="info" class="ma-2" style="cursor: pointer;" v-bind="props">
+        <v-avatar color="info" class="ma-2" style="cursor: pointer" v-bind="props">
           <v-icon icon="mdi-account-circle"></v-icon>
         </v-avatar>
       </template>
       <v-list>
-        <v-list-item :to="'/'" :prepend-icon="'mdi-account-cog'" :title="$t('nav.profile')"></v-list-item>
-        <v-list-item :to="'/'" :prepend-icon="'mdi-store'" :title="$t('nav.stores')"></v-list-item>
+        <v-list-item :to="'/account'" :prepend-icon="'mdi-account-cog'" :title="$t('nav.profile')"></v-list-item>
         <v-divider></v-divider>
         <v-list-item :to="'/settings'" :prepend-icon="'mdi-cog'" :title="$t('nav.settings')" />
         <v-list-item :to="'/support'" link :prepend-icon="'mdi-lifebuoy'" :title="$t('nav.support')" />
         <v-divider></v-divider>
-        <v-list-item :to="'/'" :prepend-icon="'mdi-logout'" :title="$t('nav.logout')"></v-list-item>
+        <v-list-item @click="handleLogout" :prepend-icon="'mdi-logout'" :title="$t('nav.logout')" />
       </v-list>
     </v-menu>
   </v-app-bar>
 
-  <v-navigation-drawer v-if="!display.lgAndUp.value || !navInAppBar" v-model="isDrawerOpen" :rail="display.lgAndUp.value && !navWithText"
-    :temporary="!display.lgAndUp.value">
+  <v-navigation-drawer v-if="!display.lgAndUp.value || !navInAppBar" v-model="isDrawerOpen" :rail="display.lgAndUp.value && !navWithText" :temporary="!display.lgAndUp.value">
     <v-list>
       <v-list-item :to="'/dashboard'" link :prepend-icon="'mdi-view-dashboard'" :title="$t('nav.dashboard')" />
       <v-list-item :to="'/sales'" link :prepend-icon="'mdi-cash-multiple'" :title="$t('nav.sales')" />
@@ -62,13 +58,15 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useDisplay } from 'vuetify';
-import { useAppStore } from '@/stores/app';
-import { storeToRefs } from 'pinia';
+import { ref, computed } from "vue";
+import { useDisplay } from "vuetify";
+import { useAppStore } from "@/stores/app";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 
 const display = useDisplay();
 const appStore = useAppStore();
+const router = useRouter();
 const { navInAppBar, navWithText } = storeToRefs(appStore);
 const mobileDrawerOpen = ref(false);
 
@@ -84,8 +82,13 @@ const isDrawerOpen = computed({
     if (!display.lgAndUp.value) {
       mobileDrawerOpen.value = value;
     }
-  }
+  },
 });
+
+const handleLogout = () => {
+  appStore.logout();
+  router.push("/login");
+};
 </script>
 
 <style>
