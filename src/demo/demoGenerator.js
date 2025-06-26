@@ -133,16 +133,3 @@ export function getDemoData() {
         return null;
     }
 }
-
-/**
- * Zkontroluje, zda existují demo data. Pokud ne, vygeneruje je na základě poskytnuté konfigurace.
- * @param {object} [config={}] - Konfigurační objekt pro generování.
- */
-export function ensureDemoDataExists(config = {}) {
-    if (!getDemoData()) {
-        console.log('Demo data nenalezena, generuji novou sadu s výchozím nastavením.');
-        generateAndStoreDemoData(config);
-    } else {
-        console.log('Demo data již existují.');
-    }
-}
