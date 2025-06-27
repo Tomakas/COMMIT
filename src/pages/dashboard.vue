@@ -1,14 +1,22 @@
+----
+pages/dashboard.vue
+// src/pages/dashboard.vue
 <template>
-  <v-container fluid class="pa-4">
+  <v-container fluid class="pa-2">
     <v-row>
-      <v-col cols="12" sm="6" lg="6">
-        <v-card class="d-flex align-center justify-center fill-height" min-height="50">
-          <v-card-title class="text-h5">Placeholder 1</v-card-title>
-        </v-card>
+
+      <v-col cols="12" sm="12" lg="6">
+        <DateRangeSelector />
       </v-col>
-      <v-col cols="12" sm="6" lg="6">
-        <v-card class="d-flex align-center justify-center fill-height" min-height="50">
-          <v-card-title class="text-h5">Placeholder 2</v-card-title>
+
+      <v-col cols="12" sm="12" lg="6">
+        <v-card class="d-flex flex-column justify-center fill-height pa-2" >
+          <div class="d-flex justify-space-between align-baseline">
+            <span class="text-body-1">Celková tržba:</span>
+            <span class="text-h6 font-weight-bold">18 654,50 Kč</span>
+            <span class="text-body-1">Počet účtenek:</span>
+            <span class="text-h6 font-weight-bold">128</span>
+          </div>
         </v-card>
       </v-col>
 
@@ -17,11 +25,10 @@
           <v-card-title class="text-h5">Placeholder {{ n + 2 }}</v-card-title>
         </v-card>
       </v-col>
+
     </v-row>
   </v-container>
 </template>
-
 <script setup>
 </script>
-
 <style scoped></style>
