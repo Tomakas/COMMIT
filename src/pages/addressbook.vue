@@ -1,21 +1,21 @@
 // src/pages/addressbook.vue
 <template>
-<v-container fluid>
-<v-card class="mx-auto" flat>
-<TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
-:show-settings="true" @open-settings="columnDialog = true" />
-<ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading" />
-<v-card-text v-if="!loading && activePanel && activePanel.items.length === 0" class="text-center text-medium-emphasis py-8">
-<p>No contacts available in the address book.</p>
-</v-card-text>
-</v-card>
-<ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" />
-</v-container>
+  <v-container fluid>
+    <v-card class="mx-auto" flat>
+      <TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
+        :show-settings="true" @open-settings="columnDialog = true" />
+      <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading" />
+      <v-card-text v-if="!loading && activePanel && activePanel.items.length === 0" class="text-center text-medium-emphasis py-8">
+        <p>No contacts available in the address book.</p>
+      </v-card-text>
+    </v-card>
+    <ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" />
+  </v-container>
 </template>
 
 <script setup>
 import { useCompTableData } from '@/composables/compTableData.js';
-import { getDirectory } from '@/api/index.js';
+import api from '@/api/index.js';
 
 const pageConfig = {
   panels: [
@@ -34,7 +34,7 @@ const pageConfig = {
   ],
 
   fetchData: async (locale) => {
-    const data = await getDirectory(locale);
+    const data = await api.getDirectory(locale);
     const formattedData = data.map(contact => ({
       ...contact,
       fullName: `${contact.firstName} ${contact.lastName}`,

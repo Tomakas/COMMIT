@@ -15,7 +15,7 @@
 
 <script setup>
 import { useCompTableData } from '@/composables/compTableData.js';
-import { getItems } from '@/api/index.js';
+import api from '@/api/index.js';
 import { formatCurrency } from '@/utils/formatters.js';
 
 const pageConfig = {
@@ -38,7 +38,7 @@ const pageConfig = {
         { title: 'For Sale', key: 'forSale', align: 'center', required: false, mobileListLeft: true, visible: false },
         { title: 'Tax (%)', key: 'tax', align: 'end', required: false, mobileListLeft: false, visible: false },
         { title: 'Allergens', key: 'allergens', required: false, mobileListLeft: true, visible: false },
-        { title: 'Points Gained', key: 'pointsGained', align: 'end', required: false, mobileListLeft: true, isible: false },
+        { title: 'Points Gained', key: 'pointsGained', align: 'end', required: false, mobileListLeft: true, visible: false },
         { title: 'Points For Discount', key: 'pointsForDiscount', align: 'end', required: false, mobileListLeft: true, visible: false },
         { title: 'Loyalty Discount', key: 'loyaltyDiscount', align: 'end', required: false, mobileListLeft: true, visible: false },
         { title: 'Note', key: 'note', required: false, visible: false },
@@ -48,7 +48,7 @@ const pageConfig = {
   ],
 
   fetchData: async (locale) => {
-    const data = await getItems(locale);
+    const data = await api.getItems(locale);
 
     const priceLocale = locale === 'cs' ? 'cs-CZ' : 'en-GB';
     const currency = locale === 'cs' ? 'CZK' : 'GBP';
