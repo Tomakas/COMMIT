@@ -1,38 +1,43 @@
 <template>
-  <v-app-bar app>
-    <v-app-bar-nav-icon v-if="!display.lgAndUp.value" @click.stop="mobileDrawerOpen = !mobileDrawerOpen"></v-app-bar-nav-icon>
-    <Logo height="18" class="ml-2" />
-    <div class="app-bar-center max-width-100">
-      <v-app-bar-title v-if="display.lgAndUp.value && !navInAppBar"> Elementary POS Back Office </v-app-bar-title>
-      <template v-if="display.lgAndUp.value && navInAppBar">
-        <v-btn to="/dashboard" prepend-icon="mdi-view-dashboard">{{ navWithText ? $t("nav.dashboard") : "" }}</v-btn>
-        <v-btn to="/sales" prepend-icon="mdi-cash-multiple">{{ navWithText ? $t("nav.sales") : "" }}</v-btn>
-        <v-btn to="/items" prepend-icon="mdi-package-variant-closed">{{ navWithText ? $t("nav.items") : "" }}</v-btn>
-        <v-btn to="/warehouse" prepend-icon="mdi-warehouse">{{ navWithText ? $t("nav.warehouse") : "" }}</v-btn>
-        <v-btn to="/cashregister" prepend-icon="mdi-cash-register">{{ navWithText ? $t("nav.cashregister") : "" }}</v-btn>
-        <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">{{ navWithText ? $t("nav.addressbook") : "" }}</v-btn>
-        <v-btn to="/export" prepend-icon="mdi-file-export">{{ navWithText ? $t("nav.export") : "" }}</v-btn>
-      </template>
-    </div>
+<v-app-bar app>
+  <v-app-bar-nav-icon v-if="!display.lgAndUp.value" @click.stop="mobileDrawerOpen = !mobileDrawerOpen"></v-app-bar-nav-icon>
+  <Logo height="18" class="ml-2" />
 
+  <v-spacer></v-spacer>
+
+  <template v-if="display.lgAndUp.value && !navInAppBar">
+    <v-app-bar-title> Elementary POS Back Office </v-app-bar-title>
     <v-spacer></v-spacer>
+  </template>
 
-    <v-menu location="bottom end" transition="scale-transition">
-      <template v-slot:activator="{ props }">
-        <v-avatar color="info" class="ma-2" style="cursor: pointer" v-bind="props">
-          <v-icon icon="mdi-account-circle"></v-icon>
-        </v-avatar>
-      </template>
-      <v-list>
-        <v-list-item :to="'/account'" :prepend-icon="'mdi-account-cog'" :title="$t('nav.profile')"></v-list-item>
-        <v-divider></v-divider>
-        <v-list-item :to="'/settings'" :prepend-icon="'mdi-cog'" :title="$t('nav.settings')" />
-        <v-list-item :to="'/support'" link :prepend-icon="'mdi-lifebuoy'" :title="$t('nav.support')" />
-        <v-divider></v-divider>
-        <v-list-item @click="handleLogout" :prepend-icon="'mdi-logout'" :title="$t('nav.logout')" />
-      </v-list>
-    </v-menu>
-  </v-app-bar>
+  <template v-if="display.lgAndUp.value && navInAppBar">
+    <div class="app-bar-left max-width-100">
+      <v-btn to="/dashboard" prepend-icon="mdi-view-dashboard">{{ navWithText ? $t("nav.dashboard") : "" }}</v-btn>
+      <v-btn to="/sales" prepend-icon="mdi-cash-multiple">{{ navWithText ? $t("nav.sales") : "" }}</v-btn>
+      <v-btn to="/items" prepend-icon="mdi-package-variant-closed">{{ navWithText ? $t("nav.items") : "" }}</v-btn>
+      <v-btn to="/warehouse" prepend-icon="mdi-warehouse">{{ navWithText ? $t("nav.warehouse") : "" }}</v-btn>
+      <v-btn to="/cashregister" prepend-icon="mdi-cash-register">{{ navWithText ? $t("nav.cashregister") : "" }}</v-btn>
+      <v-btn to="/addressbook" prepend-icon="mdi-account-box-multiple">{{ navWithText ? $t("nav.addressbook") : "" }}</v-btn>
+      <v-btn to="/export" prepend-icon="mdi-file-export">{{ navWithText ? $t("nav.export") : "" }}</v-btn>
+    </div>
+  </template>
+
+  <v-menu location="bottom end" transition="scale-transition">
+    <template v-slot:activator="{ props }">
+      <v-avatar color="info" class="ma-2" style="cursor: pointer" v-bind="props">
+        <v-icon icon="mdi-account-circle"></v-icon>
+      </v-avatar>
+    </template>
+    <v-list>
+      <v-list-item :to="'/account'" :prepend-icon="'mdi-account-cog'" :title="$t('nav.profile')"></v-list-item>
+      <v-divider></v-divider>
+      <v-list-item :to="'/settings'" :prepend-icon="'mdi-cog'" :title="$t('nav.settings')" />
+      <v-list-item :to="'/support'" link :prepend-icon="'mdi-lifebuoy'" :title="$t('nav.support')" />
+      <v-divider></v-divider>
+      <v-list-item @click="handleLogout" :prepend-icon="'mdi-logout'" :title="$t('nav.logout')" />
+    </v-list>
+  </v-menu>
+</v-app-bar>
 
   <v-navigation-drawer v-if="!display.lgAndUp.value || !navInAppBar" v-model="isDrawerOpen" :rail="display.lgAndUp.value && !navWithText" :temporary="!display.lgAndUp.value">
     <v-list class="d-flex flex-column"> <v-list-item-group>
