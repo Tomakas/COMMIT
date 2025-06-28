@@ -10,7 +10,7 @@
     </v-btn-toggle>
             <div class="d-flex align-center">
       <v-btn icon="mdi-chevron-left" variant="text" @click="navigate(-1)"></v-btn>
-      <div class="text-center mx-1" style="min-width: 200px;">
+      <div class="text-center mx-1" style="min-width: 180px;">
         {{ displayedRangeText }}
       </div>
       <v-btn icon="mdi-chevron-right" variant="text" @click="navigate(1)" :disabled="isTodayOrFuture()"></v-btn>
