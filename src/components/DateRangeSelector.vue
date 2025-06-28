@@ -1,12 +1,12 @@
 <template>
 
-  <div class="d-flex align-center flex-wrap pa-2 justify-center fill-height rounded">
-    <v-btn-toggle v-model="activePeriod" @update:modelValue="setRange" color="primary" mandatory variant="outlined" density="comfortable">
-      <v-btn value="day">DEN</v-btn>
-      <v-btn value="week">TÝDEN</v-btn>
-      <v-btn value="month">MĚSÍC</v-btn>
-      <v-btn value="year">ROK</v-btn>
-      <v-btn value="custom" disabled>VLASTNÍ</v-btn>
+  <div class="d-flex align-center flex-wrap justify-center fill-height rounded">
+    <v-btn-toggle v-model="activePeriod" @update:modelValue="setRange" color="primary" mandator density="comfortable">
+      <v-btn class="px-1" value="day" px-10>DEN</v-btn>
+      <v-btn class="px-1" value="week">TÝDEN</v-btn>
+      <v-btn class="px-1" value="month">MĚSÍC</v-btn>
+      <v-btn class="px-1" value="year">ROK</v-btn>
+      <v-btn class="px-1" value="custom">VLASTNÍ</v-btn>
     </v-btn-toggle>
             <div class="d-flex align-center">
       <v-btn icon="mdi-chevron-left" variant="text" @click="navigate(-1)"></v-btn>
