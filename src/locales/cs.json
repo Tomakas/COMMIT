@@ -15,7 +15,7 @@
       "logout": "Odhlásit se"
     },
     "settings": {
-      "lookAndFeel": "Vzhled a chování",
+      "appearance": "Vzhled",
       "company": "Firma",
       "permissions": "Oprávnění",
       "mode": "Režim zobrazení",
@@ -24,7 +24,7 @@
       "language": "Jazyk"
     },
     "settings_tabs": {
-      "lookAndFeel": "Vzhled a chování",
+      "appearance": "Vzhled",
       "company": "Firma",
       "permissions": "Oprávnění",
       "remoteOrders": "Vzdálené objednávky",

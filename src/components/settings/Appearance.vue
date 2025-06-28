@@ -26,8 +26,7 @@
     <v-divider class="my-6"></v-divider>
 
     <p class="text-subtitle-1 font-weight-medium mb-2">{{ $t('settings.language') }}</p>
-    <v-select v-model="locale" :items="[{ title: 'Čeština', value: 'cs' }, { title: 'English', value: 'en' }]"
-      variant="outlined"></v-select>
+    <v-select v-model="locale" style="max-width: 200px;" :items="[{ title: 'Čeština', value: 'cs' }, { title: 'English', value: 'en' }]" variant="outlined"></v-select>
   </v-card-text>
 </template>
 

@@ -24,16 +24,16 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import SettingsLookFeel from '@/components/settings/LookFeel.vue';
+import SettingsAppearance from '@/components/settings/Appearance.vue';
 import SettingsCompany from '@/components/settings/Company.vue';
 import SettingsIntegrations from '@/components/settings/Integrations.vue';
 import SettingsPlaceholder from '@/components/settings/Placeholder.vue';
 
 const { t } = useI18n();
-const activeTabId = ref('look-and-feel');
+const activeTabId = ref('appearancel');
 
 const tabs = computed(() => [
-  { id: 'look-and-feel', name: t('settings_tabs.lookAndFeel'), component: SettingsLookFeel },
+  { id: 'appearancel', name: t('settings_tabs.appearance'), component: SettingsAppearance },
   { id: 'company', name: t('settings_tabs.company'), component: SettingsCompany },
   { id: 'permissions', name: t('settings_tabs.permissions'), component: SettingsPlaceholder },
   { id: 'remote-orders', name: t('settings_tabs.remoteOrders'), component: SettingsPlaceholder },

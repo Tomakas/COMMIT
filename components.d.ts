@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Appearance: typeof import('./src/components/settings/Appearance.vue')['default']
     AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     AppLogo: typeof import('./src/components/AppLogo.vue')['default']
     ColumnSettingsDialog: typeof import('./src/components/table/ColumnSettingsDialog.vue')['default']
@@ -16,7 +17,6 @@ declare module 'vue' {
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Integrations: typeof import('./src/components/settings/Integrations.vue')['default']
     Logo: typeof import('./src/components/logo.vue')['default']
-    LookFeel: typeof import('./src/components/settings/LookFeel.vue')['default']
     Placeholder: typeof import('./src/components/settings/Placeholder.vue')['default']
     ReuseTable: typeof import('./src/components/table/reuseTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

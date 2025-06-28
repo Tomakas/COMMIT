@@ -14,7 +14,7 @@
       "logout": "Logout"
     },
     "settings": {
-      "lookAndFeel": "Look & Feel",
+      "appearance": "Appearance",
       "company": "Company",
       "permissions": "Permissions",
       "mode": "Display Mode",
@@ -23,7 +23,7 @@
       "language": "Language"
     },
     "settings_tabs": {
-      "lookAndFeel": "Look & Feel",
+      "appearance": "Appearance",
       "company": "Company",
       "permissions": "Permissions",
       "remoteOrders": "Remote Orders",
