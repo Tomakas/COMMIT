@@ -35,21 +35,21 @@
   </v-app-bar>
 
   <v-navigation-drawer v-if="!display.lgAndUp.value || !navInAppBar" v-model="isDrawerOpen" :rail="display.lgAndUp.value && !navWithText" :temporary="!display.lgAndUp.value">
-    <v-list>
-      <v-list-item :to="'/dashboard'" link :prepend-icon="'mdi-view-dashboard'" :title="$t('nav.dashboard')" />
-      <v-list-item :to="'/sales'" link :prepend-icon="'mdi-cash-multiple'" :title="$t('nav.sales')" />
-      <v-list-item :to="'/items'" link :prepend-icon="'mdi-package-variant-closed'" :title="$t('nav.items')" />
-      <v-list-item :to="'/warehouse'" link :prepend-icon="'mdi-warehouse'" :title="$t('nav.warehouse')" />
-      <v-list-item :to="'/cashregister'" link :prepend-icon="'mdi-cash-register'" :title="$t('nav.cashregister')" />
-      <v-list-item :to="'/addressbook'" link :prepend-icon="'mdi-account-box-multiple'" :title="$t('nav.addressbook')" />
-      <v-list-item :to="'/export'" link :prepend-icon="'mdi-file-export'" :title="$t('nav.export')" />
-    </v-list>
-    <template v-slot:append>
-      <v-list>
+    <v-list class="d-flex flex-column"> <v-list-item-group>
+        <v-list-item :to="'/dashboard'" link :prepend-icon="'mdi-view-dashboard'" :title="$t('nav.dashboard')" />
+        <v-list-item :to="'/sales'" link :prepend-icon="'mdi-cash-multiple'" :title="$t('nav.sales')" />
+        <v-list-item :to="'/items'" link :prepend-icon="'mdi-package-variant-closed'" :title="$t('nav.items')" />
+        <v-list-item :to="'/warehouse'" link :prepend-icon="'mdi-warehouse'" :title="$t('nav.warehouse')" />
+        <v-list-item :to="'/cashregister'" link :prepend-icon="'mdi-cash-register'" :title="$t('nav.cashregister')" />
+        <v-list-item :to="'/addressbook'" link :prepend-icon="'mdi-account-box-multiple'" :title="$t('nav.addressbook')" />
+        <v-list-item :to="'/export'" link :prepend-icon="'mdi-file-export'" :title="$t('nav.export')" />
+      </v-list-item-group>
+      <v-divider :thickness="3"></v-divider>
+      <v-list-item-group>
         <v-list-item :to="'/settings'" link :prepend-icon="'mdi-cog'" :title="$t('nav.settings')" />
         <v-list-item :to="'/support'" link :prepend-icon="'mdi-lifebuoy'" :title="$t('nav.support')" />
-      </v-list>
-    </template>
+      </v-list-item-group>
+    </v-list>
   </v-navigation-drawer>
 
   <v-main>
