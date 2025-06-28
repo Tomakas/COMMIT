@@ -11,6 +11,7 @@ declare module 'vue' {
     Appearance: typeof import('./src/components/settings/Appearance.vue')['default']
     AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     AppLogo: typeof import('./src/components/AppLogo.vue')['default']
+    CashRegisterCard: typeof import('./src/components/CashRegisterCard.vue')['default']
     ColumnSettingsDialog: typeof import('./src/components/table/ColumnSettingsDialog.vue')['default']
     Company: typeof import('./src/components/settings/Company.vue')['default']
     DateRangeSelector: typeof import('./src/components/DateRangeSelector.vue')['default']

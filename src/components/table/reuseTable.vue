@@ -55,7 +55,7 @@
 </template>
 
 <script setup>
-import {  ref,  defineProps,  computed} from 'vue';
+import {  ref,  computed} from 'vue';
 import {  useDisplay} from 'vuetify';
 import {  useI18n} from 'vue-i18n';
 
