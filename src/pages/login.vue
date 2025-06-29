@@ -19,46 +19,20 @@
               <v-alert v-if="error" type="error" density="compact" class="mb-4" closable @click:close="error = null">
                 {{ error }}
               </v-alert>
-              <v-text-field
-                v-model="username"
-                :label="t('login.username_or_email')"
-                prepend-inner-icon="mdi-account-outline"
-                variant="outlined"
-                class="mt-4"
-                @keyup.enter="handleStandardLogin"
-              ></v-text-field>
-              <v-text-field
-                v-model="password"
-                :label="t('login.password')"
-                prepend-inner-icon="mdi-lock-outline"
-                variant="outlined"
-                type="password"
-                @keyup.enter="handleStandardLogin"
-              ></v-text-field>
+              <v-text-field v-model="username" :label="t('login.username_or_email')" prepend-inner-icon="mdi-account-outline" variant="outlined"
+                class="mt-4" @keyup.enter="handleStandardLogin"></v-text-field>
+              <v-text-field v-model="password" :label="t('login.password')" prepend-inner-icon="mdi-lock-outline" variant="outlined" type="password"
+                @keyup.enter="handleStandardLogin"></v-text-field>
               <div class="d-flex justify-space-between text-caption mt-2">
                 <a href="#" class="text-decoration-none text-primary">{{ t('login.create_account') }}</a>
                 <a href="#" class="text-decoration-none text-primary">{{ t('login.forgot_password') }}</a>
               </div>
             </v-card-text>
             <v-card-actions class="flex-column pa-4">
-              <v-btn :loading="loading"
-                color="primary"
-                @click="handleStandardLogin"
-                block
-                size="large"
-                variant="flat"
-              >
+              <v-btn :loading="loading" color="primary" @click="handleStandardLogin" block size="large" variant="flat">
                 {{ t('login.log_in') }}
               </v-btn>
-              <v-btn
-                :loading="loading"
-                color="secondary"
-                @click="handleDemoLogin"
-                block
-                size="large"
-                variant="outlined"
-                class="mt-4"
-              >
+              <v-btn :loading="loading" color="secondary" @click="handleDemoLogin" block size="large" variant="outlined" class="mt-4">
                 {{ t('login.enter_demo') }}
               </v-btn>
             </v-card-actions>
@@ -142,11 +116,16 @@ const handleDemoLogin = async () => {
   height: 100vh;
   overflow: hidden;
 }
+
 .logo-background {
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 0;
   gap: 0;
 }
+
 .background-logo-instance {
   transform: rotate(-15deg);
   pointer-events: none;
