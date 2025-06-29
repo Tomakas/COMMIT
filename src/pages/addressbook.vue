@@ -15,7 +15,7 @@
 
 <script setup>
 import { useCompTableData } from '@/composables/compTableData.js';
-import api from '@/api/API.js';
+import api from '@/services/api.js';
 
 const pageConfig = {
   panels: [

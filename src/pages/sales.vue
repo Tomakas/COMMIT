@@ -12,7 +12,7 @@
 
 <script setup>
 import { useCompTableData } from '@/composables/compTableData.js';
-import api from '@/api/API.js';
+import api from '@/services/api.js';
 import { formatDate, formatCurrency } from '@/utils/formatters.js';
 
 const pageConfig = {
@@ -49,7 +49,7 @@ const pageConfig = {
   ],
 
   fetchData: async (locale) => {
-    const salesData = await api.getReceipt();
+    const salesData = await getReceipt();
 
     if (!salesData || salesData.length === 0) {
       return { receipts: [], products: [] };
