@@ -1,9 +1,9 @@
 <template>
   <v-dialog :model-value="dialog" @update:model-value="$emit('update:dialog', $event)" max-width="500px" persistent>
     <v-card>
-      <v-card-title><span class="text-h5">Column Settings</span></v-card-title>
+      <v-card-title><span class="text-h5">{{ t('tableSettings.columnSettings') }}</span></v-card-title>
       <v-card-text>
-        <p class="text-caption mb-4">Drag to reorder and toggle column visibility.</p>
+        <p class="text-caption mb-4">{{ t('tableSettings.dragHint') }}</p>
         <v-list class="column-list">
           <draggable v-model="editableHeaders" item-key="key" handle=".drag-handle">
             <template #item="{ element: header }">
@@ -23,8 +23,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="blue-darken-1" variant="text" @click="$emit('update:dialog', false)">Cancel</v-btn>
-        <v-btn color="blue-darken-1" variant="text" @click="saveChanges">Save</v-btn>
+        <v-btn color="blue-darken-1" variant="text" @click="$emit('update:dialog', false)">{{ t('common.cancel') }}</v-btn>
+        <v-btn color="blue-darken-1" variant="text" @click="saveChanges">{{ t('common.save') }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -33,6 +33,8 @@
 <script setup>
 import { ref, watch } from 'vue';
 import draggable from 'vuedraggable';
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
 
 const props = defineProps({
   dialog: { type: Boolean, required: true },

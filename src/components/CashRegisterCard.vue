@@ -8,25 +8,27 @@
         <span class="ml-2 text-h6">{{ name }}</span>
       </div>
       <div class="d-flex align-center">
-        <v-chip :color="status === 'Aktivní' ? 'success' : 'grey'" class="mr-2">
-          {{ status }}
+        <v-chip :color="status === 'Aktivní' ? 'success' : 'grey'" size="small" class="mr-2">
+          {{ status === 'Aktivní' ? t('cashRegister.statusActive') : t('cashRegister.statusInactive') }}
         </v-chip>
         <v-btn icon="mdi-cog" variant="text"></v-btn>
       </div>
     </v-card-title>
 
     <v-card-text class="py-2">
-      <div>Kód pokladny: <span class="font-weight-medium">{{ code }}</span></div>
-      <div>Poslední aktivita: <span class="font-weight-medium">{{ lastActivity }}</span></div>
-      <div>Mód pokladny: <span class="font-weight-medium">{{ mode }}</span></div>
-      <div>Přihlášený uživatel: <span class="font-weight-medium">{{ loggedInUser }}</span></div>
+      <div class="text-caption text-medium-emphasis">{{ t('cashRegister.code') }}: <span class="font-weight-medium">{{ code }}</span></div>
+      <div class="text-caption text-medium-emphasis">{{ t('cashRegister.lastActivity') }}: <span class="font-weight-medium">{{ lastActivity }}</span>
+      </div>
+      <div class="text-caption text-medium-emphasis">{{ t('cashRegister.mode') }}: <span class="font-weight-medium">{{ mode }}</span></div>
+      <div class="text-caption text-medium-emphasis">{{ t('cashRegister.loggedInUser') }}: <span class="font-weight-medium">{{ loggedInUser }}</span>
+      </div>
       <v-divider class="my-2"></v-divider>
       <div class="d-flex justify-space-between align-baseline my-2">
-        <div>Stav hotovosti:</div>
+        <div class="text-caption text-medium-emphasis">{{ t('cashRegister.cashAmount') }}:</div>
         <div class="text-subtitle-1 font-weight-bold">{{ cashAmount }}</div>
       </div>
       <div class="d-flex justify-space-between align-baseline">
-        <div>Počet objednávek:</div>
+        <div class="text-caption text-medium-emphasis">{{ t('cashRegister.orderCount') }}:</div>
         <div class="text-subtitle-1 font-weight-bold">{{ orderCount }}</div>
       </div>
     </v-card-text>
@@ -35,63 +37,40 @@
 
     <v-card-actions class="d-flex flex-wrap pa-2">
       <v-btn color="success" variant="flat" class="ma-1" prepend-icon="mdi-swap-horizontal">
-        SMĚNY
+        {{ t('cashRegister.shiftsBtn') }}
       </v-btn>
-
       <v-btn color="success" variant="flat" class="ma-1" prepend-icon="mdi-cash">
-        POKLADNÍ DENÍK
+        {{ t('cashRegister.cashBookBtn') }}
       </v-btn>
-
       <v-btn color="success" variant="flat" class="ma-1" prepend-icon="mdi-clipboard-list-outline">
-        OBJEDNÁVKY
+        {{ t('cashRegister.ordersBtn') }}
       </v-btn>
       <v-btn color="primary" variant="flat" class="ma-1" prepend-icon="mdi-receipt">
-        ÚČTENKY
+        {{ t('cashRegister.receiptsBtn') }}
       </v-btn>
       <v-btn color="primary" variant="flat" class="ma-1" prepend-icon="mdi-currency-usd">
-        PRODEJE
+        {{ t('cashRegister.salesBtn') }}
       </v-btn>
       <v-btn color="error" variant="flat" class="ma-1" prepend-icon="mdi-chart-bar">
-        Z-REPORTY
+        {{ t('cashRegister.zReportsBtn') }}
       </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+
 defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-  status: {
-    type: String,
-    required: true,
-  },
-  code: {
-    type: String,
-    required: true,
-  },
-  lastActivity: {
-    type: String,
-    default: 'N/A',
-  },
-  mode: {
-    type: String,
-    default: 'N/A',
-  },
-  loggedInUser: {
-    type: String,
-    default: 'Není přihlášen',
-  },
-  cashAmount: {
-    type: String,
-    default: '0,00 Kč',
-  },
-  orderCount: {
-    type: Number,
-    default: 0,
-  },
+  name: { type: String, required: true },
+  status: { type: String, required: true },
+  code: { type: String, required: true },
+  lastActivity: { type: String, default: 'N/A' },
+  mode: { type: String, default: 'N/A' },
+  loggedInUser: { type: String, default: 'N/A' }, // Změnit default na N/A, pak překládat až při zobrazení
+  cashAmount: { type: String, default: '0,00 Kč' },
+  orderCount: { type: Number, default: 0 },
 });
 </script>
 

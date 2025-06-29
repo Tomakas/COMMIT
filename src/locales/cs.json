@@ -1,64 +1,80 @@
 {
-    "nav": {
-      "dashboard": "Přehled",
-      "sales": "Prodeje",
-      "items": "Položky",
-      "warehouse": "Sklad",
-      "cashregister": "Pokladna",
-      "addressbook": "Adresář",
-      "export": "Export",
-      "settings": "Nastavení",
-      "support": "Podpora",
-      "profile": "Profil",
-      "stores": "Prodejny",
+  "nav": {
+    "dashboard": "Přehled",
+    "sales": "Prodeje",
+    "items": "Položky",
+    "warehouse": "Sklad",
+    "cashregister": "Pokladna",
+    "addressbook": "Adresář",
+    "export": "Export",
+    "settings": "Nastavení",
+    "support": "Podpora",
+    "profile": "Profil",
+    "stores": "Prodejny",
 
-      "logout": "Odhlásit se"
+    "logout": "Odhlásit se"
+  },
+  "settings": {
+    "appearance": "Vzhled",
+    "company": "Firma",
+    "permissions": "Oprávnění",
+    "mode": "Režim zobrazení",
+    "navMenu": "Umístění menu",
+    "menuText": "Styl menu",
+    "language": "Jazyk"
+  },
+  "settings_tabs": {
+    "appearance": "Vzhled",
+    "company": "Firma",
+    "permissions": "Oprávnění",
+    "remoteOrders": "Vzdálené objednávky",
+    "suspiciousActivity": "Podezřelá aktivita",
+    "integrations": "Integrace",
+    "licences": "Licence"
+  },
+  "sales": {
+    "productSales": "Prodej produktů",
+    "receipts": "Vystavené účtenky",
+    "productHeaders": {
+      "product": "Produkt",
+      "quantity": "Množství",
+      "pricePerUnit": "Cena/ks",
+      "totalPrice": "Celková cena"
     },
-    "settings": {
-      "appearance": "Vzhled",
-      "company": "Firma",
-      "permissions": "Oprávnění",
-      "mode": "Režim zobrazení",
-      "navMenu": "Umístění menu",
-      "menuText": "Styl menu",
-      "language": "Jazyk"
+    "receiptHeaders": {
+      "id": "ID účtenky",
+      "date": "Datum",
+      "amount": "Celkem",
+      "customer": "Zákazník"
     },
-    "settings_tabs": {
-      "appearance": "Vzhled",
-      "company": "Firma",
-      "permissions": "Oprávnění",
-      "remoteOrders": "Vzdálené objednávky",
-      "suspiciousActivity": "Podezřelá aktivita",
-      "integrations": "Integrace",
-      "licences": "Licence"
-    },
-    "sales": {
-      "productSales": "Prodej produktů",
-      "receipts": "Vystavené účtenky",
-      "productHeaders": {
-        "product": "Produkt",
-        "quantity": "Množství",
-        "pricePerUnit": "Cena/ks",
-        "totalPrice": "Celková cena"
-      },
-      "receiptHeaders": {
-        "id": "ID účtenky",
-        "date": "Datum",
-        "amount": "Celkem",
-        "customer": "Zákazník"
-      },
-      "table": {
-        "search": "Hledat...",
-        "itemsPerPage": "Položek na stránku"
-      }
-    },
-      "login": {
+    "table": {
+      "search": "Hledat...",
+      "itemsPerPage": "Položek na stránku"
+    }
+  },
+  "login": {
     "welcome": "Vítejte Elementary POS",
     "username_or_email": "Uživatelské jméno",
     "password": "Heslo",
     "create_account": "Vytvořit účet",
     "forgot_password": "Zapomenuté heslo?",
     "log_in": "Přihlásit se",
-    "enter_demo": "Demo účet"
+    "enter_demo": "Demo, účet"
+  },
+  "cashRegister": {
+    "statusActive": "Aktivní",
+    "statusInactive": "Neaktivní",
+    "code": "Kód",
+    "lastActivity": "Poslední aktivita",
+    "mode": "Režim",
+    "loggedInUser": "Přihlášený uživatel",
+    "cashAmount": "Částka v hotovosti",
+    "orderCount": "Počet objednávek",
+    "shiftsBtn": "Směny",
+    "cashBookBtn": "Pokladní kniha",
+    "ordersBtn": "Objednávky",
+    "receiptsBtn": "Účtenky",
+    "salesBtn": "Prodeje",
+    "zReportsBtn": "Z-Přehledy"
   }
-  }
+}
