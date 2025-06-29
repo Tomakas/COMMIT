@@ -21,13 +21,23 @@ const pageConfig = {
       id: 'receipts',
       name: 'Receipts',
       headers: [
-        { title: 'Date & Time', key: 'dateTime', required: true, mobileMain: 'left', mobileListLeft: true, visible: true },
-        { title: 'Receipt Number', key: 'receiptId', required: true, mobileListLeft: true, visible: true },
-        { title: 'Amount', key: 'amount', align: 'end', required: true, mobileMain: 'right', visible: true },
+        { title: 'Da    te & Time', key: 'dateTime', required: true, mobileMain: 'left', mobileListLeft: true, visible: true },
+        { title: 'Receipt ID', key: 'receiptId', required: true, mobileListLeft: true, visible: false }, // Přidáno: Skutečné ID účtenky (UUID)
+        { title: 'Receipt Number', key: 'receiptNumber', required: true, mobileMain: 'left', mobileListLeft: true, visible: true }, // Změněn klíč na 'receiptNumber'
+        { title: 'Total', key: 'total', align: 'end', required: true, mobileMain: 'right', visible: true }, // Změněn název a klíč na 'total'
         { title: 'Payment Type', key: 'paymentType', align: 'start', required: false, mobileListLeft: false, visible: true },
-        { title: 'Customer', key: 'customerName', required: false, mobileListLeft: true, visible: true },
+        { title: 'Customer', key: 'customer', required: false, mobileListLeft: true, visible: true }, // Nová hlavička pro plné jméno zákazníka
+        { title: 'Customer Short Name', key: 'customerShortName', required: false, mobileListLeft: true, visible: false }, // Původní hlavička pro zkrácené jméno, nyní skrytá
         { title: 'Note', key: 'note', required: false, mobileListLeft: true, visible: false },
-        { title: 'User', key: 'userName', required: false, mobileListLeft: true, visible: true },
+        { title: 'User', key: 'user', required: false, mobileListLeft: true, visible: true }, // Změněn klíč na 'user'
+        { title: 'Code 1', key: 'code1', required: false, visible: false }, // Přidáno z API odpovědi
+        { title: 'Code 2', key: 'code2', required: false, visible: false }, // Přidáno z API odpovědi
+        { title: 'Cash Register', key: 'cashRegister', required: false, visible: false }, // Přidáno z API odpovědi
+        { title: 'Validity', key: 'validity', required: false, visible: false }, // Přidáno z API odpovědi
+        { title: 'Print Num', key: 'printNum', required: false, visible: false }, // Přidáno z API odpovědi
+        { title: 'Shift Code', key: 'shiftCode', required: false, visible: false }, // Přidáno z API odpovědi
+        { title: 'Bill Name', key: 'billName', required: false, visible: false }, // Přidáno z API odpovědi
+        { title: 'Negative', key: 'negative', required: false, visible: false }, // Přidáno z API odpovědi
       ],
       items: [],
     },
@@ -36,50 +46,50 @@ const pageConfig = {
       name: 'Sold Items',
       headers: [
         { title: 'Date & Time', key: 'dateTime', required: false, mobileListLeft: true, visible: true },
-        { title: 'Receipt Number', key: 'receiptId', required: false, mobileListLeft: true, visible: true },
-        { title: 'Product', key: 'item', align: 'start', required: true, mobileMain: 'left', visible: true },
-        { title: 'Quantity', key: 'quantity', align: 'end', required: true, mobileListLeft: false, visible: true },
-        { title: 'Price/Unit', key: 'pricePerItem', align: 'end', required: false, mobileListLeft: false, visible: true },
-        { title: 'Total', key: 'totalPrice', align: 'end', required: true, mobileMain: 'right', visible: true },
+        { title: 'Receipt ID', key: 'receiptId', required: false, mobileListLeft: true, visible: false }, // Používáme skutečné ID
+        { title: 'Receipt Number', key: 'receiptNumber', required: false, mobileListLeft: true, visible: true }, // Používáme klíč z API
+        { title: 'Product', key: 'item', align: 'start', required: true, mobileMain: 'left', visible: true }, // Zástupný symbol pro položku
+        { title: 'Quantity', key: 'quantity', align: 'end', required: true, mobileListLeft: false, visible: true }, // Zástupný symbol pro množství
+        { title: 'Price/Unit', key: 'pricePerItem', align: 'end', required: false, mobileListLeft: false, visible: true }, // Zástupný symbol pro cenu za jednotku
+        { title: 'Total', key: 'total', align: 'end', required: true, mobileMain: 'right', visible: true }, // Změněn klíč na 'total'
         { title: 'Payment Type', key: 'paymentType', align: 'start', required: false, mobileListLeft: false, visible: false },
-        { title: 'User', key: 'userName', required: false, mobileListLeft: true, visible: false },
+        { title: 'User', key: 'user', required: false, mobileListLeft: true, visible: false }, // Změněn klíč na 'user'
       ],
       items: [],
     }
   ],
 
   fetchData: async (locale) => {
-    const salesData = await api.getSales();
+    const receiptData = await api.getReceipts(); // Získá data z API
 
-    if (!salesData || salesData.length === 0) {
+    if (!receiptData || receiptData.length === 0) {
       return { receipts: [], products: [] };
     }
 
     const priceLocale = locale === 'cs' ? 'cs-CZ' : 'en-GB';
     const currency = locale === 'cs' ? 'CZK' : 'GBP';
 
-    const receiptsMap = new Map();
-    salesData.forEach(sale => {
-      if (!receiptsMap.has(sale.receiptId)) {
-        receiptsMap.set(sale.receiptId, { ...sale, amount: 0 });
-      }
-      receiptsMap.get(sale.receiptId).amount += sale.totalPrice;
-    });
-
-    const receiptsItems = Array.from(receiptsMap.values())
+    // Zpracování dat pro panel 'receipts'
+    const receiptsItems = receiptData
       .map(r => ({
-        ...r,
-        dateTime: formatDate(r.dateTime, { includeSeconds: false }),
-        amount: formatCurrency(r.amount, { locale: priceLocale, currency }),
+        ...r, // Rozprostře všechny původní vlastnosti z API objektu
+        dateTime: formatDate(r.dateTime, { includeSeconds: false }), // Formátuje datum a čas
+        // Parsuje řetězec 'total' (např. "78,00 Kč") na číslo a poté formátuje jako měnu.
+        total: formatCurrency(parseFloat(r.total.replace(',', '.').replace(/[^\d.-]/g, '')), { locale: priceLocale, currency }),
       }))
       .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
 
-    const productsItems = salesData
+    // Zpracování dat pro panel 'products' (zatím založeno na datech na úrovni účtenek, zástupné symboly pro pole specifická pro položky)
+    const productsItems = receiptData
       .map(sale => ({
-        ...sale,
-        dateTime: formatDate(sale.dateTime, { includeSeconds: true }),
-        pricePerItem: formatCurrency(sale.pricePerItem, { locale: priceLocale, currency }),
-        totalPrice: formatCurrency(sale.totalPrice, { locale: priceLocale, currency }),
+        ...sale, // Rozprostře všechny původní vlastnosti z API objektu
+        dateTime: formatDate(sale.dateTime, { includeSeconds: true }), // Formátuje datum a čas
+        // Tyto jsou zástupné symboly, protože data na úrovni položek nejsou v aktuální struktu API odpovědi
+        item: 'N/A',
+        quantity: 'N/A',
+        pricePerItem: 'N/A',
+        // Použije celkovou částku účtenky jako 'total' pro 'produkt' a naformátuje ji.
+        total: formatCurrency(parseFloat(sale.total.replace(',', '.').replace(/[^\d.-]/g, '')), { locale: priceLocale, currency }),
       }))
       .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
 

@@ -36,16 +36,17 @@ export async function getDirectory(locale) {
 }
 
 /**
- * Získá data o prodejích z reálného API.
- * @returns {Promise<Array>} Pole se záznamy o prodejích.
+ * Získá data o účtenkách/prodejích z reálného API.
+ * @param {object} queryParams - Objekt s parametry pro dotaz API (např. filtry, limit, sortData).
+ * @returns {Promise<Array>} Pole se záznamy o účtenkách.
  */
-export async function getSales() {
+export async function getReceipts(queryParams = {}) { // Změna názvu funkce
   try {
-    console.log('API [REAL]: Volám API pro prodeje...');
-    const response = await apiClient.get('/v1/sales');
-    return response.data;
+    console.log('API [REAL]: Volám API pro účtenky s parametry:', queryParams); // Upravený log
+    const response = await apiClient.post('/v1/sales', queryParams);
+    return response.data.list;
   } catch (error) {
-    console.error('Chyba při načítání reálných dat o prodejích:', error);
+    console.error('Chyba při načítání reálných dat o účtenkách:', error); // Upravená chybová zpráva
     throw error;
   }
 }

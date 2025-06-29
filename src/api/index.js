@@ -19,9 +19,9 @@ const getDirectory = (locale) => {
   return appStore.isDemoMode ? demo.getDirectory(locale) : real.getDirectory(locale);
 };
 
-const getSales = () => {
+const getReceipts = (queryParams) => { // Přijímáme queryParams
   const appStore = useAppStore();
-  return appStore.isDemoMode ? demo.getSales() : real.getSales();
+  return appStore.isDemoMode ? demo.getSales() : real.getReceipts(queryParams); // Voláme real.getReceipts s queryParams
 };
 
 // Exportujeme jeden objekt, který obsahuje všechny naše API funkce.
@@ -29,7 +29,7 @@ const getSales = () => {
 const api = {
   getItems,
   getDirectory,
-  getSales,
+  getReceipts,
 };
 
 export default api;
