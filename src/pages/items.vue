@@ -15,7 +15,7 @@
 
 <script setup>
 import { useCompTableData } from '@/composables/compTableData.js';
-import api from '@/api/index.js';
+import api from '@/api/API.js';
 import { formatCurrency } from '@/utils/formatters.js';
 
 const pageConfig = {

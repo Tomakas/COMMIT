@@ -1,4 +1,4 @@
-// src/api/realAPI.js
+// src/api/API.js
 import apiClient from '@/plugins/axios';
 
 /**
@@ -8,7 +8,7 @@ import apiClient from '@/plugins/axios';
  */
 export async function getItems(locale) {
   try {
-    console.log(`API [REAL]: Volám API pro položky (locale: ${locale})...`);
+    console.log(`API: Volám API pro položky (locale: ${locale})...`);
     // Sem přijde reálné volání, až ho budete mít
     const response = await apiClient.get('/v1/items', { params: { lang: locale } });
     return response.data;
@@ -20,13 +20,13 @@ export async function getItems(locale) {
 }
 
 /**
- * Získá všechny kontakty z adresáře z reálného API.
+ * Získá všechny kontakty z adresáře z API.
  * @param {string} locale - Jazyk pro lokalizaci dat.
  * @returns {Promise<Array>} Pole s kontakty.
  */
 export async function getDirectory(locale) {
   try {
-    console.log(`API [REAL]: Volám API pro adresář (locale: ${locale})...`);
+    console.log(`API: Volám API pro adresář (locale: ${locale})...`);
     const response = await apiClient.get('/v1/directory', { params: { lang: locale } });
     return response.data;
   } catch (error) {
@@ -41,7 +41,7 @@ export async function getDirectory(locale) {
  */
 export async function getSales() {
   try {
-    console.log('API [REAL]: Volám API pro prodeje...');
+    console.log('API: Volám API pro prodeje...');
     const response = await apiClient.get('/v1/sales');
     return response.data;
   } catch (error) {

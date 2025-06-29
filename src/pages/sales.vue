@@ -49,7 +49,7 @@ const pageConfig = {
   ],
 
   fetchData: async (locale) => {
-    const salesData = await api.getSales();
+    const salesData = await api.getReceipt();
 
     if (!salesData || salesData.length === 0) {
       return { receipts: [], products: [] };

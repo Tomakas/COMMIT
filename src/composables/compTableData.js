@@ -73,7 +73,6 @@ export function useCompTableData(config) {
   watch(appLocale, loadData); // Znovu načteme data při změně jazyka
   onMounted(loadData);       // Načteme data při prvním načtení stránky
 
-  // --- Vrácení veřejného API, které bude dostupné na stránce ---
   return {
     loading,
     searchText,
