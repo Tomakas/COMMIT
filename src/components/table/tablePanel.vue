@@ -11,7 +11,7 @@
 
 
     <v-btn v-if="showSum" icon="mdi-sigma" class="mx-1" variant="text"></v-btn>
-    <v-btn v-if="showFilter" icon="mdi-filter" class="mx-1" variant="text"></v-btn>
+    <v-btn v-if="showFilter" icon="mdi-filter" class="mx-1" variant="text" @click="$emit('open-filter')"></v-btn>
     <v-btn v-if="showSettings" icon="mdi-cog" class="mx-1" variant="text" @click="$emit('open-settings')"></v-btn>
   </v-toolbar>
 
@@ -29,7 +29,7 @@
         density="compact" variant="outlined" :label="t('table.search')" hide-details></v-text-field>
 
       <v-btn v-if="showSum" icon="mdi-sigma" variant="text"></v-btn>
-      <v-btn v-if="showFilter" icon="mdi-filter" variant="text"></v-btn>
+      <v-btn v-if="showFilter" icon="mdi-filter" variant="text" @click="$emit('open-filter')"></v-btn>
       <v-btn v-if="showSettings" icon="mdi-cog" variant="text" @click="$emit('open-settings')"></v-btn>
     </v-toolbar>
     <v-divider></v-divider>
@@ -53,5 +53,5 @@ defineProps({
   showSettings: { type: Boolean, default: false },
 });
 
-defineEmits(['update:activePanelId', 'update:searchText', 'open-settings']);
+defineEmits(['update:activePanelId', 'update:searchText', 'open-settings', 'open-filter']);
 </script>

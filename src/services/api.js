@@ -1,11 +1,8 @@
 // src/services/api.js
 
-// DŮLEŽITÉ: Importujeme apiClient jako pojmenovaný export
 import { apiClient } from '@/plugins/axios';
 
 /**
- * Získá seznam účtenek z API.
- *
  * @param {object} params - Objekt obsahující parametry pro dotaz na účtenky.
  * @param {string} [params.custom] - Vlastní rozsah dat ve formátu JSON řetězce ["YYYY-MM-DD","YYYY-MM-DD"].
  * @param {string} [params.customTime] - Vlastní časový rozsah ve formátu JSON řetězce [null,null] nebo ["HH:MM","HH:MM"].
@@ -25,24 +22,25 @@ import { apiClient } from '@/plugins/axios';
  * @returns {Promise<object>} Data z odpovědi API.
  * @throws {Error} Pokud dojde k chybě při volání API.
  */
+
 export const getReceipts = async (params) => {
-  // Deklarujeme endpoint mimo try blok, aby byl dostupný i v catch bloku
   const endpoint = '/receipt/get-receipts';
-
   try {
-    // Odeslání POST požadavku s parametry v těle
-    // apiClient už má nastavenou baseURL, takže stačí relativní cesta
     const response = await apiClient.post(endpoint, params);
-
-    // Vracíme data z odpovědi. Axios obvykle vrací odpověď v `response.data`.
     return response.data;
   } catch (error) {
-    // Nyní je `endpoint` definován a dostupný i zde
     console.error(`Chyba při volání ${endpoint}:`, error);
-    throw error; // Přeposíláme chybu dál
+    throw error;
   }
 };
 
-// Zde budou exportovány další funkce pro jiné API endpointy
-// export const getItems = async (itemId) => { ... };
-// export const createCustomer = async (customerData) => { ... };
+export const getReceiptsSum = async (params) => {
+  const endpoint = '/receipt/get-receipts-sum';
+  try {
+    const response = await apiClient.post(endpoint, params);
+    return response.data; // Očekávám { sum: "...", total: "..." }
+  } catch (error) {
+    console.error(`Chyba při volání ${endpoint}:`, error);
+    throw error;
+  }
+};

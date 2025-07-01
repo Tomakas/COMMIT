@@ -1,5 +1,6 @@
 <template>
-  <v-data-table v-if="!display.mobile.value" :headers="visibleHeaders" :items="filteredItems" :loading="loading" class="elevation-0" v-model:page="page" v-model:items-per-page="itemsPerPage" hide-default-footer>
+  <v-data-table v-if="!display.mobile.value" :headers="visibleHeaders" :items="items" :loading="loading" class="elevation-0" v-model:page="page"
+    v-model:items-per-page="itemsPerPage" :items-per-page="-1" :server-items-length="totalItems" hide-default-footer no-data-text=" ">
     <template v-slot:item.paymentType="{ value }">
       <v-chip :color="getPaymentChipColor(value)" size="small" variant="flat">{{ value }}</v-chip>
     </template>
@@ -7,19 +8,19 @@
 
     <template #bottom>
       <div class="d-flex justify-space-between align-center px-4 py-2">
-        <v-select v-model="itemsPerPage" :items="[10, 20, 40, 80]" :label="t('table.itemsPerPage')" density="compact" hide-details variant="outlined" style="max-width: 180px;"></v-select>
+        <v-select v-model="itemsPerPage" :items="[10, 20, 40, 80]" :label="t('table.itemsPerPage')" density="compact" hide-details variant="outlined"
+          style="max-width: 180px;"></v-select>
         <v-pagination v-model="page" :length="pageCount" :total-visible="5" density="compact"></v-pagination>
         <div class="text-caption" style="min-width: 80px; text-align: right;">
-          {{ (page - 1) * itemsPerPage + 1 }}-{{ Math.min(page * itemsPerPage, filteredItems.length) }}
-          z {{ filteredItems.length }}
-        </div>
+          {{ (page - 1) * itemsPerPage + 1 }}-{{ Math.min(page * itemsPerPage, totalItems) }}
+          z {{ totalItems }} </div>
       </div>
     </template>
   </v-data-table>
 
   <div v-else>
     <v-list class="pa-0">
-      <v-list-item v-for="(item, index) in paginatedMobileItems" :key="index" class="border-b">
+      <v-list-item v-for="item in paginatedMobileItems" :key="item.receiptId" class="border-b">
         <v-row no-gutters>
           <v-col cols="8" class="text-h7 font-weight-bold">{{ item[mainLeftHeader.key] }}</v-col>
           <v-col cols="4" class="text-h7 text-right font-weight-bold">{{ item[mainRightHeader.key] }}</v-col>
@@ -28,7 +29,9 @@
           </v-col>
           <v-col cols="4" class="d-flex flex-column align-end">
             <div v-for="h in visibleListRightHeaders" :key="h.key" class="text-caption text-medium-emphasis">
-              <v-chip v-if="h.key === 'paymentType'" :color="getPaymentChipColor(item[h.key])" size="x-small" variant="flat" class="mt-1">{{ item[h.key] }}</v-chip>
+              <v-chip v-if="h.key === 'paymentType'" :color="getPaymentChipColor(item[h.key])" size="x-small" variant="flat" class="mt-1">{{
+                item[h.key]
+              }}</v-chip>
               <span v-else>{{ item[h.key] }}</span>
             </div>
           </v-col>
@@ -37,16 +40,16 @@
     </v-list>
 
     <div class="d-flex justify-space-between align-center px-4 py-2 mt-2">
-      <v-select v-model="itemsPerPage" :items="[10, 20, 40, 80]" :label="t('table.itemsPerPage')" density="compact" hide-details variant="outlined" style="max-width: 180px;"></v-select>
+      <v-select v-model="itemsPerPage" :items="[10, 20, 40, 80]" :label="t('table.itemsPerPage')" density="compact" hide-details variant="outlined"
+        style="max-width: 180px;"></v-select>
       <div class="d-flex align-center">
         <v-btn icon size="small" variant="text" @click="page--" :disabled="page === 1">
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
         <div class="text-caption mx-2">
-          {{ (page - 1) * itemsPerPage + 1 }}-{{ Math.min(page * itemsPerPage, filteredItems.length) }}
-          z {{ filteredItems.length }}
-        </div>
-        <v-btn icon size="small" variant="text" @click="page++" :disabled="page * itemsPerPage >= filteredItems.length">
+          {{ (page - 1) * itemsPerPage + 1 }}-{{ Math.min(page * itemsPerPage, totalItems) }}
+          z {{ totalItems }} </div>
+        <v-btn icon size="small" variant="text" @click="page++" :disabled="page * itemsPerPage >= totalItems">
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
       </div>
@@ -55,40 +58,46 @@
 </template>
 
 <script setup>
-import {  ref,  computed} from 'vue';
-import {  useDisplay} from 'vuetify';
-import {  useI18n} from 'vue-i18n';
+import { ref, computed } from 'vue';
+import { useDisplay } from 'vuetify';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
-  headers: {
-    type: Array,
-    required: true
-  },
-  items: {
-    type: Array,
-    required: true
-  },
-  search: {
-    type: String,
-    default: ''
-  },
-  loading: {
-    type: Boolean,
-    default: false
-  }
+  headers: { type: Array, required: true },
+  items: { type: Array, required: true },
+  search: { type: String, default: '' },
+  loading: { type: Boolean, default: false },
+  page: { type: Number, default: 1 },
+  itemsPerPage: { type: Number, default: 10 },
+  totalItems: { type: Number, default: 0 },
 });
 
-const page = ref(1);
-const itemsPerPage = ref(10);
+const emit = defineEmits(['update:page', 'update:items-per-page']);
+
+const page = computed({
+  get: () => props.page,
+  set: (val) => {
+    // Zajistíme, že hodnota stránky je vždy minimálně 1
+    const safeVal = Math.max(1, val);
+    emit('update:page', safeVal);
+  },
+});
+
+const itemsPerPage = computed({
+  get: () => props.itemsPerPage,
+  set: (val) => emit('update:items-per-page', val),
+});
+
+
 const display = useDisplay();
-const {
-  t
-} = useI18n();
+const { t } = useI18n();
+
 const visibleHeaders = computed(() => props.headers.filter(h => h.visible !== false));
 const mainLeftHeader = computed(() => props.headers.find(h => h.mobileMain === 'left'));
 const mainRightHeader = computed(() => props.headers.find(h => h.mobileMain === 'right'));
 const visibleListLeftHeaders = computed(() => visibleHeaders.value.filter(h => h.mobileListLeft === true && !h.mobileMain));
 const visibleListRightHeaders = computed(() => visibleHeaders.value.filter(h => h.mobileListLeft === false && !h.mobileMain));
+
 
 const filteredItems = computed(() => {
   if (!props.search) {
@@ -102,14 +111,12 @@ const filteredItems = computed(() => {
 });
 
 const paginatedMobileItems = computed(() => {
-  const start = (page.value - 1) * itemsPerPage.value;
-  const end = start + itemsPerPage.value;
-  return filteredItems.value.slice(start, end);
+  return filteredItems.value;
 });
 
 const pageCount = computed(() => {
-  if (itemsPerPage.value <= 0) return 0;
-  return Math.ceil(filteredItems.value.length / itemsPerPage.value);
+  if (itemsPerPage.value <= 0 || props.totalItems === 0) return 0;
+  return Math.ceil(props.totalItems / itemsPerPage.value);
 });
 
 const getPaymentChipColor = (paymentType) => {
