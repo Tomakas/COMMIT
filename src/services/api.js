@@ -44,3 +44,29 @@ export const getReceiptsSum = async (params) => {
     throw error;
   }
 };
+
+/**
+ * @param {object} params - Objekt obsahující parametry pro dotaz na položky.
+ * @param {string} [params.categoryIdFilter] - Filtr podle ID kategorie.
+ * @param {boolean} [params.categoryRootFilter] - Zda filtrovat jen kořenové kategorie.
+ * @param {object} [params.limitAndOffset] - Objekt pro paginaci.
+ * @param {number} [params.limitAndOffset.limit] - Maximální počet vrácených položek.
+ * @param {number} [params.limitAndOffset.offset] - Ofset pro paginaci.
+ * @param {boolean} [params.onlyOnSale] - Zda vrátit pouze položky v prodeji.
+ * @param {string} [params.query] - Vyhledávací dotaz.
+ * @param {object} [params.sortData] - Objekt pro řazení dat.
+ * @param {string} [params.sortData.sortBy] - Klíč pro řazení (např. "mcode").
+ * @param {string} [params.sortData.sortType] - Typ řazení ("asc" nebo "desc").
+ * @returns {Promise<object>} Data z odpovědi API.
+ * @throws {Error} Pokud dojde k chybě při volání API.
+ */
+export const getItems = async (params) => {
+  const endpoint = '/item/get-items';
+  try {
+    const response = await apiClient.post(endpoint, params);
+    return response.data;
+  } catch (error) {
+    console.error(`Chyba při volání ${endpoint}:`, error);
+    throw error;
+  }
+};

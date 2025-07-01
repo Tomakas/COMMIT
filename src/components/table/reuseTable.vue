@@ -31,7 +31,7 @@
             <div v-for="h in visibleListRightHeaders" :key="h.key" class="text-caption text-medium-emphasis">
               <v-chip v-if="h.key === 'paymentType'" :color="getPaymentChipColor(item[h.key])" size="x-small" variant="flat" class="mt-1">{{
                 item[h.key]
-              }}</v-chip>
+                }}</v-chip>
               <span v-else>{{ item[h.key] }}</span>
             </div>
           </v-col>

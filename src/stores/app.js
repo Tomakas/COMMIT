@@ -23,6 +23,7 @@ export const useAppStore = defineStore('app', () => {
 
   const currentPage = ref(1);
   const itemsPerPage = ref(10);
+  const totalItems = ref(0);     // Už existuje, bude se plnit z getReceiptsSum.total
   const totalReceipts = ref(0);     // Už existuje, bude se plnit z getReceiptsSum.total
   const totalSum = ref('0,00 Kč');  // NOVÁ PROMĚNNÁ pro celkovou sumu
 
@@ -60,8 +61,9 @@ export const useAppStore = defineStore('app', () => {
     getReceiptsTo,
     currentPage,
     itemsPerPage,
+    totalItems,
     totalReceipts,
-    totalSum, // Exportujeme novou proměnnou
+    totalSum,
     isAuthenticated,
     userName,
     userRole,
@@ -79,9 +81,7 @@ export const useAppStore = defineStore('app', () => {
       'dateRangeTo',
       'getReceiptsFrom',
       'getReceiptsTo',
-      'currentPage',
       'itemsPerPage',
-      'totalSum', // Přidáno pro perzistenci
     ],
   },
 });
