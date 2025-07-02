@@ -52,13 +52,14 @@ const pageConfig = {
       name: 'Sold Items',
       headers: [
         { title: 'Date & Time', key: 'dateTime', required: false, mobileListLeft: true, visible: true },
-        { title: 'Receipt Number', key: 'receiptId', required: false, mobileListLeft: true, visible: true },
-        { title: 'Product', key: 'item', align: 'start', required: true, mobileMain: 'left', visible: true },
-        { title: 'Quantity', key: 'quantity', align: 'end', required: true, mobileListLeft: false, visible: true },
-        { title: 'Price/Unit', key: 'pricePerItem', align: 'end', required: false, mobileListLeft: false, visible: true },
-        { title: 'Total', key: 'totalPrice', align: 'end', required: true, mobileMain: 'right', visible: true },
+        { title: 'Receipt ID', key: 'receiptId', required: false, mobileListLeft: true, visible: false }, // Používáme skutečné ID
+        { title: 'Receipt Number', key: 'receiptNumber', required: false, mobileListLeft: true, visible: true }, // Používáme klíč z API
+        { title: 'Product', key: 'item', align: 'start', required: true, mobileMain: 'left', visible: true }, // Zástupný symbol pro položku
+        { title: 'Quantity', key: 'quantity', align: 'end', required: true, mobileListLeft: false, visible: true }, // Zástupný symbol pro množství
+        { title: 'Price/Unit', key: 'pricePerItem', align: 'end', required: false, mobileListLeft: false, visible: true }, // Zástupný symbol pro cenu za jednotku
+        { title: 'Total', key: 'total', align: 'end', required: true, mobileMain: 'right', visible: true }, // Změněn klíč na 'total'
         { title: 'Payment Type', key: 'paymentType', align: 'start', required: false, mobileListLeft: false, visible: false },
-        { title: 'User', key: 'userName', required: false, mobileListLeft: true, visible: false },
+        { title: 'User', key: 'user', required: false, mobileListLeft: true, visible: false }, // Změněn klíč na 'user'
       ],
       items: [],
     }
