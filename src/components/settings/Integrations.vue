@@ -1,26 +1,80 @@
 <template>
-  <v-card-text class="text-left pa-4">
-    <v-btn color="primary" @click="handleGeneration">
-      Get Demo Data
-    </v-btn>
-  </v-card-text>
+  <div>
+    <h1>Přehled prodejů</h1>
+    <p v-if="loading">Načítám účtenky...</p>
+    <p v-if="error" class="error-message">Chyba při načítání: {{ error.message }}</p>
+    <div v-else>
+      <ul>
+        <li v-for="receipt in receipts" :key="receipt.id">
+          Účtenka #{{ receipt.id }}: {{ receipt.amount }} {{ receipt.currency }}
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { useAppStore } from '@/stores/app';
-import { storeToRefs } from 'pinia';
-import { generateAndStoreDemoData } from '@/demo/demoGenerator.js';
+import { ref, onMounted } from 'vue';
+import { getReceipts } from '@/services/api'; // Importujeme naši funkci
 
-const appStore = useAppStore();
-const { appLocale } = storeToRefs(appStore);
+const receipts = ref([]);
+const loading = ref(false);
+const error = ref(null);
 
-const handleGeneration = async () => {
-  if (confirm('Opravdu si přejete přepsat stávající demo data?')) {
-    console.log(`Zahajuji generování demo dat pro lokalizaci: ${appLocale.value}...`);
+const fetchReceipts = async () => {
+  loading.value = true;
+  error.value = null; // Vyresetujeme chybu před novým voláním
 
-    await generateAndStoreDemoData({ locale: appLocale.value });
+  // Příklad parametrů dotazu (tyto by se obvykle načítaly z formuláře, store atd.)
+  const queryParams = {
+    "custom": "[\"2024-05-04\",\"2024-05-04\"]",
+    "customTime": "[null,null]",
+    "day": "yesterday",
+    "filter": {
+      "customer": "",
+      "device": "",
+      "discount": "",
+      "paymentType": "",
+      "query": "",
+      "totalFrom": "",
+      "totalTo": "",
+      "user": "",
+      "valid": ""
+    },
+    "generateFilters": false,
+    "limit": 50,
+    "month": 1,
+    "quarter": 1,
+    "sortData": {
+      "sortBy": "dateTime",
+      "sortType": "desc"
+    },
+    "type": "year",
+    "useServerTime": false,
+    "week": "thisWeek",
+    "year": 2025
+  };
 
-    alert('Nová demo data byla úspěšně vygenerována a uložena.');
+  try {
+    // Voláme naši API funkci
+    const data = await getReceipts(queryParams);
+    receipts.value = data;
+  } catch (err) {
+    // Zpracujeme chybu, která se prohodila z api.js
+    console.error("Chyba v komponentě při načítání účtenek:", err);
+    error.value = err;
+  } finally {
+    loading.value = false;
   }
 };
+
+onMounted(() => {
+  fetchReceipts();
+});
 </script>
+
+<style scoped>
+.error-message {
+  color: red;
+}
+</style>

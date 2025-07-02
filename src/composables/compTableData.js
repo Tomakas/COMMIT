@@ -1,41 +1,39 @@
-import { ref, computed, onMounted, watch } from 'vue';
+// src/composables/compTableData.js
+import { ref, computed, watch, onMounted } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { storeToRefs } from 'pinia';
+import { getReceiptsSum } from '@/services/api';
 
 /**
  * Composable funkce pro správu logiky stránek s datovými tabulkami.
  *
  * @param {object} config - Konfigurační objekt specifický pro danou stránku.
  * @param {Array} config.panels - Pole panelů (záložek) s jejich konfigurací (id, name, headers).
- * @param {Function} config.fetchData - Asynchronní funkce pro načtení a zpracování dat.
- * - Jako argument přijímá aktuální jazyk (locale).
- * - Musí vracet objekt, kde klíče odpovídají ID panelů a hodnoty jsou pole položek pro daný panel.
- * - Příklad pro stránku 'sales': return { receipts: [...], products: [...] }
+ * @param {Function} config.fetchData - Asynchronní funkce pro načtení a zpracování dat tabulky.
+ * - Přijímá (locale, page, limit, filterParams).
+ * - Musí vracet objekt { items: [], totalCount: number, [optional: categories: []] }.
+ * @param {Function} [config.fetchSumData] - Volitelná asynchronní funkce pro načtení souhrnných dat.
+ * - Přijímá (locale, filterParams).
+ * - Musí vracet objekt { sum: string, total: string }.
  *
  * @returns {object} - Reaktivní proměnné a funkce pro použití v šabloně komponenty.
  */
 export function useCompTableData(config) {
-  // Přístup k globálnímu stavu (pro sledování změny jazyka)
   const appStore = useAppStore();
-  const { appLocale } = storeToRefs(appStore);
+  const { appLocale, currentPage, itemsPerPage, totalReceipts, totalSum } = storeToRefs(appStore);
 
-  // --- Reaktivní stav sdílený napříč stránkami ---
-  const loading = ref(true);
+  const loading = ref(false); // Defaultně nastavit na false
   const searchText = ref('');
   const columnDialog = ref(false);
-  const tablePanels = ref(config.panels); // Inicializace panelů z předané konfigurace
+  const tablePanels = ref(config.panels);
   const activePanelId = ref(tablePanels.value[0]?.id || null);
 
-  // --- Vypočtená vlastnost pro aktivní panel ---
+  const currentTotalItems = ref(0);
+
   const activePanel = computed(() => {
     return tablePanels.value.find(p => p.id === activePanelId.value);
   });
 
-  // --- Sdílené funkce ---
-  /**
-   * Zpracovává aktualizaci sloupců z dialogového okna.
-   * @param {Array} newHeaders - Nová konfigurace hlaviček.
-   */
   const handleHeadersUpdate = (newHeaders) => {
     if (activePanel.value) {
       activePanel.value.headers = newHeaders;
@@ -43,37 +41,160 @@ export function useCompTableData(config) {
   };
 
   /**
-   * Hlavní funkce pro načtení dat. Používá specifickou funkci `fetchData`
-   * předanou v konfiguraci, aby byla znovupoužitelná pro různé stránky.
+   * Funkce pro načtení dat a souhrnů. Volána reaktivně.
    */
   const loadData = async () => {
+    console.log('--- loadData() VOLÁNA ---');
+    console.log(`  Active Panel: ${activePanelId.value}`);
+    console.log(`  currentPage: ${currentPage.value}`);
+    console.log(`  itemsPerPage: ${itemsPerPage.value}`);
+    console.log(`  Loading status (before set): ${loading.value}`);
+
+    if (loading.value) {
+      console.log('  Načítání už probíhá, přeskakuji volání API.');
+      return;
+    }
+
     loading.value = true;
     try {
-      // Zavoláme specifickou fetchData funkci, kterou nám stránka předala
-      const processedData = await config.fetchData(appLocale.value);
+      const filterParams = {
+        custom: JSON.stringify([appStore.getReceiptsFrom, appStore.getReceiptsTo]),
+        customTime: "[null,null]",
+        generateFilters: true,
+        filter: { "paymentType": "", "user": "", "device": "", "totalFrom": "", "totalTo": "", "query": "", "discount": "", "valid": "", "customer": "" },
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+        quarter: Math.floor((new Date().getMonth() + 3) / 3),
+        day: "today",
+        week: "thisWeek",
+        useServerTime: false,
+        type: "custom",
+      };
 
-      // Aktualizujeme položky v panelech na základě klíčů a hodnot vrácených z fetchData
-      for (const panelId in processedData) {
+      let fetchParams = {};
+      if (activePanelId.value === 'items') {
+        fetchParams = {
+          query: searchText.value,
+          categoryIdFilter: null,
+          categoryRootFilter: false,
+          sortData: {
+            sortBy: 'mcode',
+            sortType: 'asc',
+          },
+          onlyOnSale: true,
+          limitAndOffset: {
+            limit: itemsPerPage.value,
+            offset: (currentPage.value - 1) * itemsPerPage.value,
+          },
+        };
+        console.log('  Calling getItems with params:', fetchParams);
+      } else if (activePanelId.value === 'receipts') {
+        fetchParams = {
+          ...filterParams,
+          "limit": itemsPerPage.value,
+          "page": currentPage.value - 1,
+        };
+        console.log('  Calling getReceipts with params:', fetchParams);
+      } else {
+        console.log('  Unknown panel, skipping API call.');
+        loading.value = false;
+        return;
+      }
+
+      const tableDataResult = await config.fetchData(appLocale.value, currentPage.value, itemsPerPage.value, fetchParams);
+
+
+      for (const panelId in tableDataResult) {
         const panel = tablePanels.value.find(p => p.id === panelId);
         if (panel) {
-          panel.items = processedData[panelId];
+          panel.items = tableDataResult[panelId].items;
+          if (panelId === activePanelId.value) {
+            currentTotalItems.value = tableDataResult[panelId].totalCount;
+            console.log(`  Updated currentTotalItems for ${panelId}: ${currentTotalItems.value}`);
+          }
         }
+      }
+
+      if (config.fetchSumData && activePanelId.value === 'receipts') {
+        const sumDataResult = await config.fetchSumData(appLocale.value, filterParams);
+        if (sumDataResult) {
+          totalSum.value = sumDataResult.sum || '0,00 Kč';
+          totalReceipts.value = parseInt(sumDataResult.total) || 0;
+          console.log(`  Updated totalSum: ${totalSum.value}, totalReceipts: ${totalReceipts.value}`);
+        }
+      } else if (activePanelId.value !== 'receipts') {
+        totalReceipts.value = 0;
+        totalSum.value = '0,00 Kč';
       }
 
     } catch (error) {
       console.error(`Chyba při načítání dat v useCompTableData pro ${config.panels[0]?.id}:`, error);
-      // V případě chyby bezpečně vyprázdníme všechny panely
       tablePanels.value.forEach(p => { p.items = []; });
+      totalReceipts.value = 0;
+      totalSum.value = '0,00 Kč';
+      currentTotalItems.value = 0;
     } finally {
       loading.value = false;
+      console.log('--- loadData() UKONČENA ---');
     }
   };
 
-  // --- Lifecycle Hooks a Watchers ---
-  watch(appLocale, loadData); // Znovu načteme data při změně jazyka
-  onMounted(loadData);       // Načteme data při prvním načtení stránky
+  const initialLoadTriggered = ref(false); // Nový flag pro řízení prvního spuštění
 
-  // --- Vrácení veřejného API, které bude dostupné na stránce ---
+  watch(
+    [activePanelId, appLocale, currentPage, itemsPerPage, appStore.getReceiptsFrom, appStore.getReceiptsTo],
+    ([newActivePanelId, newAppLocale, newCurrentPage, newItemsPerPage, newDateFrom, newDateTo],
+      [oldActivePanelId, oldAppLocale, oldCurrentPage, oldItemsPerPage, oldDateFrom, oldDateTo]) => {
+
+      console.log('--- WATCH TRIGGERED ---');
+      console.log(`  activePanelId: ${oldActivePanelId} -> ${newActivePanelId}`);
+      console.log(`  appLocale: ${oldAppLocale} -> ${newAppLocale}`);
+      console.log(`  currentPage: ${oldCurrentPage} -> ${newCurrentPage}`);
+      console.log(`  itemsPerPage: ${oldItemsPerPage} -> ${newItemsPerPage}`);
+      console.log(`  DateFrom: ${oldDateFrom} -> ${newDateFrom}`);
+      console.log(`  DateTo: ${oldDateTo} -> ${newDateTo}`);
+
+      // Zabraňte prvnímu spuštění, pokud se jedná o nechtěnou inicializaci,
+      // ale pouze po ověření, že se nejedná o smysluplnou změnu
+      if (!initialLoadTriggered.value &&
+        newActivePanelId === oldActivePanelId &&
+        newAppLocale === oldAppLocale &&
+        newCurrentPage === oldCurrentPage &&
+        newItemsPerPage === oldItemsPerPage &&
+        newDateFrom === oldDateFrom &&
+        newDateTo === oldDateTo) {
+        console.log('  Skipping initial redundant watch trigger.');
+        initialLoadTriggered.value = true;
+        return;
+      }
+
+      initialLoadTriggered.value = true; // Nastavte na true po prvním smysluplném triggeru
+
+      // Reset currentPage na 1, pokud se změní aktivní panel nebo datumové filtry
+      // Toto je nyní explicitně řešeno, aby se zamezilo dvojímu spouštění
+      // Používáme String() pro bezpečné porovnání undefined/null s řetězci
+      const dateFilterChanged = String(newDateFrom) !== String(oldDateFrom) || String(newDateTo) !== String(oldDateTo);
+
+      if (
+        newActivePanelId !== oldActivePanelId ||
+        dateFilterChanged
+      ) {
+        if (currentPage.value !== 1) { // Pouze resetujeme, pokud už nejsme na stránce 1
+          console.log(`  RESETTING currentPage to 1 due to panel/date change.`);
+          currentPage.value = 1;
+          // Return, protože změna currentPage sama spustí tento watch znovu
+          // a tehdy se provede loadData.
+          return;
+        }
+      }
+
+      // Spustíme loadData, protože nastala nějaká relevantní změna
+      console.log('  Calling loadData from main watch effect.');
+      loadData();
+    },
+    { immediate: true }
+  );
+
   return {
     loading,
     searchText,
@@ -82,5 +203,11 @@ export function useCompTableData(config) {
     activePanelId,
     activePanel,
     handleHeadersUpdate,
+    loadData,
+    currentPage,
+    itemsPerPage,
+    totalReceipts,
+    totalSum,
+    totalItems: currentTotalItems,
   };
 }

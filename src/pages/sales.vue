@@ -3,42 +3,48 @@
   <v-container fluid>
     <v-card class="mx-auto" flat>
       <TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
-        :show-settings="true" :show-sum="true" @open-settings="columnDialog = true" />
-      <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading" />
+        :show-settings="true" :show-sum="true" @open-settings="columnDialog = true" @open-filter="filterDialog = true" />
+      <v-toolbar v-if="activePanelId === 'receipts' && !loading" flat class="px-4 py-2">
+        <v-spacer></v-spacer>
+        <span class="text-subtitle-1 mr-4">
+          {{ $t('sales.totalSales') }}: <span class="font-weight-bold">{{ totalSum }}</span>
+        </span>
+        <span class="text-subtitle-1">
+          {{ $t('sales.totalReceipts') }}: <span class="font-weight-bold">{{ totalReceipts }}</span>
+        </span>
+      </v-toolbar>
+      <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading"
+        v-model:page="currentPage" v-model:items-per-page="itemsPerPage" :total-items="totalReceipts" />
     </v-card>
     <ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" />
+
+    <FilterTableDialog v-model:dialog="filterDialog" @apply-filters="applyDateRangeFilter" />
   </v-container>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import { useCompTableData } from '@/composables/compTableData.js';
-import api from '@/api/index.js';
-import { formatDate, formatCurrency } from '@/utils/formatters.js';
+import { getReceipts, getReceiptsSum } from '@/services/api.js'; // getReceiptsSum je potřeba zde pro pageConfig
+import { formatDate } from '@/utils/formatters.js';
+
+import { ReceiptHeaders, ReceiptModel } from '@/models/receiptModel.js';
+import { useAppStore } from '@/stores/app';
+import { storeToRefs } from 'pinia';
+
+import FilterTableDialog from '@/components/table/FilterTableDialog.vue';
+
+const appStore = useAppStore();
+const { getReceiptsFrom, getReceiptsTo } = storeToRefs(appStore);
+
+const filterDialog = ref(false);
 
 const pageConfig = {
   panels: [
     {
       id: 'receipts',
       name: 'Receipts',
-      headers: [
-        { title: 'Da    te & Time', key: 'dateTime', required: true, mobileMain: 'left', mobileListLeft: true, visible: true },
-        { title: 'Receipt ID', key: 'receiptId', required: true, mobileListLeft: true, visible: false }, // Přidáno: Skutečné ID účtenky (UUID)
-        { title: 'Receipt Number', key: 'receiptNumber', required: true, mobileMain: 'left', mobileListLeft: true, visible: true }, // Změněn klíč na 'receiptNumber'
-        { title: 'Total', key: 'total', align: 'end', required: true, mobileMain: 'right', visible: true }, // Změněn název a klíč na 'total'
-        { title: 'Payment Type', key: 'paymentType', align: 'start', required: false, mobileListLeft: false, visible: true },
-        { title: 'Customer', key: 'customer', required: false, mobileListLeft: true, visible: true }, // Nová hlavička pro plné jméno zákazníka
-        { title: 'Customer Short Name', key: 'customerShortName', required: false, mobileListLeft: true, visible: false }, // Původní hlavička pro zkrácené jméno, nyní skrytá
-        { title: 'Note', key: 'note', required: false, mobileListLeft: true, visible: false },
-        { title: 'User', key: 'user', required: false, mobileListLeft: true, visible: true }, // Změněn klíč na 'user'
-        { title: 'Code 1', key: 'code1', required: false, visible: false }, // Přidáno z API odpovědi
-        { title: 'Code 2', key: 'code2', required: false, visible: false }, // Přidáno z API odpovědi
-        { title: 'Cash Register', key: 'cashRegister', required: false, visible: false }, // Přidáno z API odpovědi
-        { title: 'Validity', key: 'validity', required: false, visible: false }, // Přidáno z API odpovědi
-        { title: 'Print Num', key: 'printNum', required: false, visible: false }, // Přidáno z API odpovědi
-        { title: 'Shift Code', key: 'shiftCode', required: false, visible: false }, // Přidáno z API odpovědi
-        { title: 'Bill Name', key: 'billName', required: false, visible: false }, // Přidáno z API odpovědi
-        { title: 'Negative', key: 'negative', required: false, visible: false }, // Přidáno z API odpovědi
-      ],
+      headers: ReceiptHeaders,
       items: [],
     },
     {
@@ -59,43 +65,53 @@ const pageConfig = {
     }
   ],
 
-  fetchData: async (locale) => {
-    const receiptData = await api.getReceipts(); // Získá data z API
+  // fetchData nyní dostává page, limit a commonFilterParams
+  fetchData: async (locale, page, limit, commonFilterParams) => {
+    // Sloučíme společné parametry s těmi pro paginaci
+    const queryParams = {
+      ...commonFilterParams,
+      "limit": limit,
+      "page": page - 1, // API paginace je často od 0, Vuetify pagination od 1
+    };
 
-    if (!receiptData || receiptData.length === 0) {
-      return { receipts: [], products: [] };
+    const salesApiResponse = await getReceipts(queryParams);
+
+    const salesDataList = salesApiResponse?.list || [];
+
+    if (!salesDataList || salesDataList.length === 0) {
+      // Vracíme jen položky, totalCount se získá z get-receipts-sum
+      return { receipts: { items: [], totalCount: 0 }, products: { items: [], totalCount: 0 } };
     }
 
-    const priceLocale = locale === 'cs' ? 'cs-CZ' : 'en-GB';
-    const currency = locale === 'cs' ? 'CZK' : 'GBP';
+    const receiptsItems = salesDataList
+      .map(r => {
+        const newReceipt = ReceiptModel();
+        return {
+          ...newReceipt,
+          ...r,
+          dateTime: formatDate(r.dateTime, { includeSeconds: false }),
+        };
+      });
 
-    // Zpracování dat pro panel 'receipts'
-    const receiptsItems = receiptData
-      .map(r => ({
-        ...r, // Rozprostře všechny původní vlastnosti z API objektu
-        dateTime: formatDate(r.dateTime, { includeSeconds: false }), // Formátuje datum a čas
-        // Parsuje řetězec 'total' (např. "78,00 Kč") na číslo a poté formátuje jako měnu.
-        total: formatCurrency(parseFloat(r.total.replace(',', '.').replace(/[^\d.-]/g, '')), { locale: priceLocale, currency }),
-      }))
-      .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+    const productsItems = [];
 
-    // Zpracování dat pro panel 'products' (zatím založeno na datech na úrovni účtenek, zástupné symboly pro pole specifická pro položky)
-    const productsItems = receiptData
-      .map(sale => ({
-        ...sale, // Rozprostře všechny původní vlastnosti z API objektu
-        dateTime: formatDate(sale.dateTime, { includeSeconds: true }), // Formátuje datum a čas
-        // Tyto jsou zástupné symboly, protože data na úrovni položek nejsou v aktuální struktu API odpovědi
-        item: 'N/A',
-        quantity: 'N/A',
-        pricePerItem: 'N/A',
-        // Použije celkovou částku účtenky jako 'total' pro 'produkt' a naformátuje ji.
-        total: formatCurrency(parseFloat(sale.total.replace(',', '.').replace(/[^\d.-]/g, '')), { locale: priceLocale, currency }),
-      }))
-      .sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
-
+    // Důležité: Zde již nevracíme totalCountFromApi pro receipts,
+    // protože ho spravuje fetchSumData.
     return {
-      receipts: receiptsItems,
-      products: productsItems,
+      receipts: { items: receiptsItems, totalCount: 0 }, // Nastaveno na 0, protože se plní z totalReceipts store
+      products: { items: productsItems, totalCount: 0 },
+    };
+  },
+
+  fetchSumData: async (locale, commonFilterParams) => {
+    const sumQueryParams = { ...commonFilterParams };
+    delete sumQueryParams.limit; // Zajistí, že limit nebude odeslán
+    delete sumQueryParams.page;  // Zajistí, že page nebude odeslán
+
+    const sumApiResponse = await getReceiptsSum(sumQueryParams);
+    return {
+      sum: sumApiResponse.sum || '0,00 Kč',
+      total: sumApiResponse.total || '0', // API vrací total jako string
     };
   }
 };
@@ -107,6 +123,27 @@ const {
   tablePanels,
   activePanelId,
   activePanel,
-  handleHeadersUpdate
+  handleHeadersUpdate,
+  loadData,
+  currentPage,
+  itemsPerPage,
+  totalReceipts,
+  totalSum,
 } = useCompTableData(pageConfig);
+
+
+const applyDateRangeFilter = () => {
+  currentPage.value = 1;
+  loadData();
+  console.log('Filtrování dat pro rozsah:', getReceiptsFrom.value, 'až', getReceiptsTo.value);
+};
+
+onMounted(() => {
+  if (!getReceiptsFrom.value || !getReceiptsTo.value) {
+    const today = new Date();
+    const formattedToday = today.toISOString().split('T')[0];
+    getReceiptsFrom.value = formattedToday;
+    getReceiptsTo.value = formattedToday;
+  }
+});
 </script>

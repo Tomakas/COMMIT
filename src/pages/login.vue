@@ -32,9 +32,6 @@
               <v-btn :loading="loading" color="primary" @click="handleStandardLogin" block size="large" variant="flat">
                 {{ t('login.log_in') }}
               </v-btn>
-              <v-btn :loading="loading" color="secondary" @click="handleDemoLogin" block size="large" variant="outlined" class="mt-4">
-                {{ t('login.enter_demo') }}
-              </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -87,27 +84,6 @@ const handleStandardLogin = async () => {
   }
 };
 
-const handleDemoLogin = async () => {
-  loading.value = true;
-  error.value = null;
-  try {
-    const demoApiData = {
-      apiKey: 'demo-api-key-' + Date.now(),
-      companyId: 'demo-company-id',
-      userId: 'demo-user-id',
-      adminUser: true,
-      role: 'admin',
-      rights: ["orders", "cashRegisterSettings", "createNegativeReceipt", "addDiscount", "shiftSales", "createCustomer", "updateCustomer"],
-    };
-    appStore.setLoginData(demoApiData, 'demo@user.cz', true);
-    await new Promise(resolve => setTimeout(resolve, 500));
-    await router.push('/dashboard');
-  } catch (e) {
-    error.value = 'Přihlášení do dema selhalo.';
-  } finally {
-    loading.value = false;
-  }
-};
 </script>
 
 <style scoped>

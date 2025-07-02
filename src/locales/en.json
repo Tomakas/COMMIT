@@ -57,8 +57,7 @@
     "password": "Password",
     "create_account": "Create account",
     "forgot_password": "Forgot password?",
-    "log_in": "Log in",
-    "enter_demo": "Enter with demo data"
+    "log_in": "Log in"
   },
   "cashRegister": {
     "statusActive": "Active",
