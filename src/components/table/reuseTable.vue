@@ -1,22 +1,37 @@
 <template>
-  <v-data-table v-if="!display.mobile.value" :headers="visibleHeaders" :items="items" :loading="loading" class="elevation-0" v-model:page="page"
-    v-model:items-per-page="itemsPerPage" :items-per-page="-1" :server-items-length="totalItems" hide-default-footer no-data-text=" ">
-    <template v-slot:item.paymentType="{ value }">
-      <v-chip :color="getPaymentChipColor(value)" size="small" variant="flat">{{ value }}</v-chip>
-    </template>
-    <template v-slot:item.printed="{ value }">{{ value ? 'Ano' : 'Ne' }}</template>
+  <div v-if="!display.mobile.value">
+    <v-data-table :headers="visibleHeaders" :items="items" :loading="loading" class="elevation-0" hide-default-footer no-data-text=" "
+      :items-per-page="-1">
+    </v-data-table>
 
-    <template #bottom>
-      <div class="d-flex justify-space-between align-center px-4 py-2">
-        <v-select v-model="itemsPerPage" :items="[10, 20, 40, 80]" :label="t('table.itemsPerPage')" density="compact" hide-details variant="outlined"
-          style="max-width: 180px;"></v-select>
-        <v-pagination v-model="page" :length="pageCount" :total-visible="5" density="compact"></v-pagination>
-        <div class="text-caption" style="min-width: 80px; text-align: right;">
-          {{ (page - 1) * itemsPerPage + 1 }}-{{ Math.min(page * itemsPerPage, totalItems) }}
-          z {{ totalItems }} </div>
+    <!-- Custom footer s paginací -->
+    <div class="d-flex justify-space-between align-center px-4 py-2 border-t">
+      <v-select v-model="itemsPerPage" :items="[10, 20, 40, 80]" :label="t('table.itemsPerPage')" density="compact" hide-details variant="outlined"
+        style="max-width: 180px;"></v-select>
+
+      <div class="d-flex align-center">
+        <v-btn icon size="small" variant="text" @click="page = Math.max(1, page - 1)" :disabled="page === 1">
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+
+        <div class="d-flex align-center mx-2">
+          <v-btn v-for="pageNum in visiblePages" :key="pageNum" :variant="pageNum === page ? 'flat' : 'text'"
+            :color="pageNum === page ? 'primary' : 'default'" size="small" class="mx-1" @click="page = pageNum" :disabled="pageNum === '...'"
+            min-width="32">
+            {{ pageNum }}
+          </v-btn>
+        </div>
+
+        <v-btn icon size="small" variant="text" @click="page = Math.min(pageCount, page + 1)" :disabled="page >= pageCount">
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
       </div>
-    </template>
-  </v-data-table>
+
+      <div class="text-caption" style="min-width: 120px; text-align: right;">
+        {{ startItem }}-{{ endItem }} z {{ totalItems }}
+      </div>
+    </div>
+  </div>
 
   <div v-else>
     <v-list class="pa-0">
@@ -29,10 +44,7 @@
           </v-col>
           <v-col cols="4" class="d-flex flex-column align-end">
             <div v-for="h in visibleListRightHeaders" :key="h.key" class="text-caption text-medium-emphasis">
-              <v-chip v-if="h.key === 'paymentType'" :color="getPaymentChipColor(item[h.key])" size="x-small" variant="flat" class="mt-1">{{
-                item[h.key]
-                }}</v-chip>
-              <span v-else>{{ item[h.key] }}</span>
+              {{ item[h.key] }}
             </div>
           </v-col>
         </v-row>
@@ -47,9 +59,9 @@
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
         <div class="text-caption mx-2">
-          {{ (page - 1) * itemsPerPage + 1 }}-{{ Math.min(page * itemsPerPage, totalItems) }}
-          z {{ totalItems }} </div>
-        <v-btn icon size="small" variant="text" @click="page++" :disabled="page * itemsPerPage >= totalItems">
+          {{ startItem }}-{{ endItem }} z {{ totalItems }}
+        </div>
+        <v-btn icon size="small" variant="text" @click="page++" :disabled="page >= pageCount">
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
       </div>
@@ -77,17 +89,19 @@ const emit = defineEmits(['update:page', 'update:items-per-page']);
 const page = computed({
   get: () => props.page,
   set: (val) => {
-    // Zajistíme, že hodnota stránky je vždy minimálně 1
-    const safeVal = Math.max(1, val);
+    const safeVal = Math.max(1, Math.min(pageCount.value, val));
     emit('update:page', safeVal);
   },
 });
 
 const itemsPerPage = computed({
   get: () => props.itemsPerPage,
-  set: (val) => emit('update:items-per-page', val),
+  set: (val) => {
+    // Při změně počtu položek na stránku se vrátíme na první stránku
+    emit('update:page', 1);
+    emit('update:items-per-page', val);
+  },
 });
-
 
 const display = useDisplay();
 const { t } = useI18n();
@@ -97,7 +111,6 @@ const mainLeftHeader = computed(() => props.headers.find(h => h.mobileMain === '
 const mainRightHeader = computed(() => props.headers.find(h => h.mobileMain === 'right'));
 const visibleListLeftHeaders = computed(() => visibleHeaders.value.filter(h => h.mobileListLeft === true && !h.mobileMain));
 const visibleListRightHeaders = computed(() => visibleHeaders.value.filter(h => h.mobileListLeft === false && !h.mobileMain));
-
 
 const filteredItems = computed(() => {
   if (!props.search) {
@@ -115,8 +128,59 @@ const paginatedMobileItems = computed(() => {
 });
 
 const pageCount = computed(() => {
-  if (itemsPerPage.value <= 0 || props.totalItems === 0) return 0;
+  if (itemsPerPage.value <= 0 || props.totalItems === 0) return 1;
   return Math.ceil(props.totalItems / itemsPerPage.value);
+});
+
+const startItem = computed(() => {
+  return (page.value - 1) * itemsPerPage.value + 1;
+});
+
+const endItem = computed(() => {
+  return Math.min(page.value * itemsPerPage.value, props.totalItems);
+});
+
+// Generování viditelných stránek pro paginaci
+const visiblePages = computed(() => {
+  const current = page.value;
+  const total = pageCount.value;
+  const delta = 2; // Kolik stránek zobrazit na každé straně
+
+  if (total <= 7) {
+    // Pokud je málo stránek, zobraz všechny
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+
+  const pages = [];
+
+  // Vždy zobraz první stránku
+  pages.push(1);
+
+  // Výpočet rozsahu kolem aktuální stránky
+  const start = Math.max(2, current - delta);
+  const end = Math.min(total - 1, current + delta);
+
+  // Přidej ... pokud je mezera mezi 1 a start
+  if (start > 2) {
+    pages.push('...');
+  }
+
+  // Přidej stránky kolem aktuální
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+
+  // Přidej ... pokud je mezera mezi end a poslední stránkou
+  if (end < total - 1) {
+    pages.push('...');
+  }
+
+  // Vždy zobraz poslední stránku
+  if (total > 1) {
+    pages.push(total);
+  }
+
+  return pages;
 });
 
 const getPaymentChipColor = (paymentType) => {
