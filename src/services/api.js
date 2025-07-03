@@ -1,6 +1,28 @@
 // src/services/api.js
 
-import { apiClient } from '@/plugins/axios';
+import { apiClient } from ' @/plugins/axios';
+
+/**
+ * @param {string} username - The user's username or email.
+ * @param {string} password - The user's password.
+ * @returns {Promise<object>} The login response data from the API.
+ * @throws {Error} If the API call fails.
+ */
+export const login = async (username, password) => {
+  const endpoint = '/auth/login-with-password';
+  try {
+    const response = await apiClient.post(endpoint, {
+      userName: username,
+      password: password,
+      fe: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Chyba při volání ${endpoint}:`, error);
+    throw error;
+  }
+};
+
 
 /**
  * @param {object} params - Objekt obsahující parametry pro dotaz na účtenky.
@@ -70,3 +92,26 @@ export const getItems = async (params) => {
     throw error;
   }
 };
+
+/**
+ * @param {object} params - Parameters for fetching customers.
+ * @param {string} [params.query] - Search query for customers.
+ * @param {number} [params.limit] - Maximum number of customers to return.
+ * @param {number} [params.offset] - Offset for pagination.
+ * @param {object} [params.sortData] - Sorting parameters.
+ * @param {string} [params.sortData.sortBy] - Key to sort by (e.g., "name").
+ * @param {string} [params.sortData.sortType] - Sort type ("asc" or "desc").
+ * @returns {Promise<object>} Customer data from the API.
+ * @throws {Error} If the API call fails.
+ */
+export const getCustomers = async (params) => {
+  const endpoint = '/subject/get-customers';
+  try {
+    const response = await apiClient.post(endpoint, params);
+    return response.data;
+  } catch (error) {
+    console.error(`Chyba při volání ${endpoint}:`, error);
+    throw error;
+  }
+};
+// End of API service functions
