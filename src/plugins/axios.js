@@ -1,10 +1,10 @@
 // src/plugins/axios.js
 
 import axios from 'axios';
+import { useAppStore } from ' @/stores/app';
+import { useRouter } from 'vue-router'; // Import useRouter
 
-// Načítání proměnných prostředí (Příklad pro Vite, Vue CLI má process.env.VUE_APP_)
-// V produkci by API_KEY NIKDY neměl být přímo v kódu, ale z .env souboru!
-const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL || 'https://api.elementarypos.com';
+const API_BASE_URL = 'https://api.elementarypos.com';
 const API_KEY = import.meta.env.VITE_APP_API_KEY || 'ak-hljMyQ9Vq67bQ2cswg7n8nbRoJpOpy';
 
 const apiClient = axios.create({
@@ -20,7 +20,6 @@ const apiClient = axios.create({
   }
 });
 
-// Request Interceptor: Přidání API klíče
 apiClient.interceptors.request.use(
   (config) => {
     if (API_KEY) {
@@ -33,18 +32,20 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response Interceptor: Globální zpracování chyb odpovědi
 apiClient.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
+    const appStore = useAppStore();
+    const router = useRouter(); // Get router instance here
+
     if (error.response) {
       console.error('API chyba (response):', error.response.status, error.response.data);
       if (error.response.status === 401) {
-        console.log('Chyba 401: Neautorizovaný přístup. Možné přesměrování...');
-        // Zde můžete přidat logiku pro přesměrování na přihlašovací stránku
-        // router.push('/login'); // Použijte, pokud máte router k dispozici
+        console.log('Chyba 401: Neautorizovaný přístup. Odhlašuji uživatele a přesměrovávám na přihlašovací stránku.');
+        appStore.logout();
+        router.push('/login');
       }
       return Promise.reject(error.response);
     } else if (error.request) {
@@ -57,10 +58,8 @@ apiClient.interceptors.response.use(
   }
 );
 
-// DŮLEŽITÉ: Exportujeme apiClient jako pojmenovaný export
 export { apiClient };
 
-// Toto je export pro Vue plugin systém (aby bylo dostupné přes app.config.globalProperties.$api)
 export default {
   install(app) {
     app.config.globalProperties.$api = apiClient;
