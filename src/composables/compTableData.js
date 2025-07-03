@@ -22,11 +22,13 @@ export function useCompTableData(config) {
   const appStore = useAppStore();
   const { appLocale, currentPage, itemsPerPage, totalReceipts, totalSum } = storeToRefs(appStore);
 
-  const loading = ref(false); // Defaultně nastavit na false
+  const loading = ref(false);
   const searchText = ref('');
   const columnDialog = ref(false);
   const tablePanels = ref(config.panels);
   const activePanelId = ref(tablePanels.value[0]?.id || null);
+  const sortBy = ref([{ key: 'mcode', order: 'asc' }]);
+  const sortDesc = ref(false);
 
   const currentTotalItems = ref(0);
 
@@ -71,35 +73,13 @@ export function useCompTableData(config) {
         type: "custom",
       };
 
-      let fetchParams = {};
-      if (activePanelId.value === 'items') {
-        fetchParams = {
-          query: searchText.value,
-          categoryIdFilter: null,
-          categoryRootFilter: false,
-          sortData: {
-            sortBy: 'mcode',
-            sortType: 'asc',
-          },
-          onlyOnSale: true,
-          limitAndOffset: {
-            limit: itemsPerPage.value,
-            offset: (currentPage.value - 1) * itemsPerPage.value,
-          },
-        };
-        console.log('  Calling getItems with params:', fetchParams);
-      } else if (activePanelId.value === 'receipts') {
-        fetchParams = {
-          ...filterParams,
-          "limit": itemsPerPage.value,
-          "page": currentPage.value - 1,
-        };
-        console.log('  Calling getReceipts with params:', fetchParams);
-      } else {
-        console.log('  Unknown panel, skipping API call.');
-        loading.value = false;
-        return;
-      }
+      const fetchParams = {
+        query: searchText.value,
+        limit: itemsPerPage.value,
+        offset: (currentPage.value - 1) * itemsPerPage.value,
+        sortBy: sortBy.value,
+        sortDesc: sortDesc.value,
+      };
 
       const tableDataResult = await config.fetchData(appLocale.value, currentPage.value, itemsPerPage.value, fetchParams);
 
@@ -142,7 +122,7 @@ export function useCompTableData(config) {
   const initialLoadTriggered = ref(false); // Nový flag pro řízení prvního spuštění
 
   watch(
-    [activePanelId, appLocale, currentPage, itemsPerPage, appStore.getReceiptsFrom, appStore.getReceiptsTo],
+    [activePanelId, appLocale, currentPage, itemsPerPage, appStore.getReceiptsFrom, appStore.getReceiptsTo, sortBy, sortDesc, searchText],
     ([newActivePanelId, newAppLocale, newCurrentPage, newItemsPerPage, newDateFrom, newDateTo],
       [oldActivePanelId, oldAppLocale, oldCurrentPage, oldItemsPerPage, oldDateFrom, oldDateTo]) => {
 
@@ -209,5 +189,7 @@ export function useCompTableData(config) {
     totalReceipts,
     totalSum,
     totalItems: currentTotalItems,
+    sortBy,
+    sortDesc,
   };
 }

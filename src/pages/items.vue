@@ -5,12 +5,12 @@ pages/items.vue
       <TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
         :show-settings="true" @open-settings="columnDialog = true" />
       <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading"
-        v-model:page="currentPage" v-model:items-per-page="itemsPerPage" :total-items="totalItems" />
+        v-model:page="currentPage" v-model:items-per-page="itemsPerPage" :total-items="totalItems" v-model:sort-by="sortBy" v-model:sort-desc="sortDesc" :highlight-text="searchText" />
       <v-card-text v-if="!loading && activePanel && activePanel.items.length === 0" class="text-center text-medium-emphasis py-8">
-        <p>No data available.</p>
+        <p>{{ t('common.noDataAvailable') }}</p>
       </v-card-text>
     </v-card>
-    <ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" />
+    <ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" table-id="items" />
   </v-container>
 </template>
 
@@ -21,28 +21,34 @@ import { formatCurrency } from '@/utils/formatters.js';
 
 import { ItemHeaders, ItemModel } from '@/models/itemModel.js';
 
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
 const pageConfig = {
   panels: [
     {
       id: 'items',
       name: 'Items',
-      headers: ItemHeaders,
+      headers: ItemHeaders.map(header => ({ ...header, title: t(header.title) })),
       items: [],
     },
   ],
 
-  fetchData: async (locale, page, limit) => {
+  fetchData: async (locale, page, limit, fetchParams) => {
     const offset = (page - 1) * limit; // Vypočítáme offset
 
+    const sortByKey = fetchParams.sortBy[0]?.key === 'text' ? 'item' : fetchParams.sortBy[0]?.key;
+
     const itemsApiResponse = await getItems({
-      query: '', // Dotaz je nyní prázdný, jak jsi požadoval
-      categoryIdFilter: null, // Zatím prázdný filtr kategorií
-      categoryRootFilter: false, // Zatím false
+      query: fetchParams.query,
+      categoryIdFilter: null,
+      categoryRootFilter: false,
       sortData: {
-        sortBy: 'mcode', // Příklad řazení
-        sortType: 'asc', // Příklad řazení
+        sortBy: sortByKey,
+        sortType: fetchParams.sortBy[0]?.order,
       },
-      onlyOnSale: true, // Příklad filtru
+      onlyOnSale: true,
       limitAndOffset: {
         limit: limit,
         offset: offset,
@@ -98,6 +104,8 @@ const {
   loadData,
   currentPage,
   itemsPerPage,
-  totalItems, // Nyní toto totalItems pochází z `currentTotalItems` v useCompTableData
+  totalItems,
+  sortBy,
+  sortDesc,
 } = useCompTableData(pageConfig);
 </script>

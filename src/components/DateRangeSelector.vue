@@ -2,11 +2,11 @@
 
   <div class="d-flex align-center flex-wrap justify-center fill-height rounded">
     <v-btn-toggle v-model="activePeriod" @update:modelValue="setRange" color="primary" mandator density="comfortable">
-      <v-btn class="px-1" value="day" px-10>DEN</v-btn>
-      <v-btn class="px-1" value="week">TÝDEN</v-btn>
-      <v-btn class="px-1" value="month">MĚSÍC</v-btn>
-      <v-btn class="px-1" value="year">ROK</v-btn>
-      <v-btn class="px-1" value="custom">VLASTNÍ</v-btn>
+      <v-btn class="px-1" value="day" px-10>{{ t('dateRange.day') }}</v-btn>
+      <v-btn class="px-1" value="week">{{ t('dateRange.week') }}</v-btn>
+      <v-btn class="px-1" value="month">{{ t('dateRange.month') }}</v-btn>
+      <v-btn class="px-1" value="year">{{ t('dateRange.year') }}</v-btn>
+      <v-btn class="px-1" value="custom">{{ t('dateRange.custom') }}</v-btn>
     </v-btn-toggle>
             <div class="d-flex align-center">
       <v-btn icon="mdi-chevron-left" variant="text" @click="navigate(-1)"></v-btn>
@@ -22,9 +22,11 @@
 import { ref, computed, onMounted } from 'vue';
 import { useAppStore } from '@/stores/app';
 import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
 
 const appStore = useAppStore();
 const { dateRangeFrom, dateRangeTo } = storeToRefs(appStore);
+const { t } = useI18n();
 
 const activePeriod = ref('day');
 
