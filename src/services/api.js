@@ -1,6 +1,6 @@
 // src/services/api.js
 
-import { apiClient } from ' @/plugins/axios';
+import { apiClient } from '@/plugins/axios';
 
 /**
  * @param {string} username - The user's username or email.
