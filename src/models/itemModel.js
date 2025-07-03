@@ -48,22 +48,22 @@ export const ItemModel = () => ({
  * Definuje hlavičky tabulky pro položky. Klíče odpovídají polím z API.
  */
 export const ItemHeaders = [
-  { title: 'Item Name', key: 'text', required: true, mobileMain: 'left', visible: true },
-  { title: 'Sale Price', key: 'price', align: 'end', required: true, mobileMain: 'right', visible: true },
-  { title: 'M-Code', key: 'mcodeStr', required: false, mobileListLeft: true, visible: true },
-  { title: 'SKU', key: 'sku', required: false, mobileListLeft: true, visible: true },
-  { title: 'Type', key: 'itemType', required: false, mobileListLeft: true, visible: true }, // Tato vlastnost se v API nevyskytuje přímo, bude potřeba ji mapovat
-  { title: 'Category', key: 'category', required: false, mobileListLeft: true, visible: true }, // Tato vlastnost se v API nevyskytuje přímo, bude potřeba ji mapovat
-  { title: 'Purchase Price', key: 'purchasePrice', align: 'end', required: false, mobileListLeft: true, visible: true },
-  { title: 'In Stock', key: 'stockLevel', align: 'end', required: true, mobileListLeft: true, visible: true }, // Tato vlastnost se v API nevyskytuje přímo, bude potřeba ji mapovat
-  { title: 'Unit', key: 'unit', align: 'start', required: false, mobileListLeft: true, visible: false }, // Tato vlastnost se v API nevyskytuje přímo, bude potřeba ji mapovat
-  { title: 'Min. Stock', key: 'lowStockThreshold', align: 'end', required: false, mobileListLeft: true, visible: false }, // Tato vlastnost se v API nevyskytuje přímo, bude potřeba ji mapovat
-  { title: 'Supplier', key: 'supplier', minWidth: '180px', required: false, mobileListLeft: true, visible: true },
-  { title: 'For Sale', key: 'onSale', align: 'center', required: false, mobileListLeft: true, visible: false },
-  { title: 'Tax (%)', key: 'tax', align: 'end', required: false, mobileListLeft: false, visible: false }, // Tato vlastnost se v API nevyskytuje přímo, bude potřeba ji mapovat
-  { title: 'Allergens', key: 'allergens', required: false, mobileListLeft: true, visible: false }, // Tato vlastnost se v API nevyskytuje přímo, bude potřeba ji mapovat
-  { title: 'Points Gained', key: 'loyaltySettings.gainPoints', align: 'end', required: false, mobileListLeft: true, visible: false },
-  { title: 'Points For Discount', key: 'loyaltySettings.usePoints', align: 'end', required: false, mobileListLeft: true, visible: false },
-  { title: 'Loyalty Discount', key: 'loyaltySettings.discount', align: 'end', required: false, mobileListLeft: true, visible: false },
-  { title: 'Note', key: 'note', required: false, visible: false },
+  { title: 'table.headers.mcode', key: 'mcode', required: false, mobileListLeft: true, visible: true, sortable: true },
+  { title: 'table.headers.itemName', key: 'text', required: true, mobileMain: 'left', visible: true, sortable: true },
+  { title: 'table.headers.salePrice', key: 'price', align: 'end', required: true, mobileMain: 'right', visible: true, sortable: true },
+  { title: 'table.headers.tax', key: 'tax', align: 'end', required: false, mobileListLeft: false, visible: true, sortable: true, configurable: true },
+  { title: 'table.headers.sku', key: 'sku', required: false, mobileListLeft: true, visible: true, sortable: true },
+  { title: 'table.headers.type', key: 'itemType', required: false, mobileListLeft: true, visible: true, sortable: false },
+  { title: 'table.headers.category', key: 'category', required: false, mobileListLeft: true, visible: true, sortable: true },
+  { title: 'table.headers.purchasePrice', key: 'purchasePrice', align: 'end', required: false, mobileListLeft: true, visible: true, sortable: false },
+  { title: 'table.headers.inStock', key: 'stockLevel', align: 'end', required: false, mobileListLeft: true, visible: false, sortable: false },
+  { title: 'table.headers.unit', key: 'unit', align: 'start', required: false, mobileListLeft: true, visible: false, sortable: false, configurable: false },
+  { title: 'table.headers.minStock', key: 'lowStockThreshold', align: 'end', required: false, mobileListLeft: true, visible: false, sortable: false, configurable: true },
+  { title: 'table.headers.supplier', key: 'supplier', minWidth: '180px', required: false, mobileListLeft: true, visible: false, sortable: false, configurable: false },
+  { title: 'table.headers.forSale', key: 'onSale', align: 'center', required: false, mobileListLeft: true, visible: false, sortable: false, configurable: true },
+  { title: 'table.headers.allergens', key: 'allergens', required: false, mobileListLeft: true, visible: false, sortable: false, configurable: true },
+  { title: 'table.headers.pointsGained', key: 'loyaltySettings.gainPoints', align: 'end', required: false, mobileListLeft: true, visible: false, sortable: false, configurable: true },
+  { title: 'table.headers.pointsForDiscount', key: 'loyaltySettings.usePoints', align: 'end', required: false, mobileListLeft: true, visible: false, sortable: false, configurable: true },
+  { title: 'table.headers.loyaltyDiscount', key: 'loyaltySettings.discount', align: 'end', required: false, mobileListLeft: true, visible: false, sortable: false, configurable: true },
+  { title: 'table.headers.note', key: 'note', required: false, visible: false, sortable: false, configurable: true },
 ];
