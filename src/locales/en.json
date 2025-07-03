@@ -34,20 +34,63 @@
   "sales": {
     "productSales": "Product sales",
     "receipts": "Issued receipts",
-    "productHeaders": {
+    "totalSales": "Total Sales",
+    "totalReceipts": "Total Receipts"
+  },
+  "table": {
+    "headers": {
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "status": "Status",
+      "actions": "Actions",
       "product": "Product",
       "quantity": "Quantity",
       "pricePerUnit": "Price/unit",
-      "totalPrice": "Total price"
-    },
-    "receiptHeaders": {
-      "id": "Receipt ID",
+      "totalPrice": "Total price",
+      "receiptId": "Receipt ID",
       "date": "Date",
       "amount": "Amount",
-      "customer": "Customer"
-    }
-  },
-  "table": {
+      "customer": "Customer",
+      "mcode": "M-Code",
+      "itemName": "Item Name",
+      "salePrice": "Sale Price",
+      "tax": "Tax (%)",
+      "sku": "SKU",
+      "type": "Type",
+      "category": "Category",
+      "purchasePrice": "Purchase Price",
+      "inStock": "In Stock",
+      "unit": "Unit",
+      "minStock": "Min. Stock",
+      "supplier": "Supplier",
+      "forSale": "For Sale",
+      "allergens": "Allergens",
+      "pointsGained": "Points Gained",
+      "pointsForDiscount": "Points For Discount",
+      "loyaltyDiscount": "Loyalty Discount",
+      "note": "Note",
+      "dateTime": "Date & Time",
+      "receiptNumber": "Receipt Number",
+      "total": "Total",
+      "paymentType": "Payment Type",
+      "user": "User",
+      "shortName": "Short Name",
+      "address": "Address",
+      "email": "E-mail",
+      "phone": "Phone",
+      "totalSales": "Total Sales",
+      "customId": "Custom ID",
+      "loyaltyPoints": "Loyalty Points",
+      "code1": "Code 1",
+      "code2": "Code 2",
+      "cashRegister": "Cash Register",
+      "validity": "Validity",
+      "printNumber": "Print Number",
+      "shiftCode": "Shift Code",
+      "billName": "Bill Name",
+      "negative": "Negative"
+    },
     "search": "Search...",
     "itemsPerPage": "Items per page"
   },
@@ -74,5 +117,51 @@
     "receiptsBtn": "Receipts",
     "salesBtn": "Sales",
     "zReportsBtn": "Z-Reports"
+  },
+  "common": {
+    "noDataAvailable": "No data available.",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "save": "Save",
+    "reset": "Reset"
+  },
+  "dashboard": {
+    "revenue": "Revenue:",
+    "receipts": "Receipts:",
+    "placeholder": "Placeholder"
+  },
+  "addressbook": {
+    "noContacts": "No contacts available in the address book."
+  },
+  "appBar": {
+    "title": "Elementary POS Back Office"
+  },
+  "dateRange": {
+    "day": "DAY",
+    "week": "WEEK",
+    "month": "MONTH",
+    "year": "YEAR",
+    "custom": "CUSTOM"
+  },
+  "integrations": {
+    "salesOverview": "Sales Overview",
+    "loadingReceipts": "Loading receipts...",
+    "errorLoading": "Error loading:"
+  },
+  "company": {
+    "taxes": "Taxes",
+    "receiptsDesigner": "Receipts Designer"
+  },
+  "appearance": {
+    "mode": "Mode",
+    "navigationMenu": "Navigation Menu",
+    "menuText": "Menu Text"
+  },
+  "tableSettings": {
+    "columnSettings": "Column Settings",
+    "dragHint": "Drag columns to reorder."
+  },
+  "tableFilter": {
+    "filterSettings": "Filter Settings"
   }
 }

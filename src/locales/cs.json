@@ -11,7 +11,6 @@
     "support": "Podpora",
     "profile": "Profil",
     "stores": "Prodejny",
-
     "logout": "Odhlásit se"
   },
   "settings": {
@@ -35,22 +34,65 @@
   "sales": {
     "productSales": "Prodej produktů",
     "receipts": "Vystavené účtenky",
-    "productHeaders": {
+    "totalSales": "Celkové prodeje",
+    "totalReceipts": "Celkový počet účtenek"
+  },
+  "table": {
+    "headers": {
+      "id": "ID",
+      "name": "Název",
+      "description": "Popis",
+      "status": "Stav",
+      "actions": "Akce",
       "product": "Produkt",
       "quantity": "Množství",
       "pricePerUnit": "Cena/ks",
-      "totalPrice": "Celková cena"
-    },
-    "receiptHeaders": {
-      "id": "ID účtenky",
+      "totalPrice": "Celková cena",
+      "receiptId": "ID účtenky",
       "date": "Datum",
       "amount": "Celkem",
-      "customer": "Zákazník"
+      "customer": "Zákazník",
+      "mcode": "M-Kód",
+      "itemName": "Název položky",
+      "salePrice": "Prodejní cena",
+      "tax": "Daň (%)",
+      "sku": "SKU",
+      "type": "Typ",
+      "category": "Kategorie",
+      "purchasePrice": "Nákupní cena",
+      "inStock": "Na skladě",
+      "unit": "Jednotka",
+      "minStock": "Min. sklad",
+      "supplier": "Dodavatel",
+      "forSale": "Na prodej",
+      "allergens": "Alergeny",
+      "pointsGained": "Získané body",
+      "pointsForDiscount": "Body pro slevu",
+      "loyaltyDiscount": "Věrnostní sleva",
+      "note": "Poznámka",
+      "dateTime": "Datum a čas",
+      "receiptNumber": "Číslo účtenky",
+      "total": "Celkem",
+      "paymentType": "Typ platby",
+      "user": "Uživatel",
+      "shortName": "Zkrácený název",
+      "address": "Adresa",
+      "email": "E-mail",
+      "phone": "Telefon",
+      "totalSales": "Celkové prodeje",
+      "customId": "Vlastní ID",
+      "loyaltyPoints": "Věrnostní body",
+      "code1": "Kód 1",
+      "code2": "Kód 2",
+      "cashRegister": "Pokladna",
+      "validity": "Platnost",
+      "printNumber": "Počet tisků",
+      "shiftCode": "Kód směny",
+      "billName": "Název faktury",
+      "negative": "Záporná"
     },
-    "table": {
-      "search": "Hledat...",
-      "itemsPerPage": "Položek na stránku"
-    }
+    "search": "Hledat...",
+    "itemsPerPage": "Položek na stránku"
   },
   "login": {
     "welcome": "Vítejte Elementary POS",
@@ -75,5 +117,51 @@
     "receiptsBtn": "Účtenky",
     "salesBtn": "Prodeje",
     "zReportsBtn": "Z-Přehledy"
+  },
+  "common": {
+    "noDataAvailable": "Žádná data k dispozici.",
+    "cancel": "Zrušit",
+    "apply": "Použít",
+    "save": "Uložit",
+    "reset": "Resetovat"
+  },
+  "dashboard": {
+    "revenue": "Tržba:",
+    "receipts": "Účtenek:",
+    "placeholder": "Placeholder"
+  },
+  "addressbook": {
+    "noContacts": "Žádné kontakty v adresáři."
+  },
+  "appBar": {
+    "title": "Elementary POS Back Office"
+  },
+  "dateRange": {
+    "day": "DEN",
+    "week": "TÝDEN",
+    "month": "MĚSÍC",
+    "year": "ROK",
+    "custom": "VLASTNÍ"
+  },
+  "integrations": {
+    "salesOverview": "Přehled prodejů",
+    "loadingReceipts": "Načítám účtenky...",
+    "errorLoading": "Chyba při načítání:"
+  },
+  "company": {
+    "taxes": "Daně",
+    "receiptsDesigner": "Návrhář účtenek"
+  },
+  "appearance": {
+    "mode": "Režim",
+    "navigationMenu": "Umístění menu",
+    "menuText": "Styl menu"
+  },
+  "tableSettings": {
+    "columnSettings": "Nastavení sloupců",
+    "dragHint": "Přetáhněte sloupce pro změnu pořadí."
+  },
+  "tableFilter": {
+    "filterSettings": "Nastavení filtru"
   }
 }
