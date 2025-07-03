@@ -1,45 +1,64 @@
-// src/pages/addressbook.vue
 <template>
   <v-container fluid>
     <v-card class="mx-auto" flat>
       <TablePanel v-model:activePanelId="activePanelId" v-model:searchText="searchText" :panels="tablePanels" :show-search="true" :show-filter="true"
         :show-settings="true" @open-settings="columnDialog = true" />
-      <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading" />
+      <ReuseTable v-if="activePanel" :headers="activePanel.headers" :items="activePanel.items" :search="searchText" :loading="loading"
+        v-model:page="currentPage" v-model:items-per-page="itemsPerPage" :total-items="totalItems" />
       <v-card-text v-if="!loading && activePanel && activePanel.items.length === 0" class="text-center text-medium-emphasis py-8">
-        <p>No contacts available in the address book.</p>
+        <p>{{ t('addressbook.noContacts') }}</p>
       </v-card-text>
     </v-card>
-    <ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" />
+    <ColumnSettingsDialog v-if="activePanel" v-model:dialog="columnDialog" :headers="activePanel.headers" @update:headers="handleHeadersUpdate" table-id="addressbook" />
   </v-container>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue';
 import { useCompTableData } from '@/composables/compTableData.js';
-import api from '@/services/api.js';
+import { getCustomers } from '@/services/api.js';
+import { ContactHeaders, ContactModel } from '@/models/contactModel.js';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const pageConfig = {
   panels: [
     {
-      id: 'addressbook',
-      name: 'Address Book',
-      headers: [
-        { title: 'Name', key: 'fullName', required: true, mobileMain: 'left', visible: true },
-        { title: 'Category', key: 'category', required: true, mobileListLeft: true, mobileMain: 'right', visible: true },
-        { title: 'E-mail', key: 'email', minWidth: '220px', required: false, mobileListLeft: true, visible: true },
-        { title: 'Phone', key: 'phone', minWidth: '160px', required: false, mobileListLeft: true, visible: true },
-        { title: 'Address', key: 'address', minWidth: '350px', required: false, mobileListLeft: true, visible: true },
-      ],
+      id: 'customers',
+      name: 'Customers',
+      headers: ContactHeaders.map(header => ({ ...header, title: t(header.title) })),
       items: [],
     },
   ],
 
-  fetchData: async (locale) => {
-    const data = await api.getDirectory(locale);
-    const formattedData = data.map(contact => ({
-      ...contact,
-      fullName: `${contact.firstName} ${contact.lastName}`,
-    }));
-    return { addressbook: formattedData };
+  fetchData: async (locale, page, limit, fetchParams) => {
+    const offset = (page - 1) * limit;
+
+    const customersApiResponse = await getCustomers({
+      query: fetchParams.query,
+      limit: limit,
+      offset: offset,
+      sortData: {
+        sortBy: 'name',
+        sortType: 'asc',
+      },
+    });
+
+    const customersDataList = customersApiResponse?.subjects || [];
+    const totalCustomersFromApi = customersApiResponse?.subjects.length || 0; // Assuming API returns all subjects and we count them
+
+    const formattedData = customersDataList.map(customer => {
+      const newContact = ContactModel();
+      return {
+        ...newContact,
+        ...customer,
+      };
+    });
+
+    return {
+      customers: { items: formattedData, totalCount: totalCustomersFromApi }
+    };
   }
 };
 
@@ -50,6 +69,9 @@ const {
   tablePanels,
   activePanelId,
   activePanel,
-  handleHeadersUpdate
+  handleHeadersUpdate,
+  currentPage,
+  itemsPerPage,
+  totalItems,
 } = useCompTableData(pageConfig);
 </script>

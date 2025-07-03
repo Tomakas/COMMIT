@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>Přehled prodejů</h1>
-    <p v-if="loading">Načítám účtenky...</p>
-    <p v-if="error" class="error-message">Chyba při načítání: {{ error.message }}</p>
+    <h1>Sales Overview</h1>
+    <p v-if="loading">Loading receipts...</p>
+    <p v-if="error" class="error-message">Error loading: {{ error.message }}</p>
     <div v-else>
       <ul>
         <li v-for="receipt in receipts" :key="receipt.id">

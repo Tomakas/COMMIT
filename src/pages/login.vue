@@ -49,7 +49,7 @@ meta:
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { login } from '@/services/api';
 import { useAppStore } from '@/stores/app';
 
 const { t, locale } = useI18n();
@@ -65,16 +65,12 @@ const handleStandardLogin = async () => {
   loading.value = true;
   error.value = null;
   try {
-    const response = await axios.post('https://api.elementarypos.com/auth/login-with-password', {
-      userName: username.value,
-      password: password.value,
-      fe: true,
-    });
-    appStore.setLoginData(response.data, username.value, false);
+    const responseData = await login(username.value, password.value);
+    appStore.setLoginData(responseData, username.value, false);
     await router.push('/dashboard');
   } catch (err) {
-    if (err.response?.data?.message) {
-      error.value = err.response.data.message;
+    if (err.data?.message) {
+      error.value = err.data.message;
     } else {
       error.value = 'Došlo k neočekávané chybě.';
     }

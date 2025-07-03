@@ -6,7 +6,7 @@
   <v-spacer></v-spacer>
 
   <template v-if="display.lgAndUp.value && !navInAppBar">
-    <v-app-bar-title> Elementary POS Back Office </v-app-bar-title>
+    <v-app-bar-title> {{ t('appBar.title') }} </v-app-bar-title>
     <v-spacer></v-spacer>
   </template>
 

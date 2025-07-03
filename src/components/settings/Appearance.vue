@@ -1,6 +1,6 @@
 <template>
   <v-card-text class="text-left">
-    <p class="text-subtitle-1 font-weight-medium mb-2">Mode</p>
+    <p class="text-subtitle-1 font-weight-medium mb-2">{{ t('appearance.mode') }}</p>
     <v-btn-toggle v-model="theme" color="primary" mandatory rounded="lg">
       <v-btn value="light" icon="mdi-weather-sunny" size="x-large"></v-btn>
       <v-btn value="dark" icon="mdi-weather-night" size="x-large"></v-btn>
@@ -9,7 +9,7 @@
 
     <v-divider class="my-6"></v-divider>
 
-    <p class="text-subtitle-1 font-weight-medium mb-2">Navigation Menu</p>
+    <p class="text-subtitle-1 font-weight-medium mb-2">{{ t('appearance.navigationMenu') }}</p>
     <v-btn-toggle v-model="navInAppBar" color="primary" mandatory rounded="lg">
       <v-btn :value="false" icon="mdi-dock-left" size="x-large"></v-btn>
       <v-btn :value="true" icon="mdi-dock-top" size="x-large"></v-btn>
@@ -17,7 +17,7 @@
 
     <v-divider class="my-6"></v-divider>
 
-    <p class="text-subtitle-1 font-weight-medium mb-2">Menu Text</p>
+    <p class="text-subtitle-1 font-weight-medium mb-2">{{ t('appearance.menuText') }}</p>
     <v-btn-toggle v-model="navWithText" color="primary" mandatory rounded="lg">
       <v-btn :value="true" icon="mdi-format-list-text" size="x-large"></v-btn>
       <v-btn :value="false" icon="mdi-dots-grid" size="x-large"></v-btn>
